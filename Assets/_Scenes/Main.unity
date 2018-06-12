@@ -875,6 +875,7 @@ GameObject:
   - 222: {fileID: 1250799654}
   - 114: {fileID: 1250799653}
   - 114: {fileID: 1250799652}
+  - 114: {fileID: 1250799655}
   m_Layer: 0
   m_Name: ButtonNewGame
   m_TagString: Untagged
@@ -940,9 +941,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114000013019438890, guid: 8d21e5b22f64590488a1f3322eb19b27,
-          type: 2}
-        m_MethodName: InitGame
+      - m_Target: {fileID: 1250799655}
+        m_MethodName: InitDay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -987,6 +987,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1250799650}
+--- !u!114 &1250799655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1250799650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ff9b91048c7b7e4ab820d1893e52fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1470842487
 GameObject:
   m_ObjectHideFlags: 0

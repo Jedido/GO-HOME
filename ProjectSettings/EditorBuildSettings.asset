@@ -4,4 +4,16 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_Scenes/Main.unity
+  - enabled: 1
+    path: Assets/_Scenes/Cave.unity
+  - enabled: 1
+    path: Assets/_Scenes/Map Select.unity
+  - enabled: 1
+    path: Assets/_Scenes/Mountains.unity
+  - enabled: 1
+    path: Assets/_Scenes/Perlin Test.unity
+  - enabled: 1
+    path: Assets/_Scenes/Plains.unity

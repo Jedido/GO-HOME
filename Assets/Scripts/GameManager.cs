@@ -8,16 +8,17 @@ public class GameManager : MonoBehaviour
 {
     // Scene Types
     public const int MENU = 0;
-    public const int HOME = 1;
+    // public const int HOME = 1;
     public const int MAPSELECT = 2;
     public const int SHOP = 3;
     public const int LEVEL = 4;
 
-    // Level Types
+    // Level IDs
     public const int PLAINS = 0;
 
     public static GameManager game = null;
     private int sceneType;
+    private string nextScene;  // name of next scene
     private int day; // current day
 
     void Awake()
@@ -32,17 +33,38 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    /*
+     * Game progression is:
+     *     1. Menu screen - happens on startup
+     *     2. Load + map select - InitDay()
+     *     3. shop - InitShop(id)
+     *     4. level - InitLevel()
+     *     5. back to 2 - ?
+     */
+
     // Switches scenes
-    public void InitGame()
+    public void InitDay()
     {
         // Switch to game scene
         SceneManager.LoadScene("Map Select");
     }
 
-    // Loads the shop
-    public void LoadShop(int levelID)
+    // Loads the shop given the levelID (look at level ID constants)
+    public void InitShop(int levelID)
+    {
+        if (sceneType != MAPSELECT) return;
+        sceneType = SHOP;
+        nextScene = LevelName(levelID);
+        // Shop scene naming convention = <MAP NAME> + " Shop"
+        SceneManager.LoadScene(nextScene + " Shop");
+    }
+
+    // Loads a map based on the shop
+    public void InitLevel()
     {
         if (sceneType != SHOP) return;
+        sceneType = LEVEL;
+        SceneManager.LoadScene(nextScene);
     }
 
     private string LevelName(int levelID)
@@ -52,13 +74,5 @@ public class GameManager : MonoBehaviour
             case PLAINS: return "Plains";
             default: return "";
         }
-    }
-
-    // Loads a map based on the given levelID
-    public void InitLevel()
-    {
-        if (sceneType != SHOP) return;
-        sceneType = LEVEL;
-        SceneManager.LoadScene(sceneName);
     }
 }
