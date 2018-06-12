@@ -2,29 +2,29 @@
 
 public class PerlinNoise : MonoBehaviour {
 
-    public int width = 256;
-    public int height = 256;
-    private Renderer renderer;
+    private int width = 256;
+    private int height = 256;
+    private Renderer render;
 
     // Higher the value, more compact noise
-    public float scaleX = 5f;
-    public float scaleY = 20f;
+    public float scaleX;
+    public float scaleY;
 
     // Randomized in order to sample the perlin noise from a different area each time
-    public float offsetX = 100f;
-    public float offsetY = 100f;
+    public float offsetX;
+    public float offsetY;
 
 	void Start ()
     {
         offsetX = Random.Range(0, 9999f);
         offsetY = Random.Range(0, 9999f);
-        renderer = GetComponent<Renderer>();
-        renderer.material.mainTexture = generateTexture();
+        render = GetComponent<Renderer>();
+        render.material.mainTexture = generateTexture();
 	}
 
-    private void Update()
+    void Update()
     {
-        renderer.material.mainTexture = generateTexture();
+        render.material.mainTexture = generateTexture();
     } 
 
     Texture2D generateTexture()
@@ -44,6 +44,8 @@ public class PerlinNoise : MonoBehaviour {
         return texture;
     }
 
+    // Perlin noise returns a value between 0 and 1.
+    // The higher the value, the whiter the pixel at (x, y)
     Color CalculateColor(int x, int y)
     {
         float xCoord = (float)x / width * scaleX + offsetX;
