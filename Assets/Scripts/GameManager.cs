@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     public void InitDay()
     {
         // Switch to game scene
+        sceneType = MAPSELECT;
         SceneManager.LoadScene("Map Select");
     }
 
