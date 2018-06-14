@@ -6,14 +6,16 @@ using System.Collections;
 // This is a singleton along with GameManager.
 public class PlayerManager : MonoBehaviour {
     // Singleton (there will only be one instance of PlayerManager)
-    private static PlayerManager player = null;
+    public static PlayerManager player = null;
 
     // Player location on map
     private float x, y, z;
 
     // Player stats
     private int[] inventory = { 0, 0, 0, 0 };  // item inventory
-    // list item constants here (?), or in Item superclass
+    private int[] equipment = { 0, 0, 0, 0 }; // current player equipment
+    // list of item constants in Item superclass
+    // be sure to organize inventory IDs by item type
 
     private int[] attributes = { 0, 0, 0, 0 };  // player stats
     // list attribute constants

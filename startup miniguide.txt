@@ -1,0 +1,29 @@
+Some things you might want to know about C#:
+- Method names have the first letter of every word capitalized
+- The "String" type is string
+- Almost the same style as UW CS, but curly brackets are on their own line
+- Also, not sure about including public/private in method headers (they appear to be implicitly private).
+- Use Visual Studio if you want to not die. A project (they call it solution) is already set up and can be opened by running the file with type "Microsoft Visual Studio Solution"
+
+Some things you might want to know about Unity:
+- When you create new files, put them into their respective folders
+- A GameObject is an object that appears in the game. You can see all GameObjects currently in the scene under the hierarchy view.
+- A scene is an instance with some GameObjects in it. You can click the play triangle button to watch the scene play out. While in play mode, any changes you make to GameObjects WILL NOT be saved. Be sure to click the play button again to stop.
+- A prefab is a preset of a GameObject you created. Make one by dragging your created GameObject into the file system (the Prefab folder).
+
+Some things you might want to know about procedural generation:
+- Probably read through GeneratePlains.cs, as it is the simplest generated map. You can also run the Plains Scene to see how it looks.
+- Line 63 in GeneratePlains.cs uses something called Perlin Noise. This is commonly used to create random yet natural looking environments. You can see more of what it creates in PerlinNoise.cs and the Perlin Test scene (or you can look it up on the internet)
+
+Some things you might want to know about Github:
+- project repository is https://github.com/Jedido/GO-HOME (.git)
+- pull before you start working
+- commit and push after you finish a part
+Quick startup guide:
+	git clone https://github.com/Jedido/GO-HOME.git
+Standard git command progression:
+	git pull
+	(do stuff)
+	git add (files you changed)
+	git commit -m "this is what I did"
+	git push
