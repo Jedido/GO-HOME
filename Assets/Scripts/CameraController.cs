@@ -30,6 +30,6 @@ public class CameraController : MonoBehaviour {
         {
             py = maxYBound;
         }
-        gameObject.transform.position = new Vector3(px * 0.1f + gameObject.transform.position.x * 0.9f, py * 0.1f + gameObject.transform.position.y * 0.9f, -10);
+        gameObject.transform.position = new Vector3(px * 0.15f + gameObject.transform.position.x * 0.85f, py * 0.15f + gameObject.transform.position.y * 0.85f, -10);
     }
 }
