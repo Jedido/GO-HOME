@@ -45,6 +45,7 @@ GameObject:
   - 58: {fileID: 58000011869323502}
   - 114: {fileID: 114000011471328892}
   - 114: {fileID: 114000012574925716}
+  - 61: {fileID: 61000010011629366}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -143,7 +144,21 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: -0.45}
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.3
+--- !u!61 &61000010011629366
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011012619718}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1.4}
 --- !u!81 &81000013125248260
 AudioListener:
   m_ObjectHideFlags: 1
@@ -194,7 +209,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010221984198}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48607009bc5b674498bf46af4ca084d3, type: 3}
   m_Name: 

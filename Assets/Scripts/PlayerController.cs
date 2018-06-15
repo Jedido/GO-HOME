@@ -3,6 +3,7 @@
 public class PlayerController : MonoBehaviour {
     public float speed;  // TODO: eventually use PlayerManager.player.speed and remove this variable
     private Rigidbody2D rb2d;
+    private Animator animator;
 
     // Attack
     public Weapon primary;
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () {
         rb2d = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -35,5 +37,31 @@ public class PlayerController : MonoBehaviour {
         }
 
         rb2d.velocity = new Vector2(horizontal * ms, vertical * ms);
+    }
+
+    // Set animations
+    private void LateUpdate()
+    {
+        // TODO change this to direction integer when other animations added
+        if (rb2d.velocity.y < 0)
+        {
+            animator.SetBool("Walking Down", true);
+        } else
+        {
+            animator.SetBool("Walking Down", false);
+        }
+        animator.SetFloat("Speed", rb2d.velocity.magnitude / 5f);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (transform.position.y > collision.transform.position.y) return;
+        transform.position -= new Vector3(0, 0, 1);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (transform.position.z == 0 || transform.position.y > collision.transform.position.y) return;
+        transform.position += new Vector3(0, 0, 1);
     }
 }
