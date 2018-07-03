@@ -4,32 +4,40 @@ using System.Collections;
 public class CameraController : MonoBehaviour {
 
     public GameObject player;
-    public int maxXBound, maxYBound;
+    public float maxXBound, maxYBound;
+    private float minXBound, minYBound;
 
 	// Use this for initialization
 	void Start () {
-        gameObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
-        // float horzExtent = Camera.main.orthographicSize * Screen.width / Screen.height;
+        Camera camera = GetComponent<Camera>();
+        float horzExtent = camera.orthographicSize * Screen.width / Screen.height;
+        maxXBound -= horzExtent;
+        minXBound = horzExtent;
+        float vertExtent = camera.orthographicSize;
+        maxYBound -= vertExtent;
+        minYBound = vertExtent;
+        FixedUpdate();
+        // gameObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
     }
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    // Update is called once per frame
+    void FixedUpdate () {
         float px = player.transform.position.x;
         float py = player.transform.position.y;
-        if (px < 0)
+        if (px < minXBound)
         {
-            px = 0;
+            px = minXBound;
         } else if (px > maxXBound)
         {
             px = maxXBound;
         }
-        if (py < 0)
+        if (py < minYBound)
         {
-            py = 0;
+            py = minYBound;
         } else if (py > maxYBound)
         {
             py = maxYBound;
         }
-        gameObject.transform.position = new Vector3(px * 0.15f + gameObject.transform.position.x * 0.85f, py * 0.15f + gameObject.transform.position.y * 0.85f, -10);
+        gameObject.transform.position = new Vector3(px, py, -10);
     }
 }
