@@ -16,12 +16,11 @@ public class CameraController : MonoBehaviour {
         float vertExtent = camera.orthographicSize;
         maxYBound -= vertExtent;
         minYBound = vertExtent;
-        FixedUpdate();
         // gameObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
     }
 
     // Update is called once per frame
-    void FixedUpdate () {
+    void LateUpdate () {
         float px = player.transform.position.x;
         float py = player.transform.position.y;
         if (px < minXBound)

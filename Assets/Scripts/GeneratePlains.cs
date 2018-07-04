@@ -19,7 +19,8 @@ public class GeneratePlains : MonoBehaviour
     private float offsetX;
     private float offsetY;
 
-    public GameObject block;
+    public GameObject block;  // 1x1 block
+    public GameObject bigBlock; // 2x2 block
 
     void Start()
     {
@@ -32,17 +33,17 @@ public class GeneratePlains : MonoBehaviour
     // Make borders
     void GenerateWalls()
     {
-        GameObject wallN = (GameObject)Instantiate(block, new Vector3(width / 2, height), Quaternion.identity);
-        wallN.transform.localScale = new Vector2(width + 1, 1);
+        for (float i = 0.5f; i <= width + 0.5f; i += 2)
+        {
+            Instantiate(bigBlock, new Vector3(i, height + 0.5f), Quaternion.identity);
+            Instantiate(bigBlock, new Vector3(i, 0.5f), Quaternion.identity);
+        }
 
-        GameObject wallE = (GameObject)Instantiate(block, new Vector3(0, height / 2), Quaternion.identity);
-        wallE.transform.localScale = new Vector2(1, height - 1);
-
-        GameObject wallW = (GameObject)Instantiate(block, new Vector3(width, height / 2), Quaternion.identity);
-        wallW.transform.localScale = new Vector2(1, height - 1);
-
-        GameObject wallS = (GameObject)Instantiate(block, new Vector3(width / 2, 0), Quaternion.identity);
-        wallS.transform.localScale = new Vector2(width + 1, 1);
+        for (float i = 2.5f; i < height; i += 2)
+        {
+            Instantiate(bigBlock, new Vector3(width + 0.5f, i), Quaternion.identity);
+            Instantiate(bigBlock, new Vector3(0.5f, i), Quaternion.identity);
+        }
     }
 
     void GenerateTerrain()
@@ -50,9 +51,10 @@ public class GeneratePlains : MonoBehaviour
         // TODO detect larger rectangles, make them into bigger blocks (see GenerateWalls for help)
         // TODO add exit (one of the other 3 corners) and make sure it is reachable (percolate)
         // These tasks will require multiple passes through the map (an array is highly recommended)
-        for (int x = 1; x < width; x++)
+        bool[,] blocks = new bool[width, height];
+        for (int x = 2; x < width - 1; x++)
         {
-            for (int y = 1; y < height; y++)
+            for (int y = 2; y < height - 1; y++)
             {
                 // This is where the player starts
                 if (x < 15 && y < 15) continue;
@@ -62,9 +64,34 @@ public class GeneratePlains : MonoBehaviour
 
                 float sample = Mathf.PerlinNoise(xCoord, yCoord);
 
-                if (sample > threshold)
+                blocks[x, y] = sample > threshold;
+            }
+        }
+
+        // Place trees
+        for (int x = 2; x < width - 1; x++)
+        {
+            for (int y = height - 2; y >= 2; y--)
+            {
+                if (blocks[x, y] && blocks[x + 1, y] && blocks[x, y - 1] && blocks[x + 1, y - 1])
+                {
+                    Instantiate(bigBlock, new Vector3(x + 0.5f, y - 0.5f, 0), Quaternion.identity);
+                    blocks[x, y] = false;  // do not place anything here anymore
+                    blocks[x, y - 1] = false;  // do not place anything here anymore
+                    blocks[x + 1, y] = false;  // do not place anything here anymore
+                    blocks[x + 1, y - 1] = false;  // do not place anything here anymore
+                }
+            }
+        }
+
+        for (int x = 2; x < width - 1; x++)
+        {
+            for (int y = 2; y < height - 1; y++)
+            {
+                if (blocks[x, y])
                 {
                     Instantiate(block, new Vector3(x, y, 0), Quaternion.identity);
+                    blocks[x, y] = false;
                 }
             }
         }

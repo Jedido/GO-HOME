@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour {
     // Set animations
     private void LateUpdate()
     {
+        /*
         // TODO change this to direction integer when other animations added
         if (rb2d.velocity.y < 0)
         {
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("Walking Down", false);
         }
         animator.SetFloat("Speed", rb2d.velocity.magnitude / 5f);
+        */
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
