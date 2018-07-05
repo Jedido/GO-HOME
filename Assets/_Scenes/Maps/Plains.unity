@@ -158,7 +158,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 9
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -204,6 +204,9 @@ MonoBehaviour:
   scaleX: 15
   block: {fileID: 1000014055267932, guid: 2d6caa5606dd7694186e61f70bc57af8, type: 2}
   bigBlock: {fileID: 1000014285238416, guid: 03e3c5f54d0119e4ba09790df60c8be9, type: 2}
+  bg1: {fileID: 1000012307632002, guid: badab770a041be44f80a88c29bb542d3, type: 2}
+  bg2: {fileID: 1000012336113390, guid: 05ea277015aeb5c489fcb27671bf8a86, type: 2}
+  bg3: {fileID: 1000012060889850, guid: 29db4d821cd34714292a53afb6904401, type: 2}
 --- !u!114 &1616659882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,8 +219,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1831883450}
-  maxXBound: 100
-  maxYBound: 100
+  maxXBound: 99
+  maxYBound: 99
 --- !u!114 &1616659883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,11 +242,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000013812807608, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 0.925
       objectReference: {fileID: 0}
     - target: {fileID: 4000013812807608, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1.957
       objectReference: {fileID: 0}
     - target: {fileID: 4000013812807608, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
       propertyPath: m_LocalPosition.z
