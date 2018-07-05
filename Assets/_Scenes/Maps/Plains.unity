@@ -452,16 +452,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f5c91e86b0bc44fa69d920065dbf7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 100
-  height: 100
+  n: 50
   threshold: 0.6
   scaleY: 15
   scaleX: 15
-  block: {fileID: 1000014055267932, guid: 2d6caa5606dd7694186e61f70bc57af8, type: 2}
-  bigBlock: {fileID: 1000014285238416, guid: 03e3c5f54d0119e4ba09790df60c8be9, type: 2}
-  bg1: {fileID: 1000012307632002, guid: badab770a041be44f80a88c29bb542d3, type: 2}
-  bg2: {fileID: 1000012336113390, guid: 05ea277015aeb5c489fcb27671bf8a86, type: 2}
-  bg3: {fileID: 1000012060889850, guid: 29db4d821cd34714292a53afb6904401, type: 2}
+  hole: {fileID: 1149395873612984, guid: f074700227c22a842ba955ffd378ce62, type: 2}
   background: {fileID: 901929298}
   obstacles: {fileID: 1507594340}
   tiles:
@@ -493,8 +488,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1831883450}
-  maxXBound: 99
-  maxYBound: 99
+  maxXBound: 50
+  maxYBound: 50
 --- !u!114 &1616659883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,11 +553,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000013812807608, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.53
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4000013812807608, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.74
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4000013812807608, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
       propertyPath: m_LocalPosition.z
@@ -588,6 +583,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 58000014016720068, guid: 26a4afa2d5020a645b576f43aa684551,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
   m_IsPrefabParent: 0
@@ -596,3 +596,18 @@ GameObject:
   m_PrefabParentObject: {fileID: 1000011820887426, guid: 26a4afa2d5020a645b576f43aa684551,
     type: 2}
   m_PrefabInternal: {fileID: 1831883449}
+--- !u!58 &1831883451
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1831883450}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

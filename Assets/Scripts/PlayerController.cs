@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+    // Movement
     public float speed;  // TODO: eventually use PlayerManager.player.speed and remove this variable
     private Rigidbody2D rb2d;
     private Animator animator;
+    private GameObject portal;
 
     // Attack
     public Weapon primary;
@@ -20,6 +22,13 @@ public class PlayerController : MonoBehaviour {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         bool fire1 = Input.GetMouseButtonDown(0);
+        bool fire2 = Input.GetMouseButtonDown(1);
+
+        if (fire2 && portal)
+        {
+            transform.position = portal.transform.position;
+            portal = null;
+        }
 
         float ms = speed;
         if (horizontal != 0 && vertical != 0)
@@ -57,13 +66,18 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (transform.position.y > collision.transform.position.y) return;
-        transform.position -= new Vector3(0, 0, 1);
+        if (collision.tag.Equals("Portal"))
+        {
+            Portal script = collision.gameObject.GetComponent<Portal>();
+            portal = script.portal;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (transform.position.z == 0 || transform.position.y > collision.transform.position.y) return;
-        transform.position += new Vector3(0, 0, 1);
+        if (collision.tag.Equals("Portal"))
+        {
+            portal = null;
+        }
     }
 }

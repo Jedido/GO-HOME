@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour {
     public GameObject player;
     public float maxXBound, maxYBound;
     private float minXBound, minYBound;
+    private float damp = 1f;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +17,6 @@ public class CameraController : MonoBehaviour {
         float vertExtent = camera.orthographicSize;
         maxYBound -= vertExtent;
         minYBound = vertExtent;
-        // gameObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
     }
 
     // Update is called once per frame
@@ -37,6 +37,9 @@ public class CameraController : MonoBehaviour {
         {
             py = maxYBound;
         }
-        gameObject.transform.position = new Vector3(px, py, -10);
+        gameObject.transform.position = new Vector3(
+            gameObject.transform.position.x * (1 - damp) + px * damp, 
+            gameObject.transform.position.y * (1 - damp) + py * damp, 
+            -10);
     }
 }
