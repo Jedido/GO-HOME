@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 
 // All the generators might be refactored under one superclass 
 public class GeneratePlains : MonoBehaviour
 {
-    // Probably change into a radius
-    public int width;
-    public int height;
+    // width and height of map 
+    public int width, height;
 
     // Value between 0 and 1
     // higher the value, less blocks are spawned
@@ -22,6 +22,22 @@ public class GeneratePlains : MonoBehaviour
     public GameObject block;  // 1x1 block
     public GameObject bigBlock; // 2x2 block
     public GameObject bg1, bg2, bg3; // ground tile
+    public Tilemap background, obstacles;
+    public Tile[] tiles;
+    // Tile layout
+    // 0-8: from UL to BR
+    // 9-12: Inverted UL, UR, BL, BR
+    // 13: center 2
+    // 14: Bush
+    public Tile bush
+    {
+        get { return tiles[14]; }
+    }
+    // 15: Tree
+    public Tile tree
+    {
+        get { return tiles[15]; }
+    }
 
     void Start()
     {
@@ -34,16 +50,15 @@ public class GeneratePlains : MonoBehaviour
     // Make borders
     void GenerateWalls()
     {
-        for (float i = 0.5f; i <= width + 0.5f; i += 2)
+        for (int i = 2; i < width - 2; i += 2)
         {
-            Instantiate(bigBlock, new Vector3(i, height - 1.5f), Quaternion.identity);
-            Instantiate(bigBlock, new Vector3(i, 0.5f), Quaternion.identity);
+            obstacles.SetTile(new Vector3Int(i, 0, 0), tree);
+            obstacles.SetTile(new Vector3Int(i, height - 2, 0), tree);
         }
-
-        for (float i = 2.5f; i < height; i += 2)
+        for (int i = 0; i < height; i += 2)
         {
-            Instantiate(bigBlock, new Vector3(width + 0.5f, i), Quaternion.identity);
-            Instantiate(bigBlock, new Vector3(0.5f, i), Quaternion.identity);
+            obstacles.SetTile(new Vector3Int(0, i, 0), tree);
+            obstacles.SetTile(new Vector3Int(width - 2, i, 0), tree);
         }
     }
 
@@ -70,7 +85,7 @@ public class GeneratePlains : MonoBehaviour
             density[height - 4, i]++;
         }
 
-        for (int x = 2; x < width - 1; x++)
+        for (int x = 2; x < width - 2; x++)
         {
             for (int y = 2; y < height - 2; y++)
             {
@@ -112,14 +127,84 @@ public class GeneratePlains : MonoBehaviour
             {
                 if (density[x, y] == 0)
                 {
-                    Instantiate(bg1, new Vector3(x, y, 1), Quaternion.identity);
-                } else if (density[x, y] <= 3)
+                    background.SetTile(new Vector3Int(x, y, 1), tiles[13]);
+                } else
                 {
-                    Instantiate(bg2, new Vector3(x, y, 1), Quaternion.identity);
-                }
-                else
-                {
-                    Instantiate(bg3, new Vector3(x, y, 1), Quaternion.identity);
+                    if (x > 2 && y > 2 && x < width - 2 && y < width - 2)
+                    {
+                        bool u = density[x, y + 1] != 0;
+                        bool b = density[x, y - 1] != 0;
+                        bool l = density[x - 1, y] != 0;
+                        bool r = density[x + 1, y] != 0;
+                        bool ul = density[x - 1, y + 1] == 0;
+                        bool ur = density[x + 1, y + 1] == 0;
+                        bool bl = density[x - 1, y - 1] == 0;
+                        bool br = density[x + 1, y - 1] == 0;
+                        Tile place = null;
+                        if (u && b && l && r)
+                        {
+                            if (ul && ur)
+                            {
+                                place = tiles[1];
+                            } else if (bl && br)
+                            {
+                                place = tiles[7];
+                            } else if (bl && ul)
+                            {
+                                place = tiles[3];
+                            } else if (br && ur)
+                            {
+                                place = tiles[5];
+                            } else if (ul)
+                            {
+                                place = tiles[12];
+                            } else if (ur)
+                            {
+                                place = tiles[11];
+                            } else if (bl)
+                            {
+                                place = tiles[10];
+                            } else if (br)
+                            {
+                                place = tiles[9];
+                            } else
+                            {
+                                place = tiles[4];
+                            }
+                        } else if (b && l && r && !bl && !br)
+                        {
+                            place = tiles[1];
+                        } else if (u && l && r && !ul && !ur)
+                        {
+                            place = tiles[7];
+                        } else if (u && b && l && !bl && !ul)
+                        {
+                            place = tiles[5];
+                        } else if (u && b && r && !br && !ur)
+                        {
+                            place = tiles[3];
+                        } else if (u && r && !ur)
+                        {
+                            place = tiles[6];
+                        } else if (u && l && !ul)
+                        {
+                            place = tiles[8];
+                        } else if (b && r && !br)
+                        {
+                            place = tiles[0];
+                        } else if (b && l && !bl)
+                        {
+                            place = tiles[2];
+                        } else
+                        {
+                            place = tiles[13];
+                        }
+                        background.SetTile(new Vector3Int(x, y, 1), place);
+                    }
+                    else
+                    {
+                        background.SetTile(new Vector3Int(x, y, 1), tiles[4]);
+                    }
                 }
             }
         }
@@ -131,7 +216,7 @@ public class GeneratePlains : MonoBehaviour
             {
                 if (blocks[x, y] && blocks[x + 1, y] && blocks[x, y - 1] && blocks[x + 1, y - 1])
                 {
-                    Instantiate(bigBlock, new Vector3(x + 0.5f, y - 0.5f, 0), Quaternion.identity);
+                    obstacles.SetTile(new Vector3Int(x, y - 1, 0), tree);
                     blocks[x, y] = false;  // do not place anything here anymore
                     blocks[x, y - 1] = false;  // do not place anything here anymore
                     blocks[x + 1, y] = false;  // do not place anything here anymore
@@ -146,7 +231,7 @@ public class GeneratePlains : MonoBehaviour
             {
                 if (blocks[x, y])
                 {
-                    Instantiate(block, new Vector3(x, y, 0), Quaternion.identity);
+                    obstacles.SetTile(new Vector3Int(x, y, 0), bush);
                     blocks[x, y] = false;
                 }
             }
