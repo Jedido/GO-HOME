@@ -281,7 +281,7 @@ public class GeneratePlains : MonoBehaviour
                     {
                         i = (int)(Random.value * (n - 1));
                         j = (int)(Random.value * (n - 1));
-                    } while (!reachable[i, j] || !(i < 15 && j < 15) || !(i > 2 && j > 2 && i < n - 3 && j < n - 3));
+                    } while (!reachable[i, j] || (i < 15 && j < 15) || !(i > 2 && j > 2 && i < n - 3 && j < n - 3));
                     GameObject hole1 = Instantiate(hole, new Vector3(i + 0.5f, j + 0.5f), Quaternion.identity);
                     GameObject hole2 = Instantiate(hole, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
                     hole1.GetComponent<Portal>().SetPair(hole2);
