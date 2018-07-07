@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 // All the generators might be refactored under one superclass 
 public class GeneratePlains : MonoBehaviour
 {
+    public readonly int MIN_SIZE = 12;
+
     // width and height of map 
     public int n;
 
@@ -238,8 +240,8 @@ public class GeneratePlains : MonoBehaviour
                 // This is where the player starts
                 if (x < 15 && y < 15) continue;
 
-                float xCoord = (float)x / 100 * scaleX + offsetX;
-                float yCoord = (float)y / 100 * scaleY + offsetY;
+                float xCoord = (float)x * scaleX + offsetX;
+                float yCoord = (float)y * scaleY + offsetY;
 
                 float sample = Mathf.PerlinNoise(xCoord, yCoord);
 
@@ -275,40 +277,76 @@ public class GeneratePlains : MonoBehaviour
             {
                 if (!reachable[x, y] && !blocks[x,y])
                 {
+                    // Check if size is large enough
+                    bool sizeable = Percolate(x, y, reachable, blocks);
+
                     // create a rabbit hole somewhere (portal)
-                    int i, j;
-                    do
+                    if (sizeable)
                     {
-                        i = (int)(Random.value * (n - 1));
-                        j = (int)(Random.value * (n - 1));
-                    } while (!reachable[i, j] || (i < 15 && j < 15) || !(i > 2 && j > 2 && i < n - 3 && j < n - 3));
-                    GameObject hole1 = Instantiate(hole, new Vector3(i + 0.5f, j + 0.5f), Quaternion.identity);
-                    GameObject hole2 = Instantiate(hole, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
-                    hole1.GetComponent<Portal>().SetPair(hole2);
-                    hole2.GetComponent<Portal>().SetPair(hole1);
-                    Percolate(x, y, reachable, blocks);
+                        int i, j;
+                        do
+                        {
+                            i = (int)(Random.value * (n - 1));
+                            j = (int)(Random.value * (n - 1));
+                        } while (density[i, j] != 0
+                            || !reachable[i, j]
+                            || (i < 15 && j < 15)
+                            || !(i > 2 && j > 2 && i < n - 3 && j < n - 3));
+                        GameObject hole1 = Instantiate(hole, new Vector3(i + 0.5f, j + 0.5f), Quaternion.identity);
+                        GameObject hole2 = Instantiate(hole, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
+                        hole1.GetComponent<Portal>().SetPair(hole2);
+                        hole2.GetComponent<Portal>().SetPair(hole1);
+                    }
                 }
             }
         }
     }
 
-    private void Percolate(int i, int j, bool[,] reachable, bool[,] blocks)
+    private bool Percolate(int i, int j, bool[,] reachable, bool[,] blocks)
     {
+        bool sizeable = false;
         List<IntPair> list = new List<IntPair>();
         AddOpen(i, j, reachable, blocks, list);
-        int step = 0;
-        while (list.Count != 0)
+        int size = 0;
+        while (list.Count > size || (sizeable && list.Count != 0))
         {
-            step++;
-            IntPair next = list[0];
+            IntPair next;
+            if (!sizeable && list.Count >= MIN_SIZE)
+            {
+                // stop keeping track
+                for (int k = 0; k < size; k++)
+                {
+                    list.RemoveAt(0);
+                }
+                sizeable = true;
+            }
+            if (sizeable)
+            {
+                next = list[0];
+                list.RemoveAt(0);
+            }
+            else
+            {
+                next = list[size];
+            }
+            size++;
             int x = next.x;
             int y = next.y;
             AddOpen(x + 1, y, reachable, blocks, list);
             AddOpen(x, y + 1, reachable, blocks, list);
             AddOpen(x - 1, y, reachable, blocks, list);
             AddOpen(x, y - 1, reachable, blocks, list);
-            list.RemoveAt(0);
         }
+        // Area too small
+        if (!sizeable)
+        {
+            foreach (IntPair next in list)
+            {
+                reachable[next.x, next.y] = false;
+                blocks[next.x, next.y] = true;
+            }
+        }
+        return sizeable;
     }
 
     // Adds space if there is no block and it has not been traversed

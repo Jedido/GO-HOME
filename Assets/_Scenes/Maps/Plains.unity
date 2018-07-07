@@ -453,9 +453,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   n: 50
-  threshold: 0.6
-  scaleY: 15
-  scaleX: 15
+  threshold: 0.5
+  scaleY: 0.2
+  scaleX: 0.2
   hole: {fileID: 1149395873612984, guid: f074700227c22a842ba955ffd378ce62, type: 2}
   background: {fileID: 901929298}
   obstacles: {fileID: 1507594340}
@@ -488,8 +488,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1831883450}
-  maxXBound: 50
-  maxYBound: 50
+  maxXBound: 100
+  maxYBound: 100
 --- !u!114 &1616659883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,6 +587,11 @@ Prefab:
         type: 2}
       propertyPath: m_Radius
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010981369140, guid: 26a4afa2d5020a645b576f43aa684551,
+        type: 2}
+      propertyPath: speed
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
