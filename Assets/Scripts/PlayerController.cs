@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb2d;
     private Animator animator;
     private GameObject portal;
+    private int direction;
+    private enum Direction { NONE, UP, DOWN, LEFT, RIGHT };
 
     // Attack
     public Weapon primary;
@@ -30,6 +32,27 @@ public class PlayerController : MonoBehaviour {
             portal = null;
         }
 
+        // Set direction
+        if (horizontal > 0)
+        {
+            direction = (int)Direction.RIGHT;
+        } else if (horizontal < 0)
+        {
+            direction = (int)Direction.LEFT;
+        }
+        else if (vertical > 0)
+        {
+            direction = (int)Direction.UP;
+        }
+        else if (vertical < 0)
+        {
+            direction = (int)Direction.DOWN;
+        } else
+        {
+            direction = (int)Direction.NONE;
+            animator.SetBool("Moving", false);
+        }
+
         float ms = speed;
         if (horizontal != 0 && vertical != 0)
         {
@@ -51,17 +74,11 @@ public class PlayerController : MonoBehaviour {
     // Set animations
     private void LateUpdate()
     {
-        /*
         // TODO change this to direction integer when other animations added
-        if (rb2d.velocity.y < 0)
+        if (direction != (int)Direction.NONE)
         {
-            animator.SetBool("Walking Down", true);
-        } else
-        {
-            animator.SetBool("Walking Down", false);
+            animator.SetInteger("Direction", direction);
         }
-        animator.SetFloat("Speed", rb2d.velocity.magnitude / 5f);
-        */
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
