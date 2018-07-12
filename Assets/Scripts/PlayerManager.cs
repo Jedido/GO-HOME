@@ -9,7 +9,12 @@ public class PlayerManager : MonoBehaviour {
     public static PlayerManager player = null;
 
     // Player location on map
-    private float x, y, z;
+    private Vector3 position;
+    public Vector3 Position
+    {
+        get { return position; }
+        set { position = value; }
+    }
 
     // Player stats
     private int[] inventory = { 0, 0, 0, 0 };  // item inventory
@@ -40,6 +45,18 @@ public class PlayerManager : MonoBehaviour {
     // Player buffs (listed out)
     private bool[] buffs;  // Use coroutines for timing
     public const int BUFF_SPEED = 0;
+
+    void Awake()
+    {
+        if (player == null)
+            player = this;
+
+        // instance of game already exists
+        else if (player != this)
+            Destroy(gameObject);
+
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Start as new character
     // Default stats here

@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour {
         } else
         {
             direction = (int)Direction.NONE;
-            animator.SetBool("Moving", false);
         }
 
         float ms = speed;
@@ -78,7 +77,13 @@ public class PlayerController : MonoBehaviour {
         if (direction != (int)Direction.NONE)
         {
             animator.SetInteger("Direction", direction);
+        } else
+        {
+            animator.SetBool("Moving", false);
         }
+
+        // TODO: update PlayerManager
+        PlayerManager.player.Position = transform.position;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

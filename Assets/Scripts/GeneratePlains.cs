@@ -240,8 +240,8 @@ public class GeneratePlains : MonoBehaviour
                 // This is where the player starts
                 if (x < 15 && y < 15) continue;
 
-                float xCoord = (float)x * scaleX + offsetX;
-                float yCoord = (float)y * scaleY + offsetY;
+                float xCoord = x * scaleX + offsetX;
+                float yCoord = y * scaleY + offsetY;
 
                 float sample = Mathf.PerlinNoise(xCoord, yCoord);
 
@@ -278,7 +278,7 @@ public class GeneratePlains : MonoBehaviour
                 if (!reachable[x, y] && !blocks[x,y])
                 {
                     // Check if size is large enough
-                    bool sizeable = Percolate(x, y, reachable, blocks);
+                    bool sizeable = IsSizeable(x, y, blocks);
 
                     // create a rabbit hole somewhere (portal)
                     if (sizeable)
@@ -296,40 +296,23 @@ public class GeneratePlains : MonoBehaviour
                         GameObject hole2 = Instantiate(hole, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
                         hole1.GetComponent<Portal>().SetPair(hole2);
                         hole2.GetComponent<Portal>().SetPair(hole1);
+                        Percolate(x, y, reachable, blocks);
                     }
                 }
             }
         }
     }
 
-    private bool Percolate(int i, int j, bool[,] reachable, bool[,] blocks)
+    // Checks if area is greater than specified size
+    private bool IsSizeable(int i, int j, bool[,] blocks)
     {
-        bool sizeable = false;
+        bool[,] reachable = new bool[blocks.GetLength(0), blocks.GetLength(1)];
         List<IntPair> list = new List<IntPair>();
         AddOpen(i, j, reachable, blocks, list);
         int size = 0;
-        while (list.Count > size || (sizeable && list.Count != 0))
+        while (list.Count > size && list.Count < MIN_SIZE)
         {
-            IntPair next;
-            if (!sizeable && list.Count >= MIN_SIZE)
-            {
-                // stop keeping track
-                for (int k = 0; k < size; k++)
-                {
-                    list.RemoveAt(0);
-                }
-                sizeable = true;
-            }
-            if (sizeable)
-            {
-                next = list[0];
-                list.RemoveAt(0);
-            }
-            else
-            {
-                next = list[size];
-            }
-            size++;
+            IntPair next = list[size++];
             int x = next.x;
             int y = next.y;
             AddOpen(x + 1, y, reachable, blocks, list);
@@ -337,16 +320,36 @@ public class GeneratePlains : MonoBehaviour
             AddOpen(x - 1, y, reachable, blocks, list);
             AddOpen(x, y - 1, reachable, blocks, list);
         }
-        // Area too small
-        if (!sizeable)
+        if (list.Count >= MIN_SIZE)
         {
-            foreach (IntPair next in list)
-            {
-                reachable[next.x, next.y] = false;
-                blocks[next.x, next.y] = true;
-            }
+            return true;
         }
-        return sizeable;
+        // Area too small
+        foreach (IntPair next in list)
+        {
+            reachable[next.x, next.y] = false;
+            blocks[next.x, next.y] = true;
+        }
+        return false;
+    }
+
+
+    // prereq: IsSizeable(i, j, blocks) == true
+    private void Percolate(int i, int j, bool[,] reachable, bool[,] blocks)
+    {
+        List<IntPair> list = new List<IntPair>();
+        AddOpen(i, j, reachable, blocks, list);
+        while (list.Count != 0)
+        {
+            IntPair next = list[0];
+            list.RemoveAt(0);
+            int x = next.x;
+            int y = next.y;
+            AddOpen(x + 1, y, reachable, blocks, list);
+            AddOpen(x, y + 1, reachable, blocks, list);
+            AddOpen(x - 1, y, reachable, blocks, list);
+            AddOpen(x, y - 1, reachable, blocks, list);
+        }
     }
 
     // Adds space if there is no block and it has not been traversed
