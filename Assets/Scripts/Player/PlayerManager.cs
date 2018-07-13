@@ -7,6 +7,7 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
     // Singleton (there will only be one instance of PlayerManager)
     public static PlayerManager player = null;
+    public GameObject alien;
 
     // Player location on map
     private Vector3 position;

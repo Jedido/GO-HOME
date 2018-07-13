@@ -1,19 +1,17 @@
 fileFormatVersion: 2
-guid: 72ca46923516d954aa799a9870127bfb
+guid: 0c2f82862b0ca764e97c9aac4de5dd64
 TextureImporter:
   fileIDToRecycleName:
-    21300000: slime_0
-    21300002: slime_1
-    21300004: slime_2
-    21300006: slime_3
-    21300008: slime_4
-    21300010: slime_5
-    21300012: slime_6
+    21300000: Sword_0
+    21300002: Sword_1
+    21300004: Sword_2
+    21300006: Sword_3
+    21300008: Sword_4
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -52,7 +50,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -89,141 +87,101 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: slime_0
+      name: Sword_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 120
+        y: 81
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29be85766a384ad499f5e1c439598aa6
+      spriteID: 2cfa0fe780c53fb4ab314273c7838bd5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: slime_1
+      name: Sword_1
       rect:
         serializedVersion: 2
         x: 0
-        y: 100
+        y: 61
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16eafe9b76c442e41bffd09d1d022a73
+      spriteID: 30f9f682f56f02a4abac6498aa713032
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: slime_2
+      name: Sword_2
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
+        y: 41
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dca397e9ac4a56b479183bd2343a95ab
+      spriteID: 6d42683ef28d3674782d4316a1727825
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: slime_3
+      name: Sword_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 60
+        y: 21
         width: 20
         height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7a83367fd27c6e947b1aeb63efd77cf9
+      spriteID: 8835b4b12f8b6054aa333d8fcabcb698
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: slime_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 40
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2109c5def3c54304baee957fd087cfb2
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: slime_5
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 20
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bce5e26a113b7bf409fa0df21092d164
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: slime_6
+      name: Sword_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 21
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 650aa98dd8df7444eb2aef4a8ef05f37
+      spriteID: 4f9cc1d216fd04747ae032ec99d00bec
       vertices: []
       indices: 
       edges: []
@@ -231,7 +189,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 808986a2565aa8048a45178c73e070b5
+    spriteID: 623e5fbd3fbc44e4f9e83fdfc23dfb75
     vertices: []
     indices: 
     edges: []

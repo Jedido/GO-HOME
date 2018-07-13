@@ -23,7 +23,9 @@ public class GeneratePlains : MonoBehaviour
     private float offsetY;
 
     public GameObject hole;  // 1x1 portal
-    public Tilemap background, obstacles;
+    public Grid grid;
+    public Tilemap tMap, tMapCollide;
+    private Tilemap background, obstacles;
     public Tile[] tiles;
     // Tile layout
     // 0-8: from UL to BR
@@ -53,6 +55,10 @@ public class GeneratePlains : MonoBehaviour
     {
         offsetX = Random.Range(0, 9999f);
         offsetY = Random.Range(0, 9999f);
+        background = Instantiate(tMap);
+        background.transform.parent = grid.transform;
+        obstacles = Instantiate(tMapCollide);
+        obstacles.transform.parent = grid.transform;
         GenerateTerrain();
     }
 
