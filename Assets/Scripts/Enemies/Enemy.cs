@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour {
     private int damage, health;
-    private float movespeed;
+    private float movespeed, knockback;
     private bool active;
     public int ATK
     {
@@ -18,6 +18,10 @@ public abstract class Enemy : MonoBehaviour {
     {
         get { return movespeed; }
     }
+    public float Weight
+    {
+        get { return knockback; }
+    }
     public bool Active
     {
         get { return active; }
@@ -25,11 +29,15 @@ public abstract class Enemy : MonoBehaviour {
 
     private float detectionRadius;  // when enemy is alerted of player presence
     private Vector3 direction;
+    private Vector3 knockbackDir;
     private Rigidbody2D rb2d;
 
+    public abstract int GetID();
+    public enum EnemyID { Slime, };
     protected abstract int GetATK();
     protected abstract int GetHP();
     protected abstract float GetMS();
+    protected abstract float GetKnockback();
     protected abstract float GetRadius();
     protected abstract void Die();
 
@@ -38,6 +46,7 @@ public abstract class Enemy : MonoBehaviour {
         damage = GetATK();
         health = GetHP();
         movespeed = GetMS();
+        knockback = GetKnockback();
         active = false;
         detectionRadius = GetRadius();
         direction = new Vector3();
@@ -52,7 +61,8 @@ public abstract class Enemy : MonoBehaviour {
             active = true;
         }
 
-        rb2d.velocity = direction;
+        knockbackDir *= 0.9f;
+        rb2d.velocity = direction + knockbackDir;
     }
 
     protected void SetDirection(Vector3 dir)
@@ -67,11 +77,16 @@ public abstract class Enemy : MonoBehaviour {
 
     public void Hit(int damage)
     {
-        health -= damage;
+        // health -= damage;
         if (health < 0)
         {
             // TODO: drop loot
             Destroy(gameObject);
+        } else
+        {
+            // Get knocked back
+            knockbackDir += new Vector3(PlayerManager.player.Position.x - transform.position.x,
+                PlayerManager.player.Position.y - transform.position.y).normalized * -knockback;
         }
     }
 }

@@ -142,7 +142,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.1}
@@ -177,8 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpDelay: 0.5
-  jumpTimer: 0
-  jumpRange: 2
+  jumpRadius: 2
   jumpTime: 1
   restTime: 0.5
   jumpDir: {x: 0, y: 0, z: 0}
@@ -436,7 +435,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -637,6 +636,31 @@ Prefab:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1616659879}
+    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
+        type: 2}
+      propertyPath: power
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
+        type: 2}
+      propertyPath: swingDelay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
+        type: 2}
+      propertyPath: arc
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
+        type: 2}
+      propertyPath: startVel
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
+        type: 2}
+      propertyPath: swingTime
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
   m_IsPrefabParent: 0

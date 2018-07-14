@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Basic slime.
+// Basic Slime AI
+// All slime will move like this
+// Slime enemy ID is 0.
 public class Slime : Enemy {
-    // TODO: make enemy superclass with some of these fields
-    // TODO: make Slime into an abstract class (inherited by different slimes)
-    public float jumpDelay, jumpTimer, jumpRange, jumpTime, restTime;  // TODO: set these identical for all slimes
+    public float jumpDelay, jumpRadius, jumpTime, restTime;
+    private float jumpTimer;
     private bool found = false;
     private bool jumping, jump;
     public Vector3 jumpDir;
@@ -83,7 +84,7 @@ public class Slime : Enemy {
                 jumpDir = dir.normalized;
                 jump = true;
             }
-            else if (!jump && dist < jumpRange)
+            else if (!jump && dist < jumpRadius)
             {
                 // In range to jump
                 jumping = true;
@@ -108,6 +109,11 @@ public class Slime : Enemy {
         anim.SetFloat("Speed", (GetSpeed() + 1) / 2);
     }
 
+    public override int GetID()
+    {
+        return 0;
+    }
+
     protected override int GetATK()
     {
         return 1;
@@ -121,6 +127,11 @@ public class Slime : Enemy {
     protected override float GetMS()
     {
         return 1.5f;
+    }
+
+    protected override float GetKnockback()
+    {
+        return 4f;
     }
 
     protected override float GetRadius()
