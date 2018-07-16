@@ -19,16 +19,16 @@ public class Slime : Enemy {
     private Animator anim;
     private SpriteRenderer eyeSprite;
 
-    private void Start()
+    new protected void Start()
     {
-        Init();
+        base.Start();
         anim = GetComponentInChildren<Animator>();
         eyeSprite = eyes.GetComponent<SpriteRenderer>();
         wakeup = 0f;
     }
 
     // Update is called once per frame
-	new void Update () {
+	new protected void Update () {
         Vector3 dir = new Vector3(PlayerManager.player.Position.x - transform.position.x, 
             PlayerManager.player.Position.y - transform.position.y);
         float dist = dir.magnitude;
@@ -41,7 +41,7 @@ public class Slime : Enemy {
         {
             if (wakeup < 1)
             {
-                wakeup += 0.1f;
+                wakeup += 0.05f;
             } else if (wakeup != 1)
             {
                 wakeup = 1;

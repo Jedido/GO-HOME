@@ -3,25 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour {
-    private int damage, health;
-    private float movespeed, knockback;
-    private bool active;
     public int ATK
     {
-        get { return damage; }
+        get { return GetATK(); }
     }
     public int HP
     {
-        get { return health; }
+        get { return GetHP(); }
     }
     public float MS
     {
-        get { return movespeed; }
+        get { return GetMS(); }
     }
     public float Weight
     {
-        get { return knockback; }
+        get { return GetKnockback(); }
     }
+    private bool active;
     public bool Active
     {
         get { return active; }
@@ -42,12 +40,7 @@ public abstract class Enemy : MonoBehaviour {
     protected abstract void Die();
 
     // Since Enemy is never created as a gameobject, this is used instead of Unity's Start()
-    protected void Init () {
-        damage = GetATK();
-        health = GetHP();
-        movespeed = GetMS();
-        knockback = GetKnockback();
-        active = false;
+    protected void Start () {
         detectionRadius = GetRadius();
         direction = new Vector3();
         rb2d = GetComponent<Rigidbody2D>();
@@ -78,7 +71,7 @@ public abstract class Enemy : MonoBehaviour {
     public void Hit(int damage)
     {
         // health -= damage;
-        if (health < 0)
+        if (HP < 0)
         {
             // TODO: drop loot
             Destroy(gameObject);
@@ -86,7 +79,7 @@ public abstract class Enemy : MonoBehaviour {
         {
             // Get knocked back
             knockbackDir += new Vector3(PlayerManager.player.Position.x - transform.position.x,
-                PlayerManager.player.Position.y - transform.position.y).normalized * -knockback;
+                PlayerManager.player.Position.y - transform.position.y).normalized * -Weight;
         }
     }
 }

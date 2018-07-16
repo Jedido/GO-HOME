@@ -661,6 +661,15 @@ Prefab:
       propertyPath: swingTime
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1692315177278678, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212996442015154198, guid: 26a4afa2d5020a645b576f43aa684551,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
   m_IsPrefabParent: 0

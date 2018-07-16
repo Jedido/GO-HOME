@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour {
     public float speed;  // TODO: eventually use PlayerManager.player.speed and remove this variable
     private Rigidbody2D rb2d;
     private Animator animator;
-    private GameObject portal;
+    private Interactable interactable;
     private int direction;
     private enum Direction { UP, LEFT, DOWN, RIGHT, NONE };
 
@@ -33,10 +33,9 @@ public class PlayerController : MonoBehaviour {
         bool fire1 = Input.GetMouseButtonDown(0);
         bool fire2 = Input.GetMouseButtonDown(1);
 
-        if (fire2 && portal)
+        if (fire2 && interactable != null)
         {
-            transform.position = portal.transform.position;
-            portal = null;
+            interactable.Interact();
         }
 
         // Set direction
@@ -132,20 +131,20 @@ public class PlayerController : MonoBehaviour {
         PlayerManager.player.Position = transform.position;
     }
 
+    // TODO: implement for if player is on multiple things (which to choose?)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Portal"))
+        if (collision.tag.Equals("Interactable"))
         {
-            Portal script = collision.gameObject.GetComponent<Portal>();
-            portal = script.portal;
+            interactable = collision.gameObject.GetComponent<Interactable>();
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Portal"))
+        if (collision.tag.Equals("Interactable"))
         {
-            portal = null;
+            interactable = null;
         }
     }
 }

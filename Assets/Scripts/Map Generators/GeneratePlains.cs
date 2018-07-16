@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 // All the generators might be refactored under one superclass 
-public class GeneratePlains : MonoBehaviour
+public class GeneratePlains : GenerateMap
 {
-    public readonly int MIN_SIZE = 12;
+    // TODO: remove all public lowercase fields and add constants
 
     // width and height of map 
     public int n;
@@ -18,14 +18,9 @@ public class GeneratePlains : MonoBehaviour
     public float scaleY;
     public float scaleX;
 
-    // Randomized in order to sample the perlin noise from a different area each time
-    private float offsetX;
-    private float offsetY;
-
     public GameObject hole;  // 1x1 portal
     public Grid grid;
     public Tilemap tMap, tMapCollide;
-    private Tilemap background, obstacles;
     public Tile[] tiles;
     // Tile layout
     // 0-8: from UL to BR
@@ -42,43 +37,174 @@ public class GeneratePlains : MonoBehaviour
         get { return tiles[15]; }
     }
 
-    private class IntPair {
-        public int x, y;
-        public IntPair(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
+    protected override int GetWidth()
+    {
+        return n;
     }
 
-    void Start()
+    protected override int GetHeight()
     {
-        offsetX = Random.Range(0, 9999f);
-        offsetY = Random.Range(0, 9999f);
-        background = Instantiate(tMap);
+        return n;
+    }
+
+    protected override int GetStartingFloor()
+    {
+        return 0;
+    }
+
+    // For GeneratePlains, floor == 0 no matter what
+    // Returns a new Floor(background, obstacles, player starting position)
+    protected override Floor LoadNewFloor(int floor)
+    {
+        // Create the floor
+        bool[,] blocks = new bool[n, n];
+        int[,] density = new int[n + 1, n + 1]; // keeps track of how many obstacles within 2 spaces
+        List<GameObject> objects = new List<GameObject>();
+        Tilemap background = Instantiate(tMap);
         background.transform.parent = grid.transform;
-        obstacles = Instantiate(tMapCollide);
+        Tilemap obstacles = Instantiate(tMapCollide);
         obstacles.transform.parent = grid.transform;
-        GenerateTerrain();
+        SetTileWalls(blocks, obstacles);
+        CreateMapLayout(blocks, density, objects);
+        SetTileBackground(density, background);
+        SetTileBlocks(blocks, obstacles);
+
+        // Hide the tilemaps
+        background.gameObject.SetActive(false);
+        obstacles.gameObject.SetActive(false);
+
+        return new Floor(background, obstacles, objects.ToArray(), new Vector3(5, 5, 0));
+    }
+
+    // Example of a start method you could potentially make. Uncommenting this code will not impact anything.
+    /*
+    new protected void Start()
+    {
+        AddFloor(0, LoadNewFloor(0));
+        base.Start();
+    }
+    */
+
+    // Place a tree down (bottom left corner)
+    private void TreeBlock(int x, int y, bool[,] blocks, Tilemap obstacles)
+    {
+        obstacles.SetTile(new Vector3Int(x, y, 0), tree);
+        blocks[x, y] = true;
+        blocks[x, y + 1] = true;
+        blocks[x + 1, y] = true;
+        blocks[x + 1, y + 1] = true;
     }
 
     // Borders
-    void GenerateWalls()
+    private void SetTileWalls(bool[,] blocks, Tilemap obstacles)
     {
         for (int i = 2; i < n - 2; i += 2)
         {
-            obstacles.SetTile(new Vector3Int(i, 0, 0), tree);
-            obstacles.SetTile(new Vector3Int(i, n - 2, 0), tree);
+            TreeBlock(i, 0, blocks, obstacles);
+            TreeBlock(i, n - 2, blocks, obstacles);
         }
         for (int i = 0; i < n; i += 2)
         {
-            obstacles.SetTile(new Vector3Int(0, i, 0), tree);
-            obstacles.SetTile(new Vector3Int(n - 2, i, 0), tree);
+            TreeBlock(0, i, blocks, obstacles);
+            TreeBlock(n - 2, i, blocks, obstacles);
+        }
+    }
+
+    // Takes in 2 empty arrays size nxn each, populates them with map information
+    private void CreateMapLayout(bool[,] blocks, int[,] density, List<GameObject> objects)
+    {
+        float offsetX = Random.Range(0, 9999f);
+        float offsetY = Random.Range(0, 9999f);
+        // calculate density from borders
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                density[i, j] = 5;
+                density[i, n - 1 - j] = 5;
+                density[j, i] = 5;
+                density[n - 1 - j, i] = 5;
+            }
+            density[i, 3]++;
+            density[3, i]++;
+            density[i, n - 4]++;
+            density[n - 4, i]++;
+        }
+
+        // create map via perlin noise
+        for (int x = 2; x < n - 2; x++)
+        {
+            for (int y = 2; y < n - 2; y++)
+            {
+                // This is where the player starts
+                if (x < 15 && y < 15) continue;
+
+                float xCoord = x * scaleX + offsetX;
+                float yCoord = y * scaleY + offsetY;
+
+                float sample = Mathf.PerlinNoise(xCoord, yCoord);
+
+                bool res = sample > threshold;
+                blocks[x, y] = res;
+                if (res)
+                {
+                    // increment all spaces within 2 of (x, y)
+                    for (int i = x - 1; i <= x + 1; i++)
+                    {
+                        for (int j = y - 1; j <= y + 1; j++)
+                        {
+                            if (i > 0 && i < n && j > 0 && j < n)
+                            {
+                                density[i, j]++;
+                            }
+                        }
+                    }
+                    density[x - 2, y]++;
+                    density[x, y - 2]++;
+                    density[x + 2, y]++;
+                    density[x, y + 2]++;
+                }
+            }
+        }
+
+        // ensure all areas are accessible
+        bool[,] reachable = new bool[n, n];
+        Percolate(5, 5, reachable, blocks);  // spawn location
+        for (int x = 2; x < n - 2; x++)
+        {
+            for (int y = 2; y < n - 2; y++)
+            {
+                if (!reachable[x, y] && !blocks[x, y])
+                {
+                    // Check if size is large enough
+                    bool sizeable = IsSizeable(x, y, blocks);
+
+                    // create a rabbit hole somewhere (portal)
+                    if (sizeable)
+                    {
+                        int i, j;
+                        do
+                        {
+                            i = (int)(Random.value * (n - 1));
+                            j = (int)(Random.value * (n - 1));
+                        } while (density[i, j] != 0
+                            || !reachable[i, j]
+                            || (i < 15 && j < 15)
+                            || !(i > 2 && j > 2 && i < n - 3 && j < n - 3));
+                        GameObject hole1 = Instantiate(hole, new Vector3(i + 0.5f, j + 0.5f), Quaternion.identity);
+                        GameObject hole2 = Instantiate(hole, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
+                        Portal.SetPair(hole1.GetComponent<Portal>(), hole2.GetComponent<Portal>());
+                        objects.Add(hole1);
+                        objects.Add(hole2);
+                        Percolate(x, y, reachable, blocks);
+                    }
+                }
+            }
         }
     }
 
     // Background
-    private void GenerateBackground(int[,] density)
+    private void SetTileBackground(int[,] density, Tilemap background)
     {
         for (int x = 0; x < n; x++)
         {
@@ -188,7 +314,7 @@ public class GeneratePlains : MonoBehaviour
     }
 
     // Blocks
-    private void GenerateBlocks(bool[,] blocks)
+    private void SetTileBlocks(bool[,] blocks, Tilemap obstacles)
     {
         // Place trees
         for (int x = 2; x < n - 1; x++)
@@ -219,165 +345,5 @@ public class GeneratePlains : MonoBehaviour
         }
     }
 
-    // Takes in 2 empty arrays size nxn each, populates them with map information
-    private void CreateMap(bool[,] blocks, int[,] density)
-    {
-        // calculate density from borders
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                density[i, j] = 5;
-                density[i, n - 1 - j] = 5;
-                density[j, i] = 5;
-                density[n - 1 - j, i] = 5;
-            }
-            density[i, 3]++;
-            density[3, i]++;
-            density[i, n - 4]++;
-            density[n - 4, i]++;
-        }
-
-        // create map via perlin noise
-        for (int x = 2; x < n - 2; x++)
-        {
-            for (int y = 2; y < n - 2; y++)
-            {
-                // This is where the player starts
-                if (x < 15 && y < 15) continue;
-
-                float xCoord = x * scaleX + offsetX;
-                float yCoord = y * scaleY + offsetY;
-
-                float sample = Mathf.PerlinNoise(xCoord, yCoord);
-
-                bool res = sample > threshold;
-                blocks[x, y] = res;
-                if (res)
-                {
-                    // increment all spaces within 2 of (x, y)
-                    for (int i = x - 1; i <= x + 1; i++)
-                    {
-                        for (int j = y - 1; j <= y + 1; j++)
-                        {
-                            if (i > 0 && i < n && j > 0 && j < n)
-                            {
-                                density[i, j]++;
-                            }
-                        }
-                    }
-                    density[x - 2, y]++;
-                    density[x, y - 2]++;
-                    density[x + 2, y]++;
-                    density[x, y + 2]++;
-                }
-            }
-        }
-
-        // ensure all areas are accessible
-        bool[,] reachable = new bool[n, n];
-        Percolate(5, 5, reachable, blocks);  // spawn location
-        for (int x = 2; x < n - 2; x++)
-        {
-            for (int y = 2; y < n - 2; y++)
-            {
-                if (!reachable[x, y] && !blocks[x,y])
-                {
-                    // Check if size is large enough
-                    bool sizeable = IsSizeable(x, y, blocks);
-
-                    // create a rabbit hole somewhere (portal)
-                    if (sizeable)
-                    {
-                        int i, j;
-                        do
-                        {
-                            i = (int)(Random.value * (n - 1));
-                            j = (int)(Random.value * (n - 1));
-                        } while (density[i, j] != 0
-                            || !reachable[i, j]
-                            || (i < 15 && j < 15)
-                            || !(i > 2 && j > 2 && i < n - 3 && j < n - 3));
-                        GameObject hole1 = Instantiate(hole, new Vector3(i + 0.5f, j + 0.5f), Quaternion.identity);
-                        GameObject hole2 = Instantiate(hole, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
-                        hole1.GetComponent<Portal>().SetPair(hole2);
-                        hole2.GetComponent<Portal>().SetPair(hole1);
-                        Percolate(x, y, reachable, blocks);
-                    }
-                }
-            }
-        }
-    }
-
-    // Checks if area is greater than specified size
-    private bool IsSizeable(int i, int j, bool[,] blocks)
-    {
-        bool[,] reachable = new bool[blocks.GetLength(0), blocks.GetLength(1)];
-        List<IntPair> list = new List<IntPair>();
-        AddOpen(i, j, reachable, blocks, list);
-        int size = 0;
-        while (list.Count > size && list.Count < MIN_SIZE)
-        {
-            IntPair next = list[size++];
-            int x = next.x;
-            int y = next.y;
-            AddOpen(x + 1, y, reachable, blocks, list);
-            AddOpen(x, y + 1, reachable, blocks, list);
-            AddOpen(x - 1, y, reachable, blocks, list);
-            AddOpen(x, y - 1, reachable, blocks, list);
-        }
-        if (list.Count >= MIN_SIZE)
-        {
-            return true;
-        }
-        // Area too small
-        foreach (IntPair next in list)
-        {
-            reachable[next.x, next.y] = false;
-            blocks[next.x, next.y] = true;
-        }
-        return false;
-    }
-
-
-    // prereq: IsSizeable(i, j, blocks) == true
-    private void Percolate(int i, int j, bool[,] reachable, bool[,] blocks)
-    {
-        List<IntPair> list = new List<IntPair>();
-        AddOpen(i, j, reachable, blocks, list);
-        while (list.Count != 0)
-        {
-            IntPair next = list[0];
-            list.RemoveAt(0);
-            int x = next.x;
-            int y = next.y;
-            AddOpen(x + 1, y, reachable, blocks, list);
-            AddOpen(x, y + 1, reachable, blocks, list);
-            AddOpen(x - 1, y, reachable, blocks, list);
-            AddOpen(x, y - 1, reachable, blocks, list);
-        }
-    }
-
-    // Adds space if there is no block and it has not been traversed
-    private void AddOpen(int x, int y, bool[,] reachable, bool[,] blocks, List<IntPair> list)
-    {
-        if (x > 1 && x < n - 2 && y > 1 && y < n - 2 && !blocks[x, y] && !reachable[x, y])
-        {
-            reachable[x, y] = true;
-            list.Add(new IntPair(x, y));
-        }
-    }
-
-    // TODO add exit (one of the other 3 corners) and make sure it is reachable (percolate)
-    void GenerateTerrain()
-    {
-        bool[,] blocks = new bool[n, n];
-        int[,] density = new int[n + 1, n + 1]; // keeps track of how many obstacles within 2 spaces
-
-        CreateMap(blocks, density);  // tilemap
-        GenerateWalls();
-        GenerateBackground(density);
-        GenerateBlocks(blocks);
-    }
 
 }

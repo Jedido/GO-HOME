@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class PlayerManager : MonoBehaviour {
     // Singleton (there will only be one instance of PlayerManager)
     public static PlayerManager player = null;
+    public GenerateMap currentMap;
     public GameObject alien;
 
     // Items the player has obtained
@@ -36,7 +37,6 @@ public class PlayerManager : MonoBehaviour {
     private bool[] dailyQuestItems;
     public enum DailyQuestItems { Count }
 
-
     /*
      * Map Phase
      */
@@ -47,6 +47,12 @@ public class PlayerManager : MonoBehaviour {
     {
         get { return position; }
         set { position = value; }
+    }
+    private int level;
+    public int Level
+    {
+        get { return level; }
+        set { level = value;  currentMap.ChangeFloor(level); }
     }
 
     // Player stats
@@ -67,6 +73,12 @@ public class PlayerManager : MonoBehaviour {
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    // In Map functions (mainly for interactables)
+    public void MoveAlien(Vector3 pos)
+    {
+        alien.transform.position = position = pos;
     }
 
     // Items

@@ -1,16 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Portal : MonoBehaviour {
-    private GameObject exit;
-    public GameObject portal
+public class Portal : MonoBehaviour, Interactable {
+    private Vector3 exitLocation;
+
+    public static void SetPair(Portal portal1, Portal portal2)
     {
-        get { return exit; }
+        portal1.exitLocation = portal2.gameObject.transform.position;
+        portal2.exitLocation = portal1.gameObject.transform.position;
     }
 
-    public void SetPair(GameObject other)
+    public void Interact()
     {
-        exit = other;
+        PlayerManager.player.MoveAlien(exitLocation);
     }
 }

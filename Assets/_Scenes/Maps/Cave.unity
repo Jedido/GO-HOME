@@ -211,10 +211,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   n: 50
-  threshold: 0.5
+  threshold: 0.7
   scaleY: 0.2
   scaleX: 0.2
   hole: {fileID: 1149395873612984, guid: f074700227c22a842ba955ffd378ce62, type: 2}
+  ladder: {fileID: 1365497943292242, guid: f4df844bf239ad04984516b9d95c675c, type: 2}
   grid: {fileID: 1242364513}
   tMap: {fileID: 8195094281343270056, guid: a6d9e86573c67104881bea84ff18016e, type: 2}
   tMapCollide: {fileID: 8195094281704254178, guid: fbc9cddccd86b434b8d63ab7ba193905,
@@ -242,6 +243,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: efd81b9afebc46844ba101335b325a59, type: 2}
   - {fileID: 11400000, guid: 6eea0a20872aeec469975e09df841625, type: 2}
   - {fileID: 11400000, guid: 38579bb6a3121344187e5db60171473b, type: 2}
+  - {fileID: 11400000, guid: cc22b2cfa3ee4f4429e68f343b6314a2, type: 2}
+  - {fileID: 11400000, guid: d23cf972cb2913f4a803112741feb76d, type: 2}
 --- !u!114 &121230689
 MonoBehaviour:
   m_ObjectHideFlags: 0
