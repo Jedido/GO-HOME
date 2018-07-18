@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public abstract class GenerateMap : MonoBehaviour
 {
-    public readonly int MIN_SIZE = 12;
+    public readonly int MIN_SIZE = 16;
     protected class IntPair
     {
         public int x, y;
@@ -33,18 +33,11 @@ public abstract class GenerateMap : MonoBehaviour
             get { return objects; }
         }
 
-        private Vector3 startingPosition;
-        public Vector3 Position
-        {
-            get { return startingPosition; }
-        }
-
-        public Floor(Tilemap bg, Tilemap c, GameObject[] o, Vector3 start)
+        public Floor(Tilemap bg, Tilemap c, GameObject[] o)
         {
             background = bg;
             obstacles = c;
             objects = o;
-            startingPosition = start;
         }
     }
 
@@ -64,6 +57,7 @@ public abstract class GenerateMap : MonoBehaviour
     protected abstract int GetWidth();
     protected abstract int GetHeight();
     protected abstract int GetStartingFloor();
+    protected abstract Vector3 GetStartingPosition();
     protected abstract Floor LoadNewFloor(int floor);
     protected void AddFloor(int n, Floor floor)
     {
@@ -80,6 +74,7 @@ public abstract class GenerateMap : MonoBehaviour
         floors = new Dictionary<int, Floor>();
         PlayerManager.player.currentMap = this;
         PlayerManager.player.Level = GetStartingFloor();
+        PlayerManager.player.MoveAlien(GetStartingPosition());
     }
 
     public void ChangeFloor(int floor)
@@ -104,7 +99,6 @@ public abstract class GenerateMap : MonoBehaviour
             }
         }
 
-        PlayerManager.player.Position = res.Position;
         res.Background.gameObject.SetActive(true);
         res.Obstacles.gameObject.SetActive(true);
         foreach (GameObject o in res.Objects) {

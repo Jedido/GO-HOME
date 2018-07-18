@@ -52,6 +52,11 @@ public class GeneratePlains : GenerateMap
         return 0;
     }
 
+    protected override Vector3 GetStartingPosition()
+    {
+        return new Vector3(5, 5);
+    }
+
     // For GeneratePlains, floor == 0 no matter what
     // Returns a new Floor(background, obstacles, player starting position)
     protected override Floor LoadNewFloor(int floor)
@@ -73,7 +78,7 @@ public class GeneratePlains : GenerateMap
         background.gameObject.SetActive(false);
         obstacles.gameObject.SetActive(false);
 
-        return new Floor(background, obstacles, objects.ToArray(), new Vector3(5, 5, 0));
+        return new Floor(background, obstacles, objects.ToArray());
     }
 
     // Example of a start method you could potentially make. Uncommenting this code will not impact anything.

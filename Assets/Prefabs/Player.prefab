@@ -112,7 +112,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.2}
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.25
 --- !u!58 &58791464982021864
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a59dbd486cc6742a67a92b4644828b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 10
   primary: {fileID: 1692315177278678}
   cam: {fileID: 0}
 --- !u!114 &114093964899136402
@@ -208,9 +208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ccb64a1637f71840839a0c40bd9e560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startVel: 4
-  rVel: 4
-  rAcc: 3
+  swords: []
+  power: 3
+  arc: 135
+  swingTime: 0.5
 --- !u!212 &212000012034776638
 SpriteRenderer:
   m_ObjectHideFlags: 1

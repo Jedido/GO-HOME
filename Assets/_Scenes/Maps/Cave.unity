@@ -211,11 +211,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   n: 50
-  threshold: 0.7
-  scaleY: 0.2
-  scaleX: 0.2
+  threshold: 0.6
+  scaleY: 0.1
+  scaleX: 0.1
   hole: {fileID: 1149395873612984, guid: f074700227c22a842ba955ffd378ce62, type: 2}
-  ladder: {fileID: 1365497943292242, guid: f4df844bf239ad04984516b9d95c675c, type: 2}
+  ladderUp: {fileID: 1365497943292242, guid: f4df844bf239ad04984516b9d95c675c, type: 2}
+  ladderDown: {fileID: 1529285687843410, guid: 61e6a1c166c168a4eb07c58c658c898b, type: 2}
   grid: {fileID: 1242364513}
   tMap: {fileID: 8195094281343270056, guid: a6d9e86573c67104881bea84ff18016e, type: 2}
   tMapCollide: {fileID: 8195094281704254178, guid: fbc9cddccd86b434b8d63ab7ba193905,
@@ -257,8 +258,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1422048399}
-  maxXBound: 100
-  maxYBound: 100
+  maxXBound: 0
+  maxYBound: 0
 --- !u!81 &121230690
 AudioListener:
   m_ObjectHideFlags: 0
@@ -381,31 +382,6 @@ Prefab:
       propertyPath: cam
       value: 
       objectReference: {fileID: 121230685}
-    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
-        type: 2}
-      propertyPath: power
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
-        type: 2}
-      propertyPath: swingDelay
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
-        type: 2}
-      propertyPath: arc
-      value: 135
-      objectReference: {fileID: 0}
-    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
-        type: 2}
-      propertyPath: startVel
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114790636703788236, guid: 26a4afa2d5020a645b576f43aa684551,
-        type: 2}
-      propertyPath: swingTime
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
   m_IsPrefabParent: 0

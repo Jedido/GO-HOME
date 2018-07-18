@@ -17,10 +17,11 @@ public class GenerateCave : GenerateMap
     public float scaleX;
 
     public GameObject hole;  // 1x1 portal
-    public GameObject ladder;  // go up and down levels
+    public GameObject ladderUp;  // go up levels
+    public GameObject ladderDown;  // go down levels
     public Grid grid;
     public Tilemap tMap, tMapCollide;
-    private int lastCreatedFloor;
+    private Dictionary<int, Portal> downLadders, upLadders;  // for connecting portals
     public Tile[] tiles;
     public Tile bush
     {
@@ -48,71 +49,170 @@ public class GenerateCave : GenerateMap
 
     protected override int GetStartingFloor()
     {
-        // Placeholder number, maybe
         return 3;
+    }
+
+    protected override Vector3 GetStartingPosition()
+    {
+        return new Vector3(n / 2, n / 2);
     }
 
     protected override Floor LoadNewFloor(int floor)
     {
         // Create the floor
-        bool[,] blocks = new bool[n, n];
-        bool[,] border = new bool[n, n]; // border tiles look different
+        bool[,] blocks = new bool[n + floor, n + floor];
+        bool[,] border = new bool[n + floor, n + floor]; // border tiles look different
         List<GameObject> objects = new List<GameObject>();
         Tilemap background = Instantiate(tMap);
         background.transform.parent = grid.transform;
-        Tilemap obstacles = Instantiate(tMapCollide);
-        obstacles.transform.parent = grid.transform;
+        Tilemap walls = Instantiate(tMapCollide);
+        walls.transform.parent = grid.transform;
 
-        // 3 things to do before I can finish this up:
-        // I deleted the GenerateWalls function, remake it to suit this generator (read next todo)
-        // split the border and interior blocks into the two given arrays
-        // use the int field lastCreatedLevel to determine where the player should start on the level
-        //      e.g. if the player went down, should start at the up ladder.
-        CreateMapLayout(blocks, objects);
-        GenerateBackground(background);
-        GenerateBlocks(blocks, obstacles);
+        CreateMapLayout(blocks, border, objects, floor);
+        SetTileBorder(border, walls);
+        GenerateBackground(background, n + floor, n + floor);
+        GenerateBlocks(blocks, walls);
 
-        return new Floor(background, obstacles, objects.ToArray(), new Vector3(n / 2, n / 2));
+        return new Floor(background, walls, objects.ToArray());
+    }
+
+    new protected void Start()
+    {
+        downLadders = new Dictionary<int, Portal>();
+        upLadders = new Dictionary<int, Portal>();
+        base.Start();
     }
 
     // Background
-    private void GenerateBackground(Tilemap background)
+    private void GenerateBackground(Tilemap background, int width, int height)
     {
-        for (int x = 0; x < n; x++)
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < n; y++)
+            for (int y = 0; y < height; y++)
             {
                 background.SetTile(new Vector3Int(x, y, 0), Ground);
             }
         }
     }
 
-    // Blocks
-    private void GenerateBlocks(bool[,] blocks, Tilemap obstacles)
+    private bool IsWall(bool[,] border, int x, int y)
     {
-        // Place trees
-        for (int x = 2; x < n - 1; x++)
+        return x >= border.GetLength(0) || x < 0 || y >= border.GetLength(1) || y < 0 || border[x, y];
+    }
+
+    // Borders
+    private void SetTileBorder(bool[,] border, Tilemap walls)
+    {
+        for (int x = 0; x < border.GetLength(0); x++)
         {
-            for (int y = n - 2; y >= 2; y--)
+            for (int y = 0; y < border.GetLength(1); y++)
             {
-                if (blocks[x, y] && blocks[x + 1, y] && blocks[x, y - 1] && blocks[x + 1, y - 1])
+                if (border[x, y])
                 {
-                    obstacles.SetTile(new Vector3Int(x, y - 1, 0), tree);
-                    blocks[x, y] = false;  // do not place anything here anymore
-                    blocks[x, y - 1] = false;  // do not place anything here anymore
-                    blocks[x + 1, y] = false;  // do not place anything here anymore
-                    blocks[x + 1, y - 1] = false;  // do not place anything here anymore
+                    bool u = IsWall(border, x, y + 1);
+                    bool b = IsWall(border, x, y - 1);
+                    bool l = IsWall(border, x - 1, y);
+                    bool r = IsWall(border, x + 1, y);
+                    bool ul = !IsWall(border, x - 1, y + 1);
+                    bool ur = !IsWall(border, x + 1, y + 1);
+                    bool bl = !IsWall(border, x - 1, y - 1);
+                    bool br = !IsWall(border, x + 1, y - 1);
+                    Tile place = null;
+                    if (u && b && l && r)
+                    {
+                        if (ul && ur)
+                        {
+                            place = tiles[1];
+                        }
+                        else if (bl && br)
+                        {
+                            place = tiles[7];
+                        }
+                        else if (bl && ul)
+                        {
+                            place = tiles[3];
+                        }
+                        else if (br && ur)
+                        {
+                            place = tiles[5];
+                        }
+                        else if (ul)
+                        {
+                            place = tiles[12];
+                        }
+                        else if (ur)
+                        {
+                            place = tiles[11];
+                        }
+                        else if (bl)
+                        {
+                            place = tiles[10];
+                        }
+                        else if (br)
+                        {
+                            place = tiles[9];
+                        }
+                        else
+                        {
+                            place = tiles[4];
+                        }
+                    }
+                    else if (bl && br && ur && ul)
+                    {
+                        continue;
+                    }
+                    else if (b && l && r && !bl && !br)
+                    {
+                        place = tiles[1];
+                    }
+                    else if (u && l && r && !ul && !ur)
+                    {
+                        place = tiles[7];
+                    }
+                    else if (u && b && l && !bl && !ul)
+                    {
+                        place = tiles[5];
+                    }
+                    else if (u && b && r && !br && !ur)
+                    {
+                        place = tiles[3];
+                    }
+                    else if (u && r && !ur)
+                    {
+                        place = tiles[6];
+                    }
+                    else if (u && l && !ul)
+                    {
+                        place = tiles[8];
+                    }
+                    else if (b && r && !br)
+                    {
+                        place = tiles[0];
+                    }
+                    else if (b && l && !bl)
+                    {
+                        place = tiles[2];
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    walls.SetTile(new Vector3Int(x, y, 1), place);
                 }
             }
         }
+    }
 
-        for (int x = 2; x < n - 1; x++)
+    // Blocks
+    private void GenerateBlocks(bool[,] blocks, Tilemap walls)
+    {
+        for (int x = 0; x < blocks.GetLength(0); x++)
         {
-            for (int y = 2; y < n - 1; y++)
+            for (int y = 0; y < blocks.GetLength(1); y++)
             {
                 if (blocks[x, y])
                 {
-                    obstacles.SetTile(new Vector3Int(x, y, 0), bush);
+                    walls.SetTile(new Vector3Int(x, y, 0), bush);
                     blocks[x, y] = false;
                 }
             }
@@ -121,27 +221,28 @@ public class GenerateCave : GenerateMap
 
     // Takes in 2 empty arrays size nxn each, populates them with map information
     // Returns the player's starting location
-    private void CreateMapLayout(bool[,] blocks, List<GameObject> objects)
+    private void CreateMapLayout(bool[,] blocks, bool[,] border, List<GameObject> objects, int floor)
     {
         float offsetX = Random.Range(0, 9999f);
         float offsetY = Random.Range(0, 9999f);
-
-        // calculate density from borders
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-            }
-        }
+        int n = this.n + floor;
 
         bool[,] map = ShapeGenerator(n);
+        // BorderCalculator(map, border);
 
         Debug.Log("Creating map");
+        for (int i = 0; i < n; i++)
+        {
+            border[i, 0] = true;
+            border[0, i] = true;
+            border[i, n - 1] = true;
+            border[n - 1, i] = true;
+        }
 
         // create map via perlin noise
-        for (int x = 2; x < n - 2; x++)
+        for (int x = 1; x < n - 1; x++)
         {
-            for (int y = 2; y < n - 2; y++)
+            for (int y = 1; y < n - 1; y++)
             {
                 // This is where the player starts
                 if (x < n / 2 + 5 && x > n / 2 - 5 && y > n / 2 - 5 && y < n / 2 + 5) continue;
@@ -150,7 +251,7 @@ public class GenerateCave : GenerateMap
                 {
                     // make walls with blocks
                     // make these things actual walls later
-                    blocks[x, y] = true;
+                    border[x, y] = true;
                     continue;
                 }
 
@@ -161,37 +262,56 @@ public class GenerateCave : GenerateMap
 
                     float sample = Mathf.PerlinNoise(xCoord, yCoord);
 
-                    bool res = sample > threshold;
-                    blocks[x, y] = res;
+                    if (sample > threshold)
+                    {
+                        border[x, y] = true;
+                        border[x + 1, y] = true;
+                        border[x - 1, y] = true;
+                        border[x, y + 1] = true;
+                        border[x, y - 1] = true;
+                    }
                 }
 
             }
         }
 
         Debug.Log("Creating descensions");
-        // Create a descension hole and a descension exit
-        GameObject down = DescensionGenerator(blocks);
-        down.GetComponent<Ladder>().SetDirection(-1);
-        objects.Add(down);
-        GameObject up = DescensionGenerator(blocks);
-        down.GetComponent<Ladder>().SetDirection(1);
-        objects.Add(up);
-        // Debug.Log("curlevel " + curLevel);
 
+        // Create a descension hole and a descension exit
+        GameObject down = Instantiate(ladderDown, LadderPositionFinder(border), Quaternion.identity);
+        objects.Add(down);
+        Portal downScript = down.GetComponent<Portal>();
+        downScript.SetFloor(-1);
+        downLadders.Add(floor, downScript);
+        Portal res;
+        if (upLadders.TryGetValue(floor - 1, out res))
+        {
+            Portal.SetPair(downScript, res);
+        }
+
+        GameObject up = Instantiate(ladderUp, LadderPositionFinder(border), Quaternion.identity);
+        objects.Add(up);
+        Portal upScript = up.GetComponent<Portal>();
+        upScript.SetFloor(1);
+        upLadders.Add(floor, upScript);
+        if (downLadders.TryGetValue(floor + 1, out res))
+        {
+            Portal.SetPair(upScript, res);
+        }
 
         Debug.Log("Finished descensions");
 
         // ensure all areas are accessible
         bool[,] reachable = new bool[n, n];
-        Percolate(n / 2, n / 2, reachable, blocks);  // spawn location
-        for (int x = 2; x < n - 2; x++)
+        Percolate(n / 2, n / 2, reachable, border);  // spawn location
+        for (int x = 0; x < n; x++)
         {
-            for (int y = 2; y < n - 2; y++)
+            for (int y = 0; y < n; y++)
             {
-                if (!reachable[x, y] && !blocks[x, y])
+                if (!reachable[x, y] && !border[x, y])
                 {
                     // Check if size is large enough
-                    bool sizeable = IsSizeable(x, y, blocks);
+                    bool sizeable = IsSizeable(x, y, border);
 
                     // create a rabbit hole somewhere (portal)
                     if (sizeable)
@@ -202,13 +322,57 @@ public class GenerateCave : GenerateMap
                             i = (int)(Random.value * (n - 1));
                             j = (int)(Random.value * (n - 1));
                         } while (!reachable[i, j]
-                            || (i < 15 && j < 15)
+                            || (x < n / 2 + 5 && x > n / 2 - 5 && y > n / 2 - 5 && y < n / 2 + 5)
                             || !(i > 2 && j > 2 && i < n - 3 && j < n - 3));
                         GameObject hole1 = Instantiate(hole, new Vector3(i + 0.5f, j + 0.5f), Quaternion.identity);
                         GameObject hole2 = Instantiate(hole, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
                         Portal.SetPair(hole1.GetComponent<Portal>(), hole2.GetComponent<Portal>());
-                        Percolate(x, y, reachable, blocks);
+                        objects.Add(hole1);
+                        objects.Add(hole2);
+                        Percolate(x, y, reachable, border);
                     }
+                }
+            }
+        }
+    }
+
+    // calculate the border of the map based on the map
+    private void BorderCalculator(bool[,] map, bool[,] border)
+    {
+        for (int i = 1; i < n - 1; i++)
+        {
+            bool one = true;
+            bool two = true;
+            bool three = true;
+            bool four = true;
+            for (int j = 1; j < n - 1; j++)
+            {
+                // checking vertically first
+                int a1 = n - 1 - j;
+                if (one && map[i, j])
+                {
+                    border[i, j - 1] = true;
+                    one = false;
+                }
+                if (two && map[i, a1])
+                {
+                    border[i, a1 + 1] = true;
+                    two = false;
+                }
+                // transform into horizontal
+                if (three && map[j, i])
+                {
+                    border[j - 1, i] = true;
+                    three = false;
+                }
+                if (four && map[a1, i])
+                {
+                    border[a1 + 1, i] = true;
+                    four = false;
+                }
+                if (!(one || two || three || four))
+                {
+                    break;
                 }
             }
         }
@@ -216,14 +380,14 @@ public class GenerateCave : GenerateMap
 
     // Return a gameobject of a random location.
     // Return null if extremely unlucky or no spaces possible
-    private GameObject DescensionGenerator(bool[,] blocks)
+    private Vector3 LadderPositionFinder(bool[,] blocks)
     {
         int times = 10000; // to avoid infinite loop for debugging purposes
         int i = 0;
         while (i < times)
         {
-            int x = Random.Range(2, n - 2);
-            int y = Random.Range(2, n - 2);
+            int x = Random.Range(1, blocks.GetLength(0) - 1);
+            int y = Random.Range(1, blocks.GetLength(1) - 1);
             if (!blocks[x, y])
             {
                 Debug.Log("found empty place");
@@ -231,12 +395,12 @@ public class GenerateCave : GenerateMap
                 if (sizeable)
                 {
                     Debug.Log("returning");
-                    return Instantiate(ladder, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
+                    return new Vector3(x + 0.5f, y + 0.5f);
                 }
             }
             i++;
         }
-        return null;
+        return new Vector3(0, 0);
     }
 
     // Put n to be at least 30 please

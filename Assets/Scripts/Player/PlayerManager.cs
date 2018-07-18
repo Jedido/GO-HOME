@@ -52,7 +52,7 @@ public class PlayerManager : MonoBehaviour {
     public int Level
     {
         get { return level; }
-        set { level = value;  currentMap.ChangeFloor(level); }
+        set { if (level != value) { level = value; currentMap.ChangeFloor(level); } }
     }
 
     // Player stats

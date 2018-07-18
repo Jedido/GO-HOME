@@ -11,12 +11,20 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Camera camera = GetComponent<Camera>();
-        float horzExtent = camera.orthographicSize * Screen.width / Screen.height;
-        maxXBound -= horzExtent;
-        minXBound = horzExtent;
-        float vertExtent = camera.orthographicSize;
-        maxYBound -= vertExtent;
-        minYBound = vertExtent;
+        if (maxXBound == 0)
+        {
+            // pretty much no border
+            minXBound = minYBound = -10000;
+            maxXBound = maxYBound = 10000;
+        } else
+        {
+            float horzExtent = camera.orthographicSize * Screen.width / Screen.height;
+            maxXBound -= horzExtent;
+            minXBound = horzExtent;
+            float vertExtent = camera.orthographicSize;
+            maxYBound -= vertExtent;
+            minYBound = vertExtent;
+        }
     }
 
     // Update is called once per frame

@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 
 public class Ladder : MonoBehaviour, Interactable {
-    private int direction;
+    private int floor;
+    private Vector3 position;
 
     // Changes the floor based on direction
-    public void SetDirection(int direction)
+    public void SetLadder(int floor, Vector3 position)
     {
-        this.direction = direction;
+        this.floor = floor;
+        this.position = position;
     }
 
     public void Interact()
     {
-        PlayerManager.player.Level += direction;
-        Debug.Log(PlayerManager.player.Level);
+        PlayerManager.player.Level = floor;
+        PlayerManager.player.MoveAlien(position);
     }
 }

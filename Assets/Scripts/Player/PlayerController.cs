@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour {
         if (fire2 && interactable != null)
         {
             interactable.Interact();
+            interactable = null;
         }
 
         // Set direction
