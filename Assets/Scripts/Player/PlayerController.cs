@@ -141,9 +141,26 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Pressure Plate"))
+        {
+            collision.gameObject.GetComponent<Interactable>().Interact();
+        } else if (collision.gameObject.tag.Equals("Enemy"))
+        {
+            int damage = PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.DEFENSE) 
+                - collision.gameObject.GetComponent<Enemy>().ATK;
+            damage = damage < 1 ? 1 : damage;
+            PlayerManager.player.SetHealth(PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.HP) 
+                - damage);
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Interactable"))
+        if (interactable != null
+            && collision.tag.Equals("Interactable") 
+            && interactable.Equals(collision.gameObject.GetComponent<Interactable>()))
         {
             interactable = null;
         }

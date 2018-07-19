@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 // All the generators might be refactored under one superclass 
 public class GenerateCave : GenerateMap
 {
+    public static readonly int STARTING_FLOOR = 3;
+
     // width and height of map 
     public int n;
 
@@ -49,7 +51,7 @@ public class GenerateCave : GenerateMap
 
     protected override int GetStartingFloor()
     {
-        return 3;
+        return STARTING_FLOOR;
     }
 
     protected override Vector3 GetStartingPosition()

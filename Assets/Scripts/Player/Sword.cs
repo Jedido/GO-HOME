@@ -5,16 +5,18 @@ using UnityEngine;
 
 // Design choice: make an "omniscript" for sword
 public class Sword : Weapon {
-    // There are 9 shops (9 upgrade spots)
-    // General upgrades [rank 1-10]:
-    //      Damage [1, 3, 6, 10, 15, 21, 28, 36, 45, 55]
-    //      Speed (swingTime) [0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25]
-    //      Arc size [135, 144, 153, 162, 171, 180, 189, 198, 207, 216, 225]
+    // There are 9 shops (9 upgrade spots), every other one will unlock an upgrade:
+    //              shops 1, 3, 5, 7, 9
+    // General upgrades [rank F-S]:
+    //      Damage [1, 2, 3, 5, 8, 20] + Arc length [140, 150, 160, 170, 180, 225]
+    //      Speed (swing time) [0.5, 0.45, 0.4, 0.35, 0.3, 0.2]
+    //      Critical chance [10%, 20%, 30%, 40%, 50%, 80%]
+    //      Critical: double sword speed and damage
     // 1-time powerups (when sword sprite changes):
-    //      all rank 2: autoswing
-    //      all rank 3: walk while swinging
-    //      all rank 5: directional swing
-    //      all rank 8: projectile (damage)
+    //      all rank D: walk while swinging
+    //      all rank C: autoswing
+    //      all rank B: directional swing
+    //      all rank A: projectile
     private float rotation, startDegree, rVel;
     public Sprite[] swords;  // sword images
     public int power;

@@ -74,21 +74,14 @@ public class GeneratePlains : GenerateMap
         SetTileBackground(density, background);
         SetTileBlocks(blocks, obstacles);
 
-        // Hide the tilemaps
-        background.gameObject.SetActive(false);
-        obstacles.gameObject.SetActive(false);
-
         return new Floor(background, obstacles, objects.ToArray());
     }
 
-    // Example of a start method you could potentially make. Uncommenting this code will not impact anything.
-    /*
     new protected void Start()
     {
         AddFloor(0, LoadNewFloor(0));
         base.Start();
     }
-    */
 
     // Place a tree down (bottom left corner)
     private void TreeBlock(int x, int y, bool[,] blocks, Tilemap obstacles)

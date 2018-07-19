@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swords: []
-  power: 3
+  power: 1
   arc: 135
   swingTime: 0.5
 --- !u!212 &212000012034776638

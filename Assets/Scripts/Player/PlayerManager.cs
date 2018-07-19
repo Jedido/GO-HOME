@@ -56,12 +56,9 @@ public class PlayerManager : MonoBehaviour {
     }
 
     // Player stats
-    private int[] stats;
-    public enum Stats { TOOLKIT_SIZE, MAX_HP, HP, MS, HP_REGEN, DEFENSE, Count };
-
-    // Getters for the stats
-    public int gold { get { return 0; } }
-    public int maxHP { get { return stats[(int)Stats.MAX_HP]; } }
+    private int[] playerStats;
+    // regen per 10 seconds
+    public enum PlayerStats { TOOLKIT_SIZE, MAX_HP, HP, MS, HP_REGEN, DEFENSE, Count };
 
     void Awake()
     {
@@ -141,7 +138,12 @@ public class PlayerManager : MonoBehaviour {
 
     // Stats
     public int GetPlayerStat(int stat) {
-        return stats[stat];
+        return playerStats[stat];
+    }
+
+    public void SetHealth(int amount)
+    {
+        playerStats[(int)PlayerStats.HP] = amount;
     }
 
     public void UpgradeStat(int stat)
@@ -162,7 +164,7 @@ public class PlayerManager : MonoBehaviour {
 
         curQuests = new List<Quest>();
         
-        stats = new int[(int)Stats.Count];
+        playerStats = new int[(int)PlayerStats.Count];
     }
 
     public void SaveCharacter(int slot)
