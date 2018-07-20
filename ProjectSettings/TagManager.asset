@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Interactable
+  - Pressure Plate
+  - Player Hitbox
   layers:
   - Default
   - TransparentFX

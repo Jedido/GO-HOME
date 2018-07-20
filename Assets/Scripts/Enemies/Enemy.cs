@@ -31,7 +31,7 @@ public abstract class Enemy : MonoBehaviour {
     private Rigidbody2D rb2d;
 
     public abstract int GetID();
-    public enum EnemyID { Slime, };
+    public enum EnemyID { Slime, Spike, };
     protected abstract int GetATK();
     protected abstract int GetHP();
     protected abstract float GetMS();
@@ -80,6 +80,14 @@ public abstract class Enemy : MonoBehaviour {
             // Get knocked back
             knockbackDir += new Vector3(PlayerManager.player.Position.x - transform.position.x,
                 PlayerManager.player.Position.y - transform.position.y).normalized * -Weight;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag.Equals("Player Hitbox"))
+        {
+            collision.GetComponent<PlayerController>().Hit(ATK, false);
         }
     }
 }

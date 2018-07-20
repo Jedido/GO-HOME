@@ -132,27 +132,43 @@ public class PlayerController : MonoBehaviour {
         PlayerManager.player.Position = transform.position;
     }
 
+
+    public void Hit(int damage, bool trueDamage)
+    {
+        if (!trueDamage)
+        {
+            damage -= PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.DEFENSE);
+            damage = damage < 1 ? 1 : damage;
+        }
+        PlayerManager.player.SetHealth(PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.HP)
+            - damage);
+
+        // TODO: set invincibility frames
+    }
+
     // TODO: implement for if player is on multiple things (which to choose?)
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Pressure Plate"))
+        {
+            Debug.Log("On spikes");
+            collision.gameObject.GetComponent<Interactable>().Interact();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Pressure Plate"))
+        {
+            collision.gameObject.GetComponent<Spike>().Reset();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("Interactable"))
         {
             interactable = collision.gameObject.GetComponent<Interactable>();
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Pressure Plate"))
-        {
-            collision.gameObject.GetComponent<Interactable>().Interact();
-        } else if (collision.gameObject.tag.Equals("Enemy"))
-        {
-            int damage = PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.DEFENSE) 
-                - collision.gameObject.GetComponent<Enemy>().ATK;
-            damage = damage < 1 ? 1 : damage;
-            PlayerManager.player.SetHealth(PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.HP) 
-                - damage);
         }
     }
 

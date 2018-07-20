@@ -21,11 +21,10 @@ GameObject:
   - component: {fileID: 4000013812807608}
   - component: {fileID: 212000012034776638}
   - component: {fileID: 50000014088463646}
-  - component: {fileID: 58000014016720068}
   - component: {fileID: 114000010981369140}
-  - component: {fileID: 58791464982021864}
   - component: {fileID: 95109268444666772}
   - component: {fileID: 114093964899136402}
+  - component: {fileID: 70322397999303834}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -98,36 +97,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &58000014016720068
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011820887426}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.2}
-  serializedVersion: 2
-  m_Radius: 0.25
---- !u!58 &58791464982021864
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011820887426}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!61 &61592324118385496
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -153,6 +122,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.15, y: 1}
   m_EdgeRadius: 0
+--- !u!70 &70322397999303834
+CapsuleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011820887426}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.35}
+  m_Size: {x: 0.7, y: 0.3}
+  m_Direction: 1
 --- !u!95 &95109268444666772
 Animator:
   serializedVersion: 3
