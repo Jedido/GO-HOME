@@ -36,7 +36,6 @@ public class PlayerController : MonoBehaviour {
         if (fire2 && interactable != null)
         {
             interactable.Interact();
-            interactable = null;
         }
 
         // Set direction
@@ -144,24 +143,6 @@ public class PlayerController : MonoBehaviour {
             - damage);
 
         // TODO: set invincibility frames
-    }
-
-    // TODO: implement for if player is on multiple things (which to choose?)
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Pressure Plate"))
-        {
-            Debug.Log("On spikes");
-            collision.gameObject.GetComponent<Interactable>().Interact();
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Pressure Plate"))
-        {
-            collision.gameObject.GetComponent<Spike>().Reset();
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

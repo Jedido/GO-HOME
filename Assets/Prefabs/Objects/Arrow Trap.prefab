@@ -9,71 +9,92 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1529285687843410}
+  m_RootGameObject: {fileID: 1849100607855356}
   m_IsPrefabParent: 1
---- !u!1 &1529285687843410
+--- !u!1 &1849100607855356
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4174784830361658}
-  - component: {fileID: 212142264890399322}
-  - component: {fileID: 58391377371288414}
-  - component: {fileID: 114694853012124536}
-  m_Layer: 0
-  m_Name: Ladder_Down
-  m_TagString: Interactable
+  - component: {fileID: 4454182661810298}
+  - component: {fileID: 212051338487186996}
+  - component: {fileID: 95220896341101876}
+  - component: {fileID: 58371196184489570}
+  - component: {fileID: 114805088859326176}
+  m_Layer: 2
+  m_Name: Arrow Trap
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4174784830361658
+--- !u!4 &4454182661810298
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1529285687843410}
+  m_GameObject: {fileID: 1849100607855356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 27, y: 27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &58391377371288414
+--- !u!58 &58371196184489570
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1529285687843410}
+  m_GameObject: {fileID: 1849100607855356}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &114694853012124536
+--- !u!95 &95220896341101876
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1849100607855356}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 469de439ab3eaf74bb53b3c7489f4dfd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114805088859326176
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1529285687843410}
+  m_GameObject: {fileID: 1849100607855356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a61aa23007e1aa64cb6830f688cc5238, type: 3}
+  m_Script: {fileID: 11500000, guid: f49fcd326ef05114ea42533c8edb3409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &212142264890399322
+  arrow: {fileID: 1092209576068402, guid: 4245d5650511438438e6cd5ef9e4e3c9, type: 2}
+  direction: 3
+--- !u!212 &212051338487186996
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1529285687843410}
+  m_GameObject: {fileID: 1849100607855356}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -103,12 +124,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 66501244e5807e042bba69962616f1e0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fd4e6b46e6730864ea3d92c973404023, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.2, y: 0.2}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

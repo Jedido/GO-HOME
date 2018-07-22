@@ -70,6 +70,7 @@ public class PlayerManager : MonoBehaviour {
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
+        InitCharacter();
     }
 
     // In Map functions (mainly for interactables)

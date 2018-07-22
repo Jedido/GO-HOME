@@ -21,4 +21,9 @@ public class Portal : MonoBehaviour, Interactable {
         PlayerManager.player.Level += floor;
         PlayerManager.player.MoveAlien(position);
     }
+
+    public void Reset()
+    {
+        
+    }
 }
