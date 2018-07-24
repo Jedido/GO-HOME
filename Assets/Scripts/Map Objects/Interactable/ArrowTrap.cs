@@ -11,21 +11,30 @@ public class ArrowTrap : MonoBehaviour, Interactable {
         animator = GetComponent<Animator>();
         gameObject.AddComponent<Tripwire>().SetAngle(direction);
         a = Instantiate(arrow, transform.position, Quaternion.identity).GetComponent<Projectile>();
+        SetDirection(direction);
     }
 
     // TODO: make this the universal ArrowTrap
     public void SetDirection(int dir)
     {
-
+        Quaternion orient = Quaternion.AngleAxis(dir * 90, Vector3.forward);
+        transform.rotation = orient;
+        a.gameObject.transform.rotation = orient;
     }
 
     public void Interact()
     {
         if (a != null)
         {
-            animator.SetTrigger("Shoot");
-            a.Velocity = new Vector2(0, -10);
+            switch (direction)
+            {
+                case 0: a.Velocity = new Vector2(0, -20); break;
+                case 1: a.Velocity = new Vector2(20, 0); break;
+                case 2: a.Velocity = new Vector2(0, 20);  break;
+                case 3: a.Velocity = new Vector2(-20, 0); break;
+            }
             a = null;
+            animator.SetTrigger("Shoot");
         }
     }
 

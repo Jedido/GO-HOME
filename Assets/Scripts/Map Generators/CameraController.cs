@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
-    public GameObject player;
     public float maxXBound, maxYBound;
     private float minXBound, minYBound;
     private float damp = 1f;
@@ -29,8 +28,8 @@ public class CameraController : MonoBehaviour {
 
     // Update is called once per frame
     void LateUpdate () {
-        float px = player.transform.position.x;
-        float py = player.transform.position.y;
+        float px = PlayerManager.player.alien.transform.position.x;
+        float py = PlayerManager.player.alien.transform.position.y;
         if (px < minXBound)
         {
             px = minXBound;

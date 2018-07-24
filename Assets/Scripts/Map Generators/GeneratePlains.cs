@@ -79,8 +79,8 @@ public class GeneratePlains : GenerateMap
 
     new protected void Start()
     {
-        AddFloor(0, LoadNewFloor(0));
         base.Start();
+        AddFloor(0, LoadNewFloor(0));
     }
 
     // Place a tree down (bottom left corner)
@@ -315,9 +315,9 @@ public class GeneratePlains : GenerateMap
     private void SetTileBlocks(bool[,] blocks, Tilemap obstacles)
     {
         // Place trees
-        for (int x = 2; x < n - 1; x++)
+        for (int x = 2; x < n - 3; x++)
         {
-            for (int y = n - 2; y >= 2; y--)
+            for (int y = n - 3; y >= 2; y--)
             {
                 if (blocks[x, y] && blocks[x + 1, y] && blocks[x, y - 1] && blocks[x + 1, y - 1])
                 {
@@ -330,9 +330,9 @@ public class GeneratePlains : GenerateMap
             }
         }
 
-        for (int x = 2; x < n - 1; x++)
+        for (int x = 2; x < n - 2; x++)
         {
-            for (int y = 2; y < n - 1; y++)
+            for (int y = 2; y < n - 2; y++)
             {
                 if (blocks[x, y])
                 {

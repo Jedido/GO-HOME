@@ -10,20 +10,18 @@ public class PlayerController : MonoBehaviour {
     private enum Direction { UP, LEFT, DOWN, RIGHT, NONE };
 
     // Attack
-    // TODO: make primary swappable 
-    // TODO: make secondary
-    public GameObject primary;
-    private Weapon weapon1;
-    private bool attacking;
+    // public GameObject primary;
+    // private Weapon weapon1;
+    private bool moving;
 
     // Camera
-    public Camera cam;
+    // public Camera cam;
 
 	void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         PlayerManager.player.alien = gameObject;
-        weapon1 = primary.GetComponent<Weapon>();
+        // weapon1 = primary.GetComponent<Weapon>();
     }
 
     // Update is called once per frame
@@ -39,30 +37,30 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Set direction
-        if (!attacking)
+        moving = true;
+        if (horizontal > 0)
         {
-            if (horizontal > 0)
-            {
-                direction = (int)Direction.RIGHT;
-            }
-            else if (horizontal < 0)
-            {
-                direction = (int)Direction.LEFT;
-            }
-            else if (vertical > 0)
-            {
-                direction = (int)Direction.UP;
-            }
-            else if (vertical < 0)
-            {
-                direction = (int)Direction.DOWN;
-            }
-            else
-            {
-                direction = (int)Direction.NONE;
-            }
+            direction = (int)Direction.RIGHT;
+        }
+        else if (horizontal < 0)
+        {
+            direction = (int)Direction.LEFT;
+        }
+        else if (vertical > 0)
+        {
+            direction = (int)Direction.UP;
+        }
+        else if (vertical < 0)
+        {
+            direction = (int)Direction.DOWN;
+        }
+        else
+        {
+            direction = (int)Direction.NONE;
+            moving = false;
         }
 
+        // Change speed if going diagonally
         float ms = speed;
         if (horizontal != 0 && vertical != 0)
         {
@@ -70,6 +68,7 @@ public class PlayerController : MonoBehaviour {
             ms *= Mathf.Sqrt(2) / 2f;
         }
 
+        /*
         if (fire1 && !attacking)
         {
             Vector3 triangle = Input.mousePosition - cam.WorldToScreenPoint(transform.position);
@@ -110,6 +109,7 @@ public class PlayerController : MonoBehaviour {
         {
             attacking = false;
         }
+        */
 
         rb2d.velocity = new Vector2(horizontal * ms, vertical * ms);
     }
@@ -117,20 +117,17 @@ public class PlayerController : MonoBehaviour {
     // Set animations
     private void LateUpdate()
     {
-        if (direction != (int)Direction.NONE && !attacking)
+        if (direction != (int)Direction.NONE)
         {
             animator.SetInteger("Direction", direction);
-        } else
-        {
-            animator.SetBool("Moving", false);
         }
+        animator.SetBool("Moving", moving);
 
-        animator.SetBool("Attacking", attacking);
+        // animator.SetBool("Attacking", attacking);
 
         // TODO: update PlayerManager
         PlayerManager.player.Position = transform.position;
     }
-
 
     public void Hit(int damage, bool trueDamage)
     {
@@ -148,6 +145,14 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("Interactable"))
+        {
+            interactable = collision.gameObject.GetComponent<Interactable>();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (interactable == null && collision.tag.Equals("Interactable"))
         {
             interactable = collision.gameObject.GetComponent<Interactable>();
         }
