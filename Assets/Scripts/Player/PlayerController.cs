@@ -38,21 +38,21 @@ public class PlayerController : MonoBehaviour {
 
         // Set direction
         moving = true;
-        if (horizontal > 0)
-        {
-            direction = (int)Direction.RIGHT;
-        }
-        else if (horizontal < 0)
-        {
-            direction = (int)Direction.LEFT;
-        }
-        else if (vertical > 0)
+        if (vertical > 0)
         {
             direction = (int)Direction.UP;
         }
         else if (vertical < 0)
         {
             direction = (int)Direction.DOWN;
+        }
+        else if (horizontal > 0)
+        {
+            direction = (int)Direction.RIGHT;
+        }
+        else if (horizontal < 0)
+        {
+            direction = (int)Direction.LEFT;
         }
         else
         {
