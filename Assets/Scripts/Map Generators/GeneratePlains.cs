@@ -69,8 +69,10 @@ public class GeneratePlains : GenerateMap
         background.transform.parent = grid.transform;
         Tilemap obstacles = Instantiate(tMapCollide);
         obstacles.transform.parent = grid.transform;
-        SetTileWalls(blocks, obstacles);
         CreateMapLayout(blocks, density, objects);
+        AddPresets(blocks, objects);
+        CalculateDensity(blocks, density);
+        SetTileWalls(blocks, obstacles);
         SetTileBackground(density, background);
         SetTileBlocks(blocks, obstacles);
 
@@ -144,24 +146,6 @@ public class GeneratePlains : GenerateMap
 
                 bool res = sample > threshold;
                 blocks[x, y] = res;
-                if (res)
-                {
-                    // increment all spaces within 2 of (x, y)
-                    for (int i = x - 1; i <= x + 1; i++)
-                    {
-                        for (int j = y - 1; j <= y + 1; j++)
-                        {
-                            if (i > 0 && i < n && j > 0 && j < n)
-                            {
-                                density[i, j]++;
-                            }
-                        }
-                    }
-                    density[x - 2, y]++;
-                    density[x, y - 2]++;
-                    density[x + 2, y]++;
-                    density[x, y + 2]++;
-                }
             }
         }
 
@@ -189,13 +173,51 @@ public class GeneratePlains : GenerateMap
                             || !reachable[i, j]
                             || (i < 15 && j < 15)
                             || !(i > 2 && j > 2 && i < n - 3 && j < n - 3));
-                        GameObject hole1 = Instantiate(hole, new Vector3(i + 0.5f, j + 0.5f), Quaternion.identity);
-                        GameObject hole2 = Instantiate(hole, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
+                        GameObject hole1 = Instantiate(hole, new Vector3(i, j), Quaternion.identity);
+                        GameObject hole2 = Instantiate(hole, new Vector3(x, y), Quaternion.identity);
                         Portal.SetPair(hole1.GetComponent<Portal>(), hole2.GetComponent<Portal>());
                         objects.Add(hole1);
                         objects.Add(hole2);
                         Percolate(x, y, reachable, blocks);
                     }
+                }
+            }
+        }
+    }
+
+    // Puzzles
+    private void AddPresets(bool[,] blocks, List<GameObject> objects)
+    {
+        // TODO: add presets and put them in here
+        // Generate4x4Test test = new Generate4x4Test();
+        // test.GeneratePreset(20, 20, blocks, objects);
+        new ShopPreset().GeneratePreset(3, 5, blocks, objects);
+    }
+
+    // Density
+    private void CalculateDensity(bool[,] blocks, int[,] density)
+    {
+        for (int x = 0; x < n; x++)
+        {
+            for (int y = 0; y < n; y++)
+            {
+                if (blocks[x, y])
+                {
+                    // increment all spaces within 2 of (x, y)
+                    for (int i = x - 1; i <= x + 1; i++)
+                    {
+                        for (int j = y - 1; j <= y + 1; j++)
+                        {
+                            if (i > 0 && i < n && j > 0 && j < n)
+                            {
+                                density[i, j]++;
+                            }
+                        }
+                    }
+                    density[x - 2, y]++;
+                    density[x, y - 2]++;
+                    density[x + 2, y]++;
+                    density[x, y + 2]++;
                 }
             }
         }
@@ -342,6 +364,5 @@ public class GeneratePlains : GenerateMap
             }
         }
     }
-
 
 }

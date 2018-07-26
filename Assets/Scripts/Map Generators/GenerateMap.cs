@@ -137,7 +137,6 @@ public abstract class GenerateMap : MonoBehaviour
         return false;
     }
 
-
     // prereq: IsSizeable(i, j, blocks) == true
     protected void Percolate(int i, int j, bool[,] reachable, bool[,] blocks)
     {

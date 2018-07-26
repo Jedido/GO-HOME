@@ -1,27 +1,7 @@
 fileFormatVersion: 2
-guid: fd4e6b46e6730864ea3d92c973404023
+guid: 66501244e5807e042bba69962616f1e0
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: arrow_trap_0
-    21300002: arrow_trap_1
-    21300004: arrow_trap_2
-    21300006: arrow_trap_3
-    21300008: arrow_trap_4
-    21300010: arrow_trap_5
-    21300012: arrow_trap_6
-    21300014: arrow_trap_7
-    21300016: arrow_trap_8
-    21300018: arrow_trap_9
-    21300020: arrow_trap_10
-    21300022: arrow_trap_11
-    21300024: arrow_trap_12
-    21300026: arrow_trap_13
-    21300028: arrow_trap_14
-    21300030: arrow_trap_15
-    21300032: arrow_trap_16
-    21300034: arrow_trap_17
-    21300036: arrow_trap_18
-    21300038: arrow_trap_19
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -58,11 +38,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 6
+  spritePivot: {x: 0, y: 0}
   spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -100,51 +80,11 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: arrow_trap_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 20
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 33c564fc8c1ff1e449320b434ee0284e
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: arrow_trap_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cab7a355b7561e940a2e7b2a1566ac4f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 68a8fb4cbdcabc849877d43910193e39
+    spriteID: d8d74bdba0f589547954ff7b3c1de190
     vertices: []
     indices: 
     edges: []

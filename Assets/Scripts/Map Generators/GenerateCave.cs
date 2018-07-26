@@ -232,7 +232,7 @@ public class GenerateCave : GenerateMap
         bool[,] map = ShapeGenerator(n);
         // BorderCalculator(map, border);
 
-        Debug.Log("Creating map");
+        // Debug.Log("Creating map");
         for (int i = 0; i < n; i++)
         {
             border[i, 0] = true;
@@ -277,7 +277,7 @@ public class GenerateCave : GenerateMap
             }
         }
 
-        Debug.Log("Creating descensions");
+        // Debug.Log("Creating descensions");
 
         // Create a descension hole and a descension exit
         GameObject down = Instantiate(ladderDown, LadderPositionFinder(border), Quaternion.identity);
@@ -301,7 +301,7 @@ public class GenerateCave : GenerateMap
             Portal.SetPair(upScript, res);
         }
 
-        Debug.Log("Finished descensions");
+        // Debug.Log("Finished descensions");
 
         // ensure all areas are accessible
         bool[,] reachable = new bool[n, n];
@@ -392,11 +392,11 @@ public class GenerateCave : GenerateMap
             int y = Random.Range(1, blocks.GetLength(1) - 1);
             if (!blocks[x, y])
             {
-                Debug.Log("found empty place");
+                // Debug.Log("found empty place");
                 bool sizeable = IsSizeable(x, y, blocks);
                 if (sizeable)
                 {
-                    Debug.Log("returning");
+                    // Debug.Log("returning");
                     return new Vector3(x + 0.5f, y + 0.5f);
                 }
             }
@@ -485,7 +485,7 @@ public class GenerateCave : GenerateMap
             // Limit the toal area so nothing too wild happens
             int Xrange = Mathf.Min(Random.Range(minCut, maxCut), singleUpperBound / Yrange, Xdiff);
 
-            Debug.Log("Xrange: " + Xrange + ", Yrange: " + Yrange);
+            // Debug.Log("Xrange: " + Xrange + ", Yrange: " + Yrange);
 
             // This will make it to avoid cutting a peninsula I think
             if ((!Ycave && Yrange == Ydiff) || (!Xcave && Xrange == Xdiff))

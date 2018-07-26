@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     // Scene Types
     public const int MENU = 0;
-    // public const int HOME = 1;
+    public const int HOME = 1;
     public const int MAPSELECT = 2;
     public const int SHOP = 3;
     public const int LEVEL = 4;
