@@ -4,11 +4,6 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public abstract class Preset {
-    // Naming convention:
-    // [type][size/Irregular][facing/Open][version]
-    // e.g. Push6x6Open2, Path8x3Down0, MathIrregularOpen1
-    // note that this is definitely going to change and won't be used as of now
-    // feel free to return nothing
     protected abstract bool[,] GetMap();
 
     protected abstract void GenerateObjects(int x, int y, List<GameObject> objects);

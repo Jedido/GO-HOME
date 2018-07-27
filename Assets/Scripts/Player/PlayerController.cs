@@ -26,92 +26,54 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        bool fire1 = Input.GetMouseButtonDown(0);
-        bool fire2 = Input.GetMouseButtonDown(1);
+        // Check if in pause
+        if (PlayerManager.player.CanMove())
+        {
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            bool fire1 = Input.GetMouseButtonDown(0);
+            bool fire2 = Input.GetMouseButtonDown(1);
 
-        if (fire2 && interactable != null)
-        {
-            interactable.Interact();
-        }
-
-        // Set direction
-        moving = true;
-        if (vertical > 0)
-        {
-            direction = (int)Direction.UP;
-        }
-        else if (vertical < 0)
-        {
-            direction = (int)Direction.DOWN;
-        }
-        else if (horizontal > 0)
-        {
-            direction = (int)Direction.RIGHT;
-        }
-        else if (horizontal < 0)
-        {
-            direction = (int)Direction.LEFT;
-        }
-        else
-        {
-            direction = (int)Direction.NONE;
-            moving = false;
-        }
-
-        // Change speed if going diagonally
-        float ms = speed;
-        if (horizontal != 0 && vertical != 0)
-        {
-            // Moving diagonally
-            ms *= Mathf.Sqrt(2) / 2f;
-        }
-
-        /*
-        if (fire1 && !attacking)
-        {
-            Vector3 triangle = Input.mousePosition - cam.WorldToScreenPoint(transform.position);
-            float angle = (Mathf.Atan(triangle.y / triangle.x) * 180 / Mathf.PI + 360) % 360;
-            if (triangle.x < 0)
+            if (fire2 && interactable != null)
             {
-                angle += 180;
-                angle %= 360;
+                interactable.Interact();
             }
 
-            // Attacking direction
-            // TODO: calculate these based on the screen res (since the screen isn't square)
-            if (angle < 45)
-            {
-                direction = (int)Direction.RIGHT;
-            }
-            else if (angle < 135)
+            // Set direction
+            moving = true;
+            if (vertical > 0)
             {
                 direction = (int)Direction.UP;
             }
-            else if (angle < 225)
-            {
-                direction = (int)Direction.LEFT;
-            }
-            else if (angle < 315)
+            else if (vertical < 0)
             {
                 direction = (int)Direction.DOWN;
             }
-            else
+            else if (horizontal > 0)
             {
                 direction = (int)Direction.RIGHT;
             }
+            else if (horizontal < 0)
+            {
+                direction = (int)Direction.LEFT;
+            }
+            else
+            {
+                direction = (int)Direction.NONE;
+                moving = false;
+            }
 
-            animator.SetInteger("Direction", direction);
-            attacking = true;
-            weapon1.Attack(angle - 90);
-        } else if (!weapon1.Active)
-        {
-            attacking = false;
+            // Change speed if going diagonally
+            float ms = speed;
+            if (horizontal != 0 && vertical != 0)
+            {
+                // Moving diagonally
+                ms *= Mathf.Sqrt(2) / 2f;
+            }
+
+
+            rb2d.velocity = new Vector2(horizontal * ms, vertical * ms);
         }
-        */
-
-        rb2d.velocity = new Vector2(horizontal * ms, vertical * ms);
     }
 
     // Set animations

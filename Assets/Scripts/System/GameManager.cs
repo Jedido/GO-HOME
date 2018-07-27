@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Loads the shop given the levelID (look at level ID constants)
+    // DO NOT USE
     public void InitShop(int levelID)
     {
         if (sceneType != MAPSELECT) return;

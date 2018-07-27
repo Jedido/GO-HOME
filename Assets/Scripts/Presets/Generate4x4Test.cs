@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Generate4x4Test : Preset {
     private static readonly bool[,] MAP = {

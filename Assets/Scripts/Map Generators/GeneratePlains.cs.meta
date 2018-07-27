@@ -1,10 +1,14 @@
 fileFormatVersion: 2
 guid: 78f5c91e86b0bc44fa69d920065dbf7a
-timeCreated: 1507594838
-licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - UI: {fileID: 1999949393475644, guid: 24364d1d25c2c9f4b8c5d3ed614ad3df, type: 2}
+  - hole: {instanceID: 0}
+  - grid: {instanceID: 0}
+  - tMap: {instanceID: 0}
+  - tMapCollide: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -22,9 +22,10 @@ GameObject:
   - component: {fileID: 212002206346108544}
   - component: {fileID: 61573817139083840}
   - component: {fileID: 61211661276293040}
+  - component: {fileID: 114801893721201232}
   m_Layer: 0
   m_Name: Shop
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,6 +93,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
+--- !u!114 &114801893721201232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063487106895040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5cd3096e2b5c31409f5665655d9df0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212002206346108544
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -126,7 +138,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d98ca4011adf43b4e9aa3e4ef62aec08, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

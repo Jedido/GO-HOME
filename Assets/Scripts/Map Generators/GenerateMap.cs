@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 public abstract class GenerateMap : MonoBehaviour
 {
     public readonly int MIN_SIZE = 16;
+    public GameObject UI;
+
     protected class IntPair
     {
         public int x, y;
@@ -75,6 +77,7 @@ public abstract class GenerateMap : MonoBehaviour
         PlayerManager.player.currentMap = this;
         PlayerManager.player.Level = GetStartingFloor();
         PlayerManager.player.MoveAlien(GetStartingPosition());
+        Instantiate(UI);
     }
 
     public void ChangeFloor(int floor)

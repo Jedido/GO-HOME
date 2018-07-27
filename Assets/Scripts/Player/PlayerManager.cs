@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour {
     // Singleton (there will only be one instance of PlayerManager)
     public static PlayerManager player = null;
     public GenerateMap currentMap;
+    public GameObject curShop;
     public GameObject alien;
 
     // Items the player has obtained
@@ -74,6 +75,16 @@ public class PlayerManager : MonoBehaviour {
     }
 
     // In Map functions (mainly for interactables)
+    public void OpenShop()
+    {
+        curShop.SetActive(true);
+    }
+
+    public bool CanMove()
+    {
+        return curShop == null || !curShop.activeSelf;
+    }
+
     public void MoveAlien(Vector3 pos)
     {
         alien.transform.position = position = pos;

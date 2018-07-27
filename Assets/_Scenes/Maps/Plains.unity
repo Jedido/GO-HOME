@@ -386,11 +386,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4736613877572316, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4736613877572316, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4736613877572316, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
       propertyPath: m_LocalPosition.z
@@ -479,7 +479,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -490,7 +490,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 6
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -531,6 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f5c91e86b0bc44fa69d920065dbf7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UI: {fileID: 1999949393475644, guid: 24364d1d25c2c9f4b8c5d3ed614ad3df, type: 2}
   n: 100
   threshold: 0.7
   scaleY: 0.2
@@ -593,8 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff34b88fbe8893e46bac0cb117814848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 1000013230644336, guid: 8d21e5b22f64590488a1f3322eb19b27,
-    type: 2}
+  manager: {fileID: 1000013230644336, guid: 8d21e5b22f64590488a1f3322eb19b27, type: 2}
 --- !u!212 &1616659885
 SpriteRenderer:
   m_ObjectHideFlags: 0
