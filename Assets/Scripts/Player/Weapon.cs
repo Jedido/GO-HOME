@@ -31,7 +31,7 @@ public abstract class Weapon : MonoBehaviour {
     {
         if (collision.gameObject.tag.Equals("Enemy"))
         {
-            collision.gameObject.GetComponent<Enemy>().Hit(damage);
+            // collision.gameObject.GetComponent<Enemy>().Hit(damage);
         }
     }
 }

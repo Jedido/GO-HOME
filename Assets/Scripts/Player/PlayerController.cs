@@ -73,6 +73,9 @@ public class PlayerController : MonoBehaviour {
 
 
             rb2d.velocity = new Vector2(horizontal * ms, vertical * ms);
+        } else
+        {
+            rb2d.velocity = new Vector2();
         }
     }
 

@@ -39,7 +39,21 @@ public class SpriteLibrary : MonoBehaviour {
         get { return prefabs["Shop"]; }
     }
 
-    // TODO: take in all the sprites/animations
+    // Battle Objects
+    public GameObject BattlePlayer
+    {
+        get { return prefabs["Battle Player"]; }
+    }
+    public GameObject Wall
+    {
+        get { return prefabs["Wall"]; }
+    }
+    public GameObject SmallProjectile
+    {
+        get { return prefabs["Small Projectile"]; }
+    }
+
+    // TODO: take in all the prefabs
     public GameObject[] objects;
     private Dictionary<string, GameObject> prefabs;
 

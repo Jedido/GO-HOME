@@ -9,8 +9,7 @@ public class PlayerManager : MonoBehaviour {
     // Singleton (there will only be one instance of PlayerManager)
     public static PlayerManager player = null;
     public GenerateMap currentMap;
-    public GameObject curShop;
-    public GameObject alien;
+    public GameObject curShop, battle, alien;
 
     // Items the player has obtained
     private int[] gameStats;
@@ -82,7 +81,8 @@ public class PlayerManager : MonoBehaviour {
 
     public bool CanMove()
     {
-        return curShop == null || !curShop.activeSelf;
+        return (curShop == null || !curShop.activeSelf) 
+            && (battle == null || !battle.activeSelf);
     }
 
     public void MoveAlien(Vector3 pos)

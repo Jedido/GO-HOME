@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: d82e239f50eb2bd40875c470edf62585
-timeCreated: 1528929511
-licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - currentMap: {instanceID: 0}
+  - curShop: {instanceID: 0}
+  - battle: {fileID: 1765827901207176, guid: 95a71db41fbda5e47beea21f8ee2264d, type: 2}
+  - alien: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

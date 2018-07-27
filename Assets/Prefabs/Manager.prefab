@@ -65,6 +65,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentMap: {fileID: 0}
+  curShop: {fileID: 0}
+  battle: {fileID: 0}
   alien: {fileID: 0}
 --- !u!114 &114855764950306976
 MonoBehaviour:
@@ -86,3 +88,6 @@ MonoBehaviour:
   - {fileID: 1196155933013520, guid: ff05d5ecaa571c543b27da0b705f1b10, type: 2}
   - {fileID: 1146391646070772, guid: 3fdc64ebb71d7cf4495f5dc00c8ebba9, type: 2}
   - {fileID: 1063487106895040, guid: f9862b9c1f4a74447bd5cd97390b2e86, type: 2}
+  - {fileID: 1485113143325380, guid: 279b11684602f1145a12c46a95edded2, type: 2}
+  - {fileID: 1304881780184440, guid: b0af3b48a8c4f5a4a83d29d0cb85c8fc, type: 2}
+  - {fileID: 1271921913222854, guid: 17af017e8fdf4ef4bbbeecd467d662cb, type: 2}
