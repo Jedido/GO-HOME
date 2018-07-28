@@ -48,14 +48,26 @@ public class SpriteLibrary : MonoBehaviour {
     {
         get { return prefabs["Wall"]; }
     }
+    public GameObject PlayerProjectile
+    {
+        get { return prefabs["Player Projectile"]; }
+    }
     public GameObject SmallProjectile
     {
         get { return prefabs["Small Projectile"]; }
     }
 
+    // Enemies
+    public GameObject Slime
+    {
+        get { return enemies[(int)Enemy.EnemyID.Slime]; }
+    }
+
     // TODO: take in all the prefabs
     public GameObject[] objects;
     private Dictionary<string, GameObject> prefabs;
+
+    public GameObject[] enemies;
 
     void Awake()
     {
@@ -77,6 +89,11 @@ public class SpriteLibrary : MonoBehaviour {
         {
             prefabs.Add(interactable.name, interactable);
         }
+    }
+
+    public GameObject GetEnemy(int id)
+    {
+        return enemies[id];
     }
 
     public static GameObject Instantiate(GameObject o, int x, int y)

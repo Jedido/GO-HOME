@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 4618140273268062}
   - component: {fileID: 212342810957340590}
   - component: {fileID: 61117043827580748}
-  - component: {fileID: 114837979199013480}
-  m_Layer: 0
+  - component: {fileID: 50824444758396076}
+  - component: {fileID: 114247158883143692}
+  m_Layer: 8
   m_Name: Small Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,6 +43,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50824444758396076
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1304881780184440}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61117043827580748
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -67,7 +88,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.05, y: 0.05}
   m_EdgeRadius: 0
---- !u!114 &114837979199013480
+--- !u!114 &114247158883143692
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -75,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1304881780184440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50634bbd5118c3743b5ddc5a34d79f40, type: 3}
+  m_Script: {fileID: 11500000, guid: f6fecce3fbafabe409fbbb640c8988b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &212342810957340590
@@ -112,7 +133,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1002
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: faa87f2da126aec4eb84de083e62ddba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

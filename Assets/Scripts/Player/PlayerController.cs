@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour {
         {
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
-            bool fire1 = Input.GetMouseButtonDown(0);
             bool fire2 = Input.GetMouseButtonDown(1);
 
             if (fire2 && interactable != null)
@@ -94,6 +93,7 @@ public class PlayerController : MonoBehaviour {
         PlayerManager.player.Position = transform.position;
     }
 
+    // TODO: remove true damage
     public void Hit(int damage, bool trueDamage)
     {
         if (!trueDamage)

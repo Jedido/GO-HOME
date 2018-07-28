@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour {
     // Singleton (there will only be one instance of PlayerManager)
     public static PlayerManager player = null;
     public GenerateMap currentMap;
-    public GameObject curShop, battle, alien;
+    public GameObject curShop, battle, alien, battleAlien;
 
     // Items the player has obtained
     private int[] gameStats;
