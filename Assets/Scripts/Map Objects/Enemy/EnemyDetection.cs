@@ -21,7 +21,9 @@ public class EnemyDetection : MonoBehaviour {
     private void Start()
     {
         enemy = GetComponent<Enemy>();
-        encounterRadius = 5;
+        encounterRadius = 3;
+        detectionRadius = 4;
+        maxRadius = 5;
     }
 
     // Update is called once per frame
@@ -34,9 +36,11 @@ public class EnemyDetection : MonoBehaviour {
         } else if (distance < detectionRadius)
         {
             // Become active
+            enemy.BecomeActive();
         } else if (distance > maxRadius)
         {
             // Become inactive
+            enemy.BecomeInactive();
         }
 
     }

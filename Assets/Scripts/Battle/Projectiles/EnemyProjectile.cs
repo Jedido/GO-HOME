@@ -12,7 +12,7 @@ public class EnemyProjectile : Projectile {
     new protected void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
-        if (collision.tag.Equals("Player"))
+        if (collision.tag.Equals("Battle Player"))
         {
             collision.GetComponent<PlayerBattleController>().Hit(1);
             Destroy(gameObject);

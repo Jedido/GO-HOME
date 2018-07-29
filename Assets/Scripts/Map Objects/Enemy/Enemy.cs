@@ -10,9 +10,20 @@ public abstract class Enemy : MonoBehaviour {
     // Types of objects in the battlefield
     private GameObject wall, smallProjectile;
     private BattleController battle;
+    private GameObject battleForm;
 
     public abstract int GetID();
+    public abstract void BecomeActive();
+    public abstract void BecomeInactive();
     protected abstract void MakeInitial();
+    protected Vector3 InitialPosition()
+    {
+        return new Vector3(3.5f, 0);
+    }
+    protected Vector3 PlayerPosition()
+    {
+        return new Vector3(0, 0, 10);
+    }
     // Be sure to document all IDs here
     public enum EnemyID { Slime, };
 
@@ -21,21 +32,21 @@ public abstract class Enemy : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D>();
         wall = SpriteLibrary.library.Wall;
         smallProjectile = SpriteLibrary.library.SmallProjectile;
-        battle = PlayerManager.player.battle.GetComponent<BattleController>();
     }
 
     public void InitBattle()
     {
         if (!PlayerManager.player.battle.activeSelf)
         {
-            transform.parent = PlayerManager.player.battle.transform;
-            transform.position = PlayerManager.player.battle.transform.position + new Vector3(0, 0, 10);
-            rb2d.isKinematic = true;
-            GetComponent<SpriteRenderer>().enabled = false;
-            Instantiate(SpriteLibrary.library.BattlePlayer, transform, false).transform.localPosition = new Vector3(-3, 0);
-            GameObject enemy = Instantiate(SpriteLibrary.library.GetEnemy(GetID()), transform, false);
-            enemy.transform.localPosition = new Vector3(3, 0);
-            enemy.GetComponent<BattleAI>().SetEnemy(this);
+            battle = PlayerManager.player.battle.GetComponent<BattleController>();
+            battleForm = Instantiate(new GameObject());
+
+            battleForm.transform.parent = PlayerManager.player.battle.transform;
+            battleForm.transform.position = PlayerManager.player.battle.transform.position + new Vector3(0, 0, 10);
+            PlayerManager.player.battleAlien.transform.localPosition = PlayerPosition();
+            GameObject enemy = Instantiate(SpriteLibrary.library.GetEnemy(GetID()), battleForm.transform, false);
+            enemy.transform.localPosition = InitialPosition();
+            enemy.GetComponent<BattleCPU>().SetEnemy(this);
             MakeBorder();
             MakeInitial();
 
@@ -57,14 +68,20 @@ public abstract class Enemy : MonoBehaviour {
 
     protected void AddBlock(float x, float y, float width, float height)
     {
-        GameObject block = Instantiate(wall, transform, true);
+        GameObject block = Instantiate(wall, battleForm.transform, true);
         block.transform.localScale = new Vector3(width, height, 1);
         block.transform.localPosition = new Vector3(x, y);
     }
 
+    public void Hide()
+    {
+        Destroy(battleForm);
+        gameObject.SetActive(false);
+    }
+
     public void Die()
     {
-        battle.EndBattle();
+        Destroy(battleForm);
         Destroy(gameObject);
     }
 }

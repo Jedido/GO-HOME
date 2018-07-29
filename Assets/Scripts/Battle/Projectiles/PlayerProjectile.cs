@@ -14,7 +14,7 @@ public class PlayerProjectile : Projectile {
         base.OnTriggerEnter2D(collision);
         if (collision.tag.Equals("Enemy"))
         {
-            collision.GetComponent<BattleAI>().Hit(1);
+            collision.GetComponent<BattleCPU>().Hit(1);
             Destroy(gameObject);
         }
     }

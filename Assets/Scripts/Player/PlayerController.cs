@@ -75,13 +75,14 @@ public class PlayerController : MonoBehaviour {
         } else
         {
             rb2d.velocity = new Vector2();
+            moving = false;
         }
     }
 
     // Set animations
     private void LateUpdate()
     {
-        if (direction != (int)Direction.NONE)
+        if (moving)
         {
             animator.SetInteger("Direction", direction);
         }

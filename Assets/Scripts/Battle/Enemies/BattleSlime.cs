@@ -5,10 +5,10 @@ using UnityEngine;
 // Movement: chooses a cardinal direction towards the player and moves there for a set amount of time, 
 // then chooses a new direction. If it hits a wall, chooses a new direction immediately.
 
-public class BattleSlime : BattleAI {
+public class BattleSlime : BattleCPU {
     private static readonly float speed = 2f;
-    private static readonly float walkCooldown = 0.5f;
-    private static readonly float shotCooldown = 1f;
+    private static readonly float walkCooldown = 0.3f;
+    private static readonly float shotCooldown = 0.8f;
     private float walkTimer, shotTimer;
     private Vector2 direction;
 
@@ -18,7 +18,7 @@ public class BattleSlime : BattleAI {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	protected override void UpdateCPU () {
         // Attack
         if (shotTimer < Time.time)
         {
