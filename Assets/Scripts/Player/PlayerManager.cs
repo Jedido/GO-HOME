@@ -169,6 +169,7 @@ public class PlayerManager : MonoBehaviour {
     {
         gameStats = new int[(int)GameStats.Count];
         keyItems = new bool[(int)KeyItems.Count];
+        keyItems[(int)KeyItems.Shovel] = true;
 
         // TODO: find a better way to do this part?
         itemRanks = new int[3][];

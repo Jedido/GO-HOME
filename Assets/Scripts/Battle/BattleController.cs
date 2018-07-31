@@ -5,19 +5,42 @@ using UnityEngine;
 public class BattleController : MonoBehaviour {
     private SpriteRenderer battlefield;
     private Camera battleCam;
-    private float fade;
-    private bool fadeIn, fadeOut;
+    private float fade, delay, delayTimer;
+    private bool zoomIn, fadeOut, active;
+    public bool Active
+    {
+        get { return active; }
+    }
 
     // Use this for initialization
     void Start() {
         PlayerManager.player.battle = gameObject;
         battlefield = transform.GetChild(1).GetComponent<SpriteRenderer>();
         battleCam = GetComponent<Camera>();
+        active = false;
         gameObject.SetActive(false);
+        delay = 0.5f;
     }
 
     private void Update()
     {
+        if (zoomIn && delayTimer < Time.time)
+        {
+            if (battleCam.orthographicSize > 6)
+            {
+                battleCam.orthographicSize = battleCam.orthographicSize * 0.7f;
+            }
+            if (battleCam.orthographicSize <= 6)
+            {
+                battleCam.orthographicSize = 6;
+                if (Input.anyKeyDown)
+                {
+                    active = true;
+                    zoomIn = false;
+                }
+            }
+        }
+
         if (fadeOut)
         {
             fade -= 0.03f;
@@ -25,6 +48,7 @@ public class BattleController : MonoBehaviour {
             {
                 SetAlpha(0);
                 fadeOut = false;
+                active = false;
                 gameObject.SetActive(false);
             }
             else
@@ -53,8 +77,10 @@ public class BattleController : MonoBehaviour {
     public void StartBattle()
     {
         // Transition into battle
+        battleCam.orthographicSize = 1000;
+        zoomIn = true;
+        delayTimer = delay + Time.time;
         gameObject.SetActive(true);
-        SetAlpha(1);
     }
 
     public void EndBattle()
@@ -71,7 +97,7 @@ public class BattleController : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("Battle Player"))
+        if (collision.gameObject.tag.Equals("Player"))
         {
             StopEnd();
         }
@@ -80,9 +106,6 @@ public class BattleController : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag.Equals("Player"))
-        {
-            // just in case something crazy happens
-        } else if (collision.gameObject.tag.Equals("Battle Player"))
         {
             EndBattle();
         } else

@@ -13,9 +13,10 @@ public class Portal : MonoBehaviour, Interactable {
 
     public static void SetPair(Portal portal1, Portal portal2)
     {
-        portal1.position = portal2.gameObject.transform.position;
+        Vector3 offset = new Vector2(0.5f, 0.5f);
+        portal1.position = portal2.gameObject.transform.position + offset;
         portal1.pair = portal2;
-        portal2.position = portal1.gameObject.transform.position;
+        portal2.position = portal1.gameObject.transform.position + offset;
         portal2.pair = portal1;
     }
 

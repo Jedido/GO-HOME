@@ -29,17 +29,21 @@ public abstract class BattleCPU : MonoBehaviour {
 
     protected void Update()
     {
-        if (dying)
+        if (PlayerManager.player.battle.GetComponent<BattleController>().Active)
         {
-            fade -= 0.05f;
-            sprite.color = new Color(1, 1, 1, fade);
-            if (fade <= 0)
+            if (dying)
             {
-                e.Die();
+                fade -= 0.05f;
+                sprite.color = new Color(1, 1, 1, fade);
+                if (fade <= 0)
+                {
+                    e.Die();
+                }
             }
-        } else
-        {
-            UpdateCPU();
+            else
+            {
+                UpdateCPU();
+            }
         }
     }
 
