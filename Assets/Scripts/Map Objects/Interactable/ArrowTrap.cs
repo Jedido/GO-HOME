@@ -10,7 +10,13 @@ public class ArrowTrap : MonoBehaviour, Interactable {
     void Start () {
         animator = GetComponent<Animator>();
         gameObject.AddComponent<Tripwire>().SetAngle(direction);
+        Reload();
+    }
+
+    private void Reload()
+    {
         a = Instantiate(arrow, transform.position, Quaternion.identity).GetComponent<Projectile>();
+        a.Freeze();
         SetDirection(direction);
     }
 
@@ -33,6 +39,7 @@ public class ArrowTrap : MonoBehaviour, Interactable {
                 case 2: a.Velocity = new Vector2(0, 20);  break;
                 case 3: a.Velocity = new Vector2(-20, 0); break;
             }
+            a.Unfreeze();
             a = null;
             animator.SetTrigger("Shoot");
         }
@@ -43,7 +50,7 @@ public class ArrowTrap : MonoBehaviour, Interactable {
         if (a == null)
         {
             animator.SetTrigger("Reload");
-            a = Instantiate(arrow, transform.position, Quaternion.identity).GetComponent<Projectile>();
+            Reload();
         }
     }
 }

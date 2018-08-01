@@ -19,6 +19,7 @@ public class ShopUI : MonoBehaviour {
         curTab = -1;
         SwitchTab((int)Tab.Requests);
         PlayerManager.player.curShop = gameObject;
+        gameObject.SetActive(false);
     }
 	
 	// Update is called once per frame

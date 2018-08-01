@@ -35,8 +35,8 @@ public class PlayerBattleController : MonoBehaviour {
             // Shooting
             if (fire1 && projTimer < Time.time)
             {
-                Vector3 pos = Input.mousePosition / 40f - new Vector3(8, 6);
-                Vector3 dir = pos - transform.localPosition;
+                Vector2 pos = (Vector2)Input.mousePosition / 40f - new Vector2(8, 6);
+                Vector2 dir = pos - (Vector2)transform.localPosition;
                 GameObject p = Instantiate(projectile, transform, true);
                 p.GetComponent<Projectile>().InitialVelocity = dir.normalized * projSpeed;
                 p.transform.localPosition = new Vector3(0, 0);

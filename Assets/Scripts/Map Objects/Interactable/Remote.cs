@@ -6,17 +6,19 @@ using UnityEngine;
 // Takes another interactable and uses it
 // Looks like a switch
 public class Remote : MonoBehaviour, Interactable {
-    private Interactable remoteObject;
-    private Animator animator;
+    public GameObject remoteObject;
+    public Sprite[] sprites;
+    private SpriteRenderer spriteRenderer;
     private bool active;
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
         active = false;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprites[0];
     }
 
-    public void SetRemoteObject(Interactable remote)
+    public void SetRemoteObject(GameObject remote)
     {
         remoteObject = remote;
     }
@@ -25,9 +27,9 @@ public class Remote : MonoBehaviour, Interactable {
     {
         if (!active)
         {
-            animator.SetTrigger("Switch");
             active = true;
-            remoteObject.Interact();
+            spriteRenderer.sprite = sprites[1];
+            remoteObject.GetComponent<Interactable>().Interact();
         } else
         {
             Reset();
@@ -37,7 +39,7 @@ public class Remote : MonoBehaviour, Interactable {
     public void Reset()
     {
         active = false;
-        animator.SetTrigger("Switch");
-        remoteObject.Reset();
+        spriteRenderer.sprite = sprites[0];
+        remoteObject.GetComponent<Interactable>().Reset();
     }
 }

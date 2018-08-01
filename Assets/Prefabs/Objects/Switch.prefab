@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4742704146369362}
   - component: {fileID: 212354313883155482}
   - component: {fileID: 114751767356557632}
-  - component: {fileID: 95947482760834914}
   - component: {fileID: 61570016597421796}
   m_Layer: 0
   m_Name: Switch
@@ -68,24 +67,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.3}
   m_EdgeRadius: 0
---- !u!95 &95947482760834914
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1146391646070772}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 30bf7311541fe1b46afd91d9d68e6d6b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114751767356557632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,6 +78,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce894f5a5d46114d8a485b26b63978f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: ce4af4f724f651b4a9c3806d70cd939b, type: 3}
+  - {fileID: 21300002, guid: ce4af4f724f651b4a9c3806d70cd939b, type: 3}
 --- !u!212 &212354313883155482
 SpriteRenderer:
   m_ObjectHideFlags: 1

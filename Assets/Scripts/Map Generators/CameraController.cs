@@ -3,12 +3,42 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
+    // Camera shake credited to ftvs.
+
+    // Transform of the camera to shake. Grabs the gameObject's transform
+    // if null.
+    public Transform camTransform;
+
+    // How long the object should shake for.
+    public float shakeDuration = 0f;
+
+    // Amplitude of the shake. A larger value shakes the camera harder.
+    public float shakeAmount = 0.7f;
+    public float decreaseFactor = 1.0f;
+
+    private void LateUpdate()
+    {
+        Vector3 originalPos = camTransform.localPosition;
+        if (shakeDuration > 0)
+        {
+            camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
+
+            shakeDuration -= Time.deltaTime * decreaseFactor;
+        }
+        else
+        {
+            shakeDuration = 0f;
+            camTransform.localPosition = originalPos;
+        }
+    }
+
     public float maxXBound, maxYBound;
     private float minXBound, minYBound;
     private float damp = 1f;
 
 	// Use this for initialization
 	void Start () {
+        camTransform = gameObject.transform;
         Camera camera = GetComponent<Camera>();
         if (maxXBound == 0)
         {
@@ -27,7 +57,7 @@ public class CameraController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void LateUpdate () {
+    void Update () {
         float px = PlayerManager.player.alien.transform.position.x;
         float py = PlayerManager.player.alien.transform.position.y;
         if (px < minXBound)

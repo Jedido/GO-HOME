@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 50059045753018786}
   - component: {fileID: 114226373902092902}
   - component: {fileID: 114866311519002996}
+  - component: {fileID: 95605499594511578}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -63,6 +64,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &95605499594511578
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1681027421397768}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 95fbae0198694044ba9d6d9915dd164b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114226373902092902
 MonoBehaviour:
   m_ObjectHideFlags: 1
