@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviour {
 
     // Player stats
     private int[] playerStats;
-    public enum PlayerStats { TOOLKIT_SIZE, MAX_HP, MS, DEFENSE, Count };
+    public enum PlayerStats { TOOLKIT_SIZE, MAX_HP, HP, MS, DEFENSE, Count };
 
     void Awake()
     {
@@ -103,14 +103,20 @@ public class PlayerManager : MonoBehaviour {
 
     public void PauseTimer()
     {
-        freeze = true;
-        time -= Time.time;
+        if (!freeze)
+        {
+            freeze = true;
+            time -= Time.time;
+        }
     }
 
     public void UnpauseTimer()
     {
-        freeze = false;
-        time += Time.time;
+        if (freeze)
+        {
+            freeze = false;
+            time += Time.time;
+        }
     }
 
     // Items
