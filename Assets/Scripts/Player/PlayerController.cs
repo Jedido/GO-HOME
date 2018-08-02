@@ -8,20 +8,12 @@ public class PlayerController : MonoBehaviour {
     private Interactable interactable;
     private int direction;
     private enum Direction { UP, LEFT, DOWN, RIGHT, NONE };
-
-    // Attack
-    // public GameObject primary;
-    // private Weapon weapon1;
     private bool moving;
 
-    // Camera
-    // public Camera cam;
-
-	void Start () {
+    void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         PlayerManager.player.alien = gameObject;
-        // weapon1 = primary.GetComponent<Weapon>();
     }
 
     // Update is called once per frame

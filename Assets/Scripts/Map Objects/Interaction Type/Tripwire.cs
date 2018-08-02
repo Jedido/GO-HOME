@@ -19,7 +19,7 @@ public class Tripwire : InteractionType {
             : dir == (int)Direction.LEFT ? new Vector3(-1, 0) 
             : new Vector3(0, -1);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction);
-        if (hit.collider.tag.Equals("Player"))
+        if (hit.collider && hit.collider.tag.Equals("Player"))
         {
             Activate();
             // enabled = false;

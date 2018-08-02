@@ -75,8 +75,9 @@ public abstract class GenerateMap : MonoBehaviour
     {
         floors = new Dictionary<int, Floor>();
         PlayerManager.player.currentMap = this;
+        PlayerManager.player.StartMap();
         PlayerManager.player.Level = GetStartingFloor();
-        PlayerManager.player.MoveAlien(GetStartingPosition());
+        // PlayerManager.player.MoveAlien(GetStartingPosition());
         Instantiate(UI);
     }
 

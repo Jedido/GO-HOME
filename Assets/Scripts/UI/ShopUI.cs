@@ -27,6 +27,7 @@ public class ShopUI : MonoBehaviour {
         bool close = Input.GetKeyDown("escape");
         if (close)
         {
+            PlayerManager.player.UnpauseTimer();
             gameObject.SetActive(false);
         }
 	}

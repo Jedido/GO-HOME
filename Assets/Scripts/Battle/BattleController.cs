@@ -37,6 +37,7 @@ public class BattleController : MonoBehaviour {
                 {
                     active = true;
                     zoomIn = false;
+                    PlayerManager.player.UnpauseTimer();
                 }
             }
         }
@@ -56,6 +57,8 @@ public class BattleController : MonoBehaviour {
                 SetAlpha(fade);
             }
         }
+
+        // TODO: detect if battle is over and stop time + rewards box
     }
 
     public void SetSize(int width, int height)

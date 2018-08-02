@@ -11,9 +11,12 @@ public class PlayerManager : MonoBehaviour {
     public GenerateMap currentMap;
     public GameObject curShop, battle, alien, battleAlien;
 
+    private bool freeze;
+    private float time;
+
     // Items the player has obtained
     private int[] gameStats;
-    public enum GameStats { Day, Gold, Rank, Parts, Keys, Count };
+    public enum GameStats { Day, Gold, Time, Rank, Parts, Keys, Count };
 
     private bool[] keyItems;
     public enum KeyItems { Sword, Shovel, Pickaxe, Sling, Torch, Pulley,
@@ -57,8 +60,7 @@ public class PlayerManager : MonoBehaviour {
 
     // Player stats
     private int[] playerStats;
-    // regen per 10 seconds
-    public enum PlayerStats { TOOLKIT_SIZE, MAX_HP, HP, MS, HP_REGEN, DEFENSE, Count };
+    public enum PlayerStats { TOOLKIT_SIZE, MAX_HP, MS, DEFENSE, Count };
 
     void Awake()
     {
@@ -88,6 +90,27 @@ public class PlayerManager : MonoBehaviour {
     public void MoveAlien(Vector3 pos)
     {
         alien.transform.position = position = pos;
+    }
+
+    public float GetTime()
+    {
+        if (freeze)
+        {
+            return time;
+        }
+        return time - Time.time;
+    }
+
+    public void PauseTimer()
+    {
+        freeze = true;
+        time -= Time.time;
+    }
+
+    public void UnpauseTimer()
+    {
+        freeze = false;
+        time += Time.time;
     }
 
     // Items
@@ -168,8 +191,10 @@ public class PlayerManager : MonoBehaviour {
     public void InitCharacter()
     {
         gameStats = new int[(int)GameStats.Count];
+        gameStats[(int)GameStats.Time] = 100;  // Testing purposes
+
         keyItems = new bool[(int)KeyItems.Count];
-        keyItems[(int)KeyItems.Shovel] = true;
+        keyItems[(int)KeyItems.Shovel] = true;  // Testing purposes
 
         // TODO: find a better way to do this part?
         itemRanks = new int[3][];
@@ -178,6 +203,11 @@ public class PlayerManager : MonoBehaviour {
         curQuests = new List<Quest>();
         
         playerStats = new int[(int)PlayerStats.Count];
+    }
+
+    public void StartMap()
+    {
+        time = gameStats[(int)GameStats.Time];
     }
 
     public void SaveCharacter(int slot)

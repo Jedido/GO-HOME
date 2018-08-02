@@ -11,11 +11,12 @@ public abstract class Enemy : MonoBehaviour {
     private GameObject wall, smallProjectile;
     private BattleController battle;
     private GameObject battleForm;
+    public GameObject[] battleSpawn; // any additional enemies that are introduced into the battlefield
 
     public abstract int GetID();
     public abstract void BecomeActive();
     public abstract void BecomeInactive();
-    protected abstract void MakeInitial();
+    protected abstract void MakeInitial(int number);
     protected Vector3 InitialPosition()
     {
         return new Vector3(3.5f, 0);
@@ -34,30 +35,46 @@ public abstract class Enemy : MonoBehaviour {
         smallProjectile = SpriteLibrary.library.SmallProjectile;
     }
 
-    public void InitBattle()
+    public void InitBattle(int number = 1)
     {
-        if (!PlayerManager.player.battle.activeSelf)
+        if (!PlayerManager.player.battle.activeSelf || number != 1)
         {
+            PlayerManager.player.PauseTimer();
+            GetComponent<SpriteRenderer>().sortingOrder = 9;
             battle = PlayerManager.player.battle.GetComponent<BattleController>();
-            battleForm = Instantiate(new GameObject());
+            battleForm = new GameObject();
 
-            battleForm.transform.parent = PlayerManager.player.battle.transform;
-            battleForm.transform.position = PlayerManager.player.battle.transform.position + new Vector3(0, 0, 10);
+            battleForm.transform.parent = battle.transform;
+            battleForm.transform.position = battle.transform.position + new Vector3(0, 0, 10);
             PlayerManager.player.battleAlien.transform.localPosition = PlayerPosition();
+
             GameObject enemy = Instantiate(SpriteLibrary.library.GetEnemy(GetID()), battleForm.transform, false);
-            enemy.transform.localPosition = InitialPosition();
+            enemy.transform.localPosition = InitialPosition() + (Vector3)Random.insideUnitCircle;
             enemy.GetComponent<BattleCPU>().SetEnemy(this);
-            MakeBorder();
-            MakeInitial();
+            MakeBorder(number);
+            MakeInitial(number);
+
+            if (battleSpawn != null)
+            {
+                foreach (GameObject e in battleSpawn)
+                {
+                    GameObject aux = Instantiate(e, battle.transform, false);
+                    aux.GetComponent<SpriteRenderer>().enabled = false;
+                    Enemy auxE = aux.GetComponent<Enemy>();
+                    auxE.Start();
+                    auxE.InitBattle(++number);
+                }
+            }
 
             battle.StartBattle();
         }
     }
 
-    protected void MakeBorder()
+    protected void MakeBorder(int number)
     {
+        // TODO: each higher number reduces the number of things spawned
         // Default border
-        battle.SetSize(240, 180);
+        // battle.SetSize(240, 180);
         int rand = Random.Range(0, 4);
 
         AddBlock(-118f / 20, 0, 5, 180);

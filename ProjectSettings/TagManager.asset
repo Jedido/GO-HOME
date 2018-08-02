@@ -8,7 +8,7 @@ TagManager:
   - Interactable
   - Pressure Plate
   - Wall
-  - Battle Player
+  - Projectile
   layers:
   - Default
   - TransparentFX

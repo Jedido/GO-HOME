@@ -38,10 +38,10 @@ public class Slime : Enemy
         return (int)EnemyID.Slime;
     }
 
-    protected override void MakeInitial()
+    protected override void MakeInitial(int number)
     {
         // Randomly add 10-20 blocks on a 11x7 grid
-        float blocks = Random.Range(10, 20);
+        float blocks = Random.Range(10, 20) / number;
         int left = 77;
         for (int i = -5; i < 6; i++)
         {

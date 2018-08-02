@@ -16,13 +16,13 @@ public abstract class Projectile : MonoBehaviour {
     }
     public Vector2 Velocity
     {
+        get { return rb2d.velocity; }
         set { rb2d.velocity = value; }
     }
 
 	protected void Start () {
         rb2d = GetComponent<Rigidbody2D>();
-        SetLifespan(10);
-        freeze = false;
+        SetLifespan(5);
         rb2d.velocity = v;
 	}
 
@@ -45,7 +45,7 @@ public abstract class Projectile : MonoBehaviour {
 
     protected void Update()
     {
-        if (lifespan < Time.time)
+        if (!freeze && lifespan < Time.time)
         {
             Destroy(gameObject);
         }

@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114247158883143692}
   m_Layer: 8
   m_Name: Small Projectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6fecce3fbafabe409fbbb640c8988b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifespan: 0
 --- !u!212 &212342810957340590
 SpriteRenderer:
   m_ObjectHideFlags: 1
