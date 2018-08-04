@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-// Generic Slime AI
+// Red Slime AI
 // Movement: chooses a cardinal direction towards the player and moves there for a set amount of time, 
 // then chooses a new direction. If it hits a wall, chooses a new direction immediately.
-
-public class BattleSlime : BattleCPU {
+// Attack: 4 cardinal directions
+public class BattleRedSlime : BattleCPU {
     private static readonly float speed = 2f;
     private static readonly float walkCooldown = 0.3f;
     private static readonly float shotCooldown = 0.8f;
+    private static readonly float shotSpeed = 4f;
     private float walkTimer, shotTimer;
     private Vector2 direction;
 
@@ -27,10 +28,10 @@ public class BattleSlime : BattleCPU {
             EnemyProjectile down = Instantiate(smallProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
             EnemyProjectile left = Instantiate(smallProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
             EnemyProjectile right = Instantiate(smallProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
-            up.InitialVelocity = new Vector2(0, 5f);
-            down.InitialVelocity = new Vector2(0, -5f);
-            left.InitialVelocity = new Vector2(-5f, 0);
-            right.InitialVelocity = new Vector2(5f, 0);
+            up.InitialVelocity = new Vector2(0, 1f) * shotSpeed;
+            down.InitialVelocity = new Vector2(0, -1f) * shotSpeed;
+            left.InitialVelocity = new Vector2(-1f, 0) * shotSpeed;
+            right.InitialVelocity = new Vector2(1f, 0) * shotSpeed;
         }
 
         // Movement
@@ -39,16 +40,16 @@ public class BattleSlime : BattleCPU {
         {
             walkTimer = Time.time + walkCooldown;
             Vector2 dir = PlayerManager.player.battleAlien.transform.localPosition - transform.localPosition;
-            if (CanMove(dir))
+            float x = Mathf.Abs(dir.x);
+            Vector2 dirX = new Vector2(dir.x, 0);
+            float y = Mathf.Abs(dir.y);
+            Vector2 dirY = new Vector2(0, dir.y);
+            if (x > y)
             {
-                SetDirection(dir);
+                SetDirection(CanMove(dirX) ? dirX : CanMove(dirY) ? dirY : CanMove(-dirY) ? -dirY : -dirX);
             } else
             {
-                float x = Mathf.Abs(dir.x);
-                Vector2 dirX = new Vector2(dir.x, 0);
-                float y = Mathf.Abs(dir.y);
-                Vector2 dirY = new Vector2(0, dir.y);
-                SetDirection(CanMove(dirX) ? dirX : CanMove(dirY) ? dirY : CanMove(-dirX) ? -dirX : -dirY);
+                SetDirection(CanMove(dirY) ? dirY : CanMove(dirX) ? dirX : CanMove(-dirX) ? -dirX : -dirY);
             }
         }
     }

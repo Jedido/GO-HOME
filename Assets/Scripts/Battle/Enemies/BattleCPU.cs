@@ -7,8 +7,18 @@ public abstract class BattleCPU : MonoBehaviour {
     private int health;
     private Rigidbody2D rb2d;
     private Enemy e;
+    private bool invulnerable;
     protected GameObject smallProj, proj, bigProj;
     protected SpriteRenderer sprite;
+
+    protected bool Invincible
+    {
+        set { invulnerable = value; }
+    }
+    public int HP
+    {
+        get { return health; }
+    }
 
     // Death animation
     private bool dying;
@@ -19,12 +29,13 @@ public abstract class BattleCPU : MonoBehaviour {
         set { rb2d.velocity = value; }
     }
 
-    private void Start()
+    protected void Start()
     {
         health = GetHealth();
         rb2d = GetComponent<Rigidbody2D>();
         smallProj = SpriteLibrary.library.SmallProjectile;
         sprite = GetComponent<SpriteRenderer>();
+        invulnerable = false;
     }
 
     protected void Update()
@@ -78,13 +89,25 @@ public abstract class BattleCPU : MonoBehaviour {
 	
     public void Hit(int damage)
     {
-        health -= damage;
-        if (health <= 0)
+        if (!invulnerable)
         {
-            dying = true;
-            fade = 1;
-            rb2d.velocity = new Vector2();
-            GetComponent<Collider2D>().enabled = false;
+            health -= damage;
+            if (health <= 0)
+            {
+                dying = true;
+                fade = 1;
+                rb2d.velocity = new Vector2();
+                GetComponent<Collider2D>().enabled = false;
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag.Equals("Player"))
+        {
+            // Enable when iframes are added
+            PlayerManager.player.battleAlien.GetComponent<PlayerBattleController>().Hit(1);
         }
     }
 }

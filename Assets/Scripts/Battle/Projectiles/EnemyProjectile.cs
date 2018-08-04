@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyProjectile : Projectile {
+    private bool reflect;
+    public bool Reflect
+    {
+        get { return reflect; }
+        set { reflect = value; }
+    }
+
     new protected void Start()
     {
         base.Start();
@@ -15,9 +22,18 @@ public class EnemyProjectile : Projectile {
         {
             if (collision.tag.Equals("Player"))
             {
-                PlayerManager.player.alien.GetComponent<PlayerController>().Hit(1, true);
-                Hit = true;
-                Destroy(gameObject);
+                if (PlayerManager.player.battle.activeSelf)
+                {
+                    PlayerManager.player.battleAlien.GetComponent<PlayerBattleController>().Hit(1);
+                    Hit = true;
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    PlayerManager.player.alien.GetComponent<PlayerController>().Hit(1, true);
+                    Hit = true;
+                    Destroy(gameObject);
+                }
             }
         }
     }

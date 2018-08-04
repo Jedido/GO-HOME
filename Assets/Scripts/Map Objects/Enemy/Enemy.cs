@@ -14,12 +14,13 @@ public abstract class Enemy : MonoBehaviour {
     public GameObject[] battleSpawn; // any additional enemies that are introduced into the battlefield
 
     public abstract int GetID();
+    public abstract void BecomeAggro();
     public abstract void BecomeActive();
     public abstract void BecomeInactive();
     protected abstract void MakeInitial(int number);
-    protected Vector3 InitialPosition()
+    virtual protected Vector3 InitialPosition()
     {
-        return new Vector3(3.5f, 0);
+        return new Vector2(3.5f, 0) + Random.insideUnitCircle;
     }
     protected Vector3 PlayerPosition()
     {
@@ -49,7 +50,7 @@ public abstract class Enemy : MonoBehaviour {
             PlayerManager.player.battleAlien.transform.localPosition = PlayerPosition();
 
             GameObject enemy = Instantiate(SpriteLibrary.library.GetEnemy(GetID()), battleForm.transform, false);
-            enemy.transform.localPosition = InitialPosition() + (Vector3)Random.insideUnitCircle;
+            enemy.transform.localPosition = InitialPosition();
             enemy.GetComponent<BattleCPU>().SetEnemy(this);
             MakeBorder(number);
             MakeInitial(number);
@@ -98,6 +99,7 @@ public abstract class Enemy : MonoBehaviour {
 
     public void Die()
     {
+        // TODO: add a respawn timer somewhere and call it
         Destroy(battleForm);
         Destroy(gameObject);
     }

@@ -6,8 +6,11 @@ public class PlayerBattleController : MonoBehaviour {
     private float speed;
     private Rigidbody2D rb2d;
     public float projTimer, projCooldown, projSpeed;
+    public float hitTimer, hitCooldown;  // move this out
     private GameObject projectile;
     private Shield shield;
+    private Animator animator;
+
     public Vector3 Velocity
     {
         get { return rb2d.velocity; }
@@ -21,6 +24,8 @@ public class PlayerBattleController : MonoBehaviour {
         PlayerManager.player.battleAlien = gameObject;
         shield = transform.GetChild(0).gameObject.GetComponent<Shield>();
         shield.gameObject.SetActive(false);
+        animator = GetComponent<Animator>();
+        hitCooldown = 0.5f;
 	}
 	
 	// Update is called once per frame
@@ -63,7 +68,27 @@ public class PlayerBattleController : MonoBehaviour {
                 }
             }
 
+            if (hitTimer < Time.time)
+            {
+                animator.SetBool("Invincible", false);
+            }
+
             rb2d.velocity = new Vector2(horizontal * ms, vertical * ms);
+        }
+    }
+
+    public void Hit(int damage)
+    {
+        if (hitTimer < Time.time)
+        {
+            hitTimer = hitCooldown + Time.time;
+            damage -= PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.DEFENSE);
+            damage = damage < 1 ? 1 : damage;
+            PlayerManager.player.SetHealth(PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.HP)
+                - damage);
+
+            // Invincibility Animation
+            animator.SetBool("Invincible", true);
         }
     }
 }

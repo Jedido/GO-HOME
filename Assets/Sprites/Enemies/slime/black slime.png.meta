@@ -1,18 +1,15 @@
 fileFormatVersion: 2
-guid: dec2fd247f8754a45adbecef47e65f6e
+guid: 41ac3fb92e50ca74f84653c4c6d0fed7
 TextureImporter:
   fileIDToRecycleName:
-    21300000: slimes_0
-    21300002: slimes_1
-    21300004: slimes_2
-    21300006: slimes_3
-    21300008: slimes_4
-    21300010: slimes_5
+    21300000: black slime_0
+    21300002: black slime_1
+    21300004: black slime_2
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -88,13 +85,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: slimes_0
+      name: black slime_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 23
-        width: 7
-        height: 6
+        x: 3
+        y: 44
+        width: 14
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -102,19 +99,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96c62e56bdce8764f8515d12f0f3c366
+      spriteID: 61d4910ccf0c6eb43b5bfec33739324a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: slimes_1
+      name: black slime_1
       rect:
         serializedVersion: 2
-        x: 12
-        y: 23
-        width: 7
-        height: 6
+        x: 3
+        y: 24
+        width: 14
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,19 +119,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99e9bac0031f09a4391b9a1fc409d285
+      spriteID: 8ee1e0ded587c3249ae282578d807627
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: slimes_2
+      name: black slime_2
       rect:
         serializedVersion: 2
-        x: 1
-        y: 12
-        width: 7
-        height: 6
+        x: 3
+        y: 4
+        width: 14
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,67 +139,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63a99f0040e28ca41a548db027a2d80e
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: slimes_3
-      rect:
-        serializedVersion: 2
-        x: 12
-        y: 12
-        width: 7
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1ce39b369a76dc14ebca14ef93a19883
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: slimes_4
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 2
-        width: 7
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a85c8ca060640774b8c1897c9aaa6d70
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: slimes_5
-      rect:
-        serializedVersion: 2
-        x: 12
-        y: 2
-        width: 7
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 06de6c1ab564e6f41bb62ff2df3a817a
+      spriteID: 311e1d59fb9c8ca41bae2f352d9c7d28
       vertices: []
       indices: 
       edges: []
@@ -210,7 +147,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 8d8c895da9aa6ad4e8a39443b22f9029
+    spriteID: f3b942b3acaaed74f9032d479e125564
     vertices: []
     indices: 
     edges: []

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 58715160167030550}
   - component: {fileID: 50023154683606634}
   - component: {fileID: 114078655565595308}
+  - component: {fileID: 95043555780463634}
   m_Layer: 8
   m_Name: Battle Player
   m_TagString: Player
@@ -289,6 +290,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 12, y: 9}
   m_EdgeRadius: 0
+--- !u!95 &95043555780463634
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1029338667836350}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 586013138019e464eaaf00ef2ffaed1b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114078655565595308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -303,6 +322,8 @@ MonoBehaviour:
   projTimer: 0
   projCooldown: 0.5
   projSpeed: 8
+  hitTimer: 0
+  hitCooldown: 0
 --- !u!114 &114916712754839018
 MonoBehaviour:
   m_ObjectHideFlags: 1

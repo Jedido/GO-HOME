@@ -5,6 +5,11 @@ public abstract class Projectile : MonoBehaviour {
     public float lifespan; // lifespan, in seconds
     private bool freeze, used;
     private Vector2 v;
+    private bool phase;
+    public bool Phase
+    {
+        set { phase = value; }
+    }
     public bool Hit
     {
         get { return used; }
@@ -21,10 +26,28 @@ public abstract class Projectile : MonoBehaviour {
     }
 
 	protected void Start () {
-        rb2d = GetComponent<Rigidbody2D>();
-        SetLifespan(5);
+        if (rb2d == null)
+        {
+            rb2d = GetComponent<Rigidbody2D>();
+        }
+        if (lifespan == 0)
+        {
+            SetLifespan(5);
+        }
         rb2d.velocity = v;
 	}
+
+    // Match the attributes of the other projectile.
+    // Kind of like a copy constructor.
+    public void SetAttributes(Projectile other)
+    {
+        phase = other.phase;
+        used = other.used;
+        freeze = other.freeze;
+        v = other.v;
+        lifespan = other.lifespan;
+        rb2d = other.rb2d;
+    }
 
     public void SetLifespan(float time)
     {
@@ -43,21 +66,26 @@ public abstract class Projectile : MonoBehaviour {
         lifespan += Time.time;
     }
 
+    public virtual void Die()
+    {
+        Destroy(gameObject);
+    }
+
     protected void Update()
     {
         if (!freeze && lifespan < Time.time)
         {
-            Destroy(gameObject);
+            Die();
         }
     }
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!used)
+        if (!used && !phase)
         {
             if (collision.tag.Equals("Wall"))
             {
-                Destroy(gameObject);
+                Die();
             }
         }
     }

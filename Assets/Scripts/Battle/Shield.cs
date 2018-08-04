@@ -24,8 +24,9 @@ public class Shield : MonoBehaviour {
             Projectile old = collision.gameObject.GetComponent<Projectile>();
             Vector2 original = old.Velocity;
             float magnitude = original.magnitude;
-            Destroy(old);
             Projectile proj = collision.gameObject.AddComponent<PlayerProjectile>();
+            proj.SetAttributes(old);
+            Destroy(old);
 
             // Version 1 (opposite direction)
             // proj.InitialVelocity = -original;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyDetection : MonoBehaviour {
-    private float detectionRadius, maxRadius, encounterRadius;
+    public float detectionRadius, maxRadius, encounterRadius;
     public float DetectionRadius
     {
         set { detectionRadius = value; }
@@ -21,9 +21,6 @@ public class EnemyDetection : MonoBehaviour {
     private void Start()
     {
         enemy = GetComponent<Enemy>();
-        encounterRadius = 3;
-        detectionRadius = 4;
-        maxRadius = 5;
     }
 
     // Update is called once per frame
@@ -32,6 +29,7 @@ public class EnemyDetection : MonoBehaviour {
         if (distance < encounterRadius)
         {
             // Enter fight
+            enemy.BecomeAggro();
             enemy.InitBattle();
         } else if (distance < detectionRadius)
         {

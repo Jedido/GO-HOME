@@ -4,15 +4,27 @@ using UnityEngine;
 
 // Basic Slime AI
 // Slime enemy ID is 0.
-public class Slime : Enemy
+public abstract class Slime : Enemy
 {
-    private Animator animator;
+    private SpriteRenderer sprite;
+    public Sprite[] sprites;
+    public Color c;
     private bool active;
 
     new private void Start()
     {
         base.Start();
-        animator = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+        sprite.sprite = sprites[0];
+        sprite.color = c;
+    }
+
+    public override void BecomeAggro()
+    {
+        if (active)
+        {
+            sprite.sprite = sprites[2];
+        }
     }
 
     public override void BecomeActive()
@@ -20,7 +32,7 @@ public class Slime : Enemy
         if (!active)
         {
             active = true;
-            animator.SetTrigger("Wake");
+            sprite.sprite = sprites[1];
         }
     }
 
@@ -29,13 +41,8 @@ public class Slime : Enemy
         if (active)
         {
             active = false;
-            animator.SetTrigger("Sleep");
+            sprite.sprite = sprites[0];
         }
-    }
-
-    public override int GetID()
-    {
-        return (int)EnemyID.Slime;
     }
 
     protected override void MakeInitial(int number)
