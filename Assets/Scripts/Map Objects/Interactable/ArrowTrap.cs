@@ -25,7 +25,7 @@ public class ArrowTrap : MonoBehaviour, Interactable {
     {
         Quaternion orient = Quaternion.AngleAxis(dir * 90, Vector3.forward);
         transform.rotation = orient;
-        a.gameObject.transform.rotation = orient;
+        // a.gameObject.transform.rotation = orient;
     }
 
     public void Interact()

@@ -52,9 +52,21 @@ public class SpriteLibrary : MonoBehaviour {
     {
         get { return prefabs["Player Projectile"]; }
     }
-    public GameObject SmallProjectile
+    public GameObject SProjectile
     {
-        get { return prefabs["Small Projectile"]; }
+        get { return prefabs["S Projectile"]; }
+    }
+    public GameObject SNRProjectile
+    {
+        get { return prefabs["SNR Projectile"]; }
+    }
+    public GameObject SPProjectile
+    {
+        get { return prefabs["SP Projectile"]; }
+    }
+    public GameObject SPNRProjectile
+    {
+        get { return prefabs["SPNR Projectile"]; }
     }
 
     // Enemies

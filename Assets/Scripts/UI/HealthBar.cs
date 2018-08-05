@@ -7,21 +7,14 @@ public class HealthBar : MonoBehaviour {
     public Text text;
     public int curHealth;
 
-    // how long to leave the display up after refreshing
-    private float displayTime, displayTimer;
-
     private Image bar;
 
 	// Use this for initialization
 	void Start () {
         curHealth = PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.HP);
         text.text = "" + curHealth;
-        displayTime = 2;
         bar = GetComponent<Image>();
         RefreshDisplay();
-
-        // TODO: construct health bar here?
-        // Instantiate(new RectTransform());
 	}
 	
 	// Update is called once per frame
@@ -32,13 +25,6 @@ public class HealthBar : MonoBehaviour {
             curHealth = health;
             RefreshDisplay();
         }
-        if (displayTimer > Time.time)
-        {
-            SetColor(new Color(1, 1, 1, displayTimer - Time.time));
-        } else
-        {
-            SetColor(new Color(1, 1, 1, 0));
-        }
     }
 
     // Refreshes the health bar display to show the new health amount
@@ -48,7 +34,6 @@ public class HealthBar : MonoBehaviour {
         {
             hearts[i].sprite = heartSprites[((curHealth - i + hearts.Length - 1) / hearts.Length)];
         }
-        displayTimer = Time.time + displayTime;
         text.text = "" + curHealth;
     }
 

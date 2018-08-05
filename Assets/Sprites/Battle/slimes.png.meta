@@ -8,11 +8,13 @@ TextureImporter:
     21300006: slimes_3
     21300008: slimes_4
     21300010: slimes_5
+    21300012: slimes_6
+    21300014: slimes_7
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -92,7 +94,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 23
+        y: 33
         width: 7
         height: 6
       alignment: 0
@@ -102,7 +104,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96c62e56bdce8764f8515d12f0f3c366
+      spriteID: 61aa7be0628f1fe49aa82ceea8ee2a9b
       vertices: []
       indices: 
       edges: []
@@ -112,7 +114,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 12
-        y: 23
+        y: 33
         width: 7
         height: 6
       alignment: 0
@@ -122,7 +124,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99e9bac0031f09a4391b9a1fc409d285
+      spriteID: b5a57c70326a5f24692ce8b2b210daa5
       vertices: []
       indices: 
       edges: []
@@ -132,7 +134,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 12
+        y: 22
         width: 7
         height: 6
       alignment: 0
@@ -142,7 +144,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63a99f0040e28ca41a548db027a2d80e
+      spriteID: 7a85f31a317219349bd22dbad73281a6
       vertices: []
       indices: 
       edges: []
@@ -152,7 +154,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 12
-        y: 12
+        y: 22
         width: 7
         height: 6
       alignment: 0
@@ -162,7 +164,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1ce39b369a76dc14ebca14ef93a19883
+      spriteID: 9afede3ab3ce215428fcb503caa7f81d
       vertices: []
       indices: 
       edges: []
@@ -171,10 +173,10 @@ TextureImporter:
       name: slimes_4
       rect:
         serializedVersion: 2
-        x: 1
-        y: 2
-        width: 7
-        height: 6
+        x: 0
+        y: 10
+        width: 9
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a85c8ca060640774b8c1897c9aaa6d70
+      spriteID: 3912a4c898d91d749904c971b8b4b819
       vertices: []
       indices: 
       edges: []
@@ -191,10 +193,10 @@ TextureImporter:
       name: slimes_5
       rect:
         serializedVersion: 2
-        x: 12
-        y: 2
-        width: 7
-        height: 6
+        x: 11
+        y: 10
+        width: 9
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,7 +204,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06de6c1ab564e6f41bb62ff2df3a817a
+      spriteID: 52218508af760824b9ec6db322bf91df
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: slimes_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db95648504a4cc947bdfa231c0d95b21
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: slimes_7
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 0
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9913f421aafbda84eb385117048aa5df
       vertices: []
       indices: 
       edges: []

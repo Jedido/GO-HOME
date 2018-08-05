@@ -209,11 +209,17 @@ public class PlayerManager : MonoBehaviour {
         curQuests = new List<Quest>();
         
         playerStats = new int[(int)PlayerStats.Count];
+        playerStats[(int)PlayerStats.MAX_HP] = 5;
+        playerStats[(int)PlayerStats.HP] = 5;
     }
 
     public void StartMap()
     {
         time = gameStats[(int)GameStats.Time];
+        if (playerStats[(int)PlayerStats.MAX_HP] > playerStats[(int)PlayerStats.HP])
+        {
+            playerStats[(int)PlayerStats.HP]++;
+        }
     }
 
     public void SaveCharacter(int slot)

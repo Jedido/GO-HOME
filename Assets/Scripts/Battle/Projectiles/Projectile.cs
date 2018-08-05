@@ -5,7 +5,7 @@ public abstract class Projectile : MonoBehaviour {
     public float lifespan; // lifespan, in seconds
     private bool freeze, used;
     private Vector2 v;
-    private bool phase;
+    public bool phase;
     public bool Phase
     {
         set { phase = value; }
@@ -22,7 +22,16 @@ public abstract class Projectile : MonoBehaviour {
     public Vector2 Velocity
     {
         get { return rb2d.velocity; }
-        set { rb2d.velocity = value; }
+        set {
+            Vector2 dir = value;
+            float angle = Vector3.Angle(Vector3.up, dir);
+            if (dir.x > 0)
+            {
+                angle = -angle;
+            }
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+            rb2d.velocity = value;
+        }
     }
 
 	protected void Start () {
@@ -34,7 +43,7 @@ public abstract class Projectile : MonoBehaviour {
         {
             SetLifespan(5);
         }
-        rb2d.velocity = v;
+        Velocity = v;
 	}
 
     // Match the attributes of the other projectile.

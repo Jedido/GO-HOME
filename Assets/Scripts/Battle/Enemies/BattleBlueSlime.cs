@@ -22,7 +22,7 @@ public class BattleBlueSlime : BattleCPU {
         if (shotTimer < Time.time)
         {
             shotTimer = Time.time + shotCooldown;
-            EnemyProjectile shot = Instantiate(smallProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
+            EnemyProjectile shot = Instantiate(SProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
             shot.InitialVelocity = dir * shotSpeed;
         }
 

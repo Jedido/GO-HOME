@@ -88,10 +88,10 @@ TextureImporter:
       name: black slime_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 44
-        width: 14
-        height: 12
+        x: 1
+        y: 42
+        width: 18
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -99,7 +99,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 61d4910ccf0c6eb43b5bfec33739324a
+      spriteID: a8fded05f897b004b91d4120c9d3ebd2
       vertices: []
       indices: 
       edges: []
@@ -108,10 +108,10 @@ TextureImporter:
       name: black slime_1
       rect:
         serializedVersion: 2
-        x: 3
-        y: 24
-        width: 14
-        height: 12
+        x: 1
+        y: 22
+        width: 18
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,7 +119,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ee1e0ded587c3249ae282578d807627
+      spriteID: 0f7314ba73a0ac14f8057f75eb06295f
       vertices: []
       indices: 
       edges: []
@@ -128,10 +128,10 @@ TextureImporter:
       name: black slime_2
       rect:
         serializedVersion: 2
-        x: 3
-        y: 4
-        width: 14
-        height: 12
+        x: 1
+        y: 2
+        width: 18
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,7 +139,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 311e1d59fb9c8ca41bae2f352d9c7d28
+      spriteID: 0117476848cdf974fb44e13fcbfecba1
       vertices: []
       indices: 
       edges: []

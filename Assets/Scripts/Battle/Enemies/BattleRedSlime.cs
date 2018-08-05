@@ -24,10 +24,10 @@ public class BattleRedSlime : BattleCPU {
         if (shotTimer < Time.time)
         {
             shotTimer = Time.time + shotCooldown;
-            EnemyProjectile up = Instantiate(smallProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
-            EnemyProjectile down = Instantiate(smallProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
-            EnemyProjectile left = Instantiate(smallProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
-            EnemyProjectile right = Instantiate(smallProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
+            EnemyProjectile up = Instantiate(SProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
+            EnemyProjectile down = Instantiate(SProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
+            EnemyProjectile left = Instantiate(SProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
+            EnemyProjectile right = Instantiate(SProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
             up.InitialVelocity = new Vector2(0, 1f) * shotSpeed;
             down.InitialVelocity = new Vector2(0, -1f) * shotSpeed;
             left.InitialVelocity = new Vector2(-1f, 0) * shotSpeed;

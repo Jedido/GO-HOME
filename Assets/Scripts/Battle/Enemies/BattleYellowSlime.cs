@@ -23,9 +23,8 @@ public class BattleYellowSlime : BattleCPU {
         if (shotTimer < Time.time)
         {
             shotTimer = Time.time + shotCooldown;
-            GameObject shot = Instantiate(smallProj, transform.position, Quaternion.identity);
+            GameObject shot = Instantiate(SNRProj, transform.position, Quaternion.identity);
             shot.transform.parent = transform;
-            shot.GetComponent<EnemyProjectile>().Reflect = false;
         }
 
         // Movement

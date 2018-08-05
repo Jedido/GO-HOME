@@ -11,6 +11,7 @@ public abstract class Enemy : MonoBehaviour {
     private GameObject wall, smallProjectile;
     private BattleController battle;
     private GameObject battleForm;
+    protected bool disableInit;
     public GameObject[] battleSpawn; // any additional enemies that are introduced into the battlefield
 
     public abstract int GetID();
@@ -33,14 +34,15 @@ public abstract class Enemy : MonoBehaviour {
     protected void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         wall = SpriteLibrary.library.Wall;
-        smallProjectile = SpriteLibrary.library.SmallProjectile;
+        smallProjectile = SpriteLibrary.library.SProjectile;
     }
 
-    public void InitBattle(int number = 1)
+    public void InitBattle(int number = 1, bool disableBlocks = false)
     {
         if (!PlayerManager.player.battle.activeSelf || number != 1)
         {
             PlayerManager.player.PauseTimer();
+            Camera.main.GetComponent<CameraController>().CenterOn(gameObject);
             GetComponent<SpriteRenderer>().sortingOrder = 9;
             battle = PlayerManager.player.battle.GetComponent<BattleController>();
             battleForm = new GameObject();
@@ -52,8 +54,11 @@ public abstract class Enemy : MonoBehaviour {
             GameObject enemy = Instantiate(SpriteLibrary.library.GetEnemy(GetID()), battleForm.transform, false);
             enemy.transform.localPosition = InitialPosition();
             enemy.GetComponent<BattleCPU>().SetEnemy(this);
-            MakeBorder(number);
-            MakeInitial(number);
+            if (!disableBlocks)
+            {
+                MakeBorder(number);
+                MakeInitial(number);
+            }
 
             if (battleSpawn != null)
             {
@@ -63,7 +68,7 @@ public abstract class Enemy : MonoBehaviour {
                     aux.GetComponent<SpriteRenderer>().enabled = false;
                     Enemy auxE = aux.GetComponent<Enemy>();
                     auxE.Start();
-                    auxE.InitBattle(++number);
+                    auxE.InitBattle(++number, disableInit);
                 }
             }
 
@@ -71,7 +76,7 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
-    protected void MakeBorder(int number)
+    protected virtual void MakeBorder(int number)
     {
         // TODO: each higher number reduces the number of things spawned
         // Default border

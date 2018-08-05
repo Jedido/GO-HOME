@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50824444758396076}
   - component: {fileID: 114247158883143692}
   m_Layer: 8
-  m_Name: Small Projectile
+  m_Name: S Projectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1304881780184440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -79,14 +79,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.05, y: 0.05}
+    oldSize: {x: 0.25, y: 0.25}
     newSize: {x: 0.05, y: 0.05}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.05}
+  m_Size: {x: 0.15, y: 0.15}
   m_EdgeRadius: 0
 --- !u!114 &114247158883143692
 MonoBehaviour:
@@ -100,6 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifespan: 0
+  phase: 0
+  reflect: 1
 --- !u!212 &212342810957340590
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -135,7 +137,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: faa87f2da126aec4eb84de083e62ddba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 30d21322cd7ccd346ac8920d91fd74f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -8,12 +8,22 @@ public abstract class BattleCPU : MonoBehaviour {
     private Rigidbody2D rb2d;
     private Enemy e;
     private bool invulnerable;
-    protected GameObject smallProj, proj, bigProj;
+    protected GameObject SProj, SNRProj, SPProj, SPNRProj;
     protected SpriteRenderer sprite;
 
     protected bool Invincible
     {
-        set { invulnerable = value; }
+        get { return invulnerable; }
+        set {
+            invulnerable = value;
+            if (invulnerable)
+            {
+                sprite.color = new Color(0.8f, 0.8f, 0.8f, 0.8f);
+            } else
+            {
+                sprite.color = new Color(1, 1, 1, 1f);
+            }
+        }
     }
     public int HP
     {
@@ -26,6 +36,7 @@ public abstract class BattleCPU : MonoBehaviour {
 
     protected Vector2 Velocity
     {
+        get { return rb2d.velocity; }
         set { rb2d.velocity = value; }
     }
 
@@ -33,7 +44,10 @@ public abstract class BattleCPU : MonoBehaviour {
     {
         health = GetHealth();
         rb2d = GetComponent<Rigidbody2D>();
-        smallProj = SpriteLibrary.library.SmallProjectile;
+        SProj = SpriteLibrary.library.SProjectile;
+        SPProj = SpriteLibrary.library.SPProjectile;
+        SNRProj = SpriteLibrary.library.SNRProjectile;
+        SPNRProj = SpriteLibrary.library.SPNRProjectile;
         sprite = GetComponent<SpriteRenderer>();
         invulnerable = false;
     }

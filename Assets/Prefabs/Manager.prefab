@@ -93,6 +93,9 @@ MonoBehaviour:
   - {fileID: 1304881780184440, guid: b0af3b48a8c4f5a4a83d29d0cb85c8fc, type: 2}
   - {fileID: 1271921913222854, guid: 17af017e8fdf4ef4bbbeecd467d662cb, type: 2}
   - {fileID: 1960269663077562, guid: 26a4afa2d5020a645b576f43aa684551, type: 2}
+  - {fileID: 1852543584806820, guid: 61118b728338a514ca205f97e105276d, type: 2}
+  - {fileID: 1257500971821730, guid: 44c56a55cb3bb05428aa5ce0e8bce126, type: 2}
+  - {fileID: 1010471987563134, guid: 57e33897a40d0b54d8ab1c54555ab8b7, type: 2}
   enemies:
   - {fileID: 1697629491216538, guid: 9a6c59af6d4fdc14aa046e4673117c8d, type: 2}
   - {fileID: 1604568200716348, guid: f7971ddc8af8d0d4dbb65f5bd815db0d, type: 2}

@@ -34,6 +34,7 @@ public class CameraController : MonoBehaviour {
 
     public float maxXBound, maxYBound;
     private float minXBound, minYBound;
+    private GameObject center;
     private float damp = 1f;
 
 	// Use this for initialization
@@ -58,8 +59,13 @@ public class CameraController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        float px = PlayerManager.player.alien.transform.position.x;
-        float py = PlayerManager.player.alien.transform.position.y;
+        if (center == null)
+        {
+            center = PlayerManager.player.alien;
+            damp = 1;
+        }
+        float px = center.transform.position.x;
+        float py = center.transform.position.y;
         if (px < minXBound)
         {
             px = minXBound;
@@ -80,5 +86,11 @@ public class CameraController : MonoBehaviour {
             gameObject.transform.position.x * (1 - damp) + px * damp,
             gameObject.transform.position.y * (1 - damp) + py * damp,
             -10);
+    }
+
+    public void CenterOn(GameObject obj)
+    {
+        center = obj;
+        damp = 0.5f;
     }
 }

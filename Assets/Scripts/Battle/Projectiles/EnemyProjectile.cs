@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyProjectile : Projectile {
-    private bool reflect;
+    public bool reflect;
     public bool Reflect
     {
         get { return reflect; }

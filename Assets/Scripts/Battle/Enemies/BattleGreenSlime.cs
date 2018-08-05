@@ -26,9 +26,8 @@ public class BattleGreenSlime : BattleCPU
             Vector2 dir = PlayerManager.player.battleAlien.transform.localPosition - transform.localPosition;
             dir = dir.normalized;
             shotTimer = Time.time + shotCooldown;
-            EnemyProjectile shot = Instantiate(smallProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
+            EnemyProjectile shot = Instantiate(SPProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
             shot.InitialVelocity = dir * shotSpeed;
-            shot.Phase = true;
         }
 
         // Movement

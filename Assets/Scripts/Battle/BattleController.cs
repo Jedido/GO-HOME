@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleController : MonoBehaviour {
-    private SpriteRenderer battlefield;
+    private SpriteRenderer battlefield, bg;
+    private MeshRenderer text;
+    private float flash, flashTimer;
     private Camera battleCam;
     private float fade, delay, delayTimer;
     private bool zoomIn, fadeOut, active;
@@ -16,16 +18,32 @@ public class BattleController : MonoBehaviour {
     void Start() {
         PlayerManager.player.battle = gameObject;
         battlefield = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        bg = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        text = GetComponentInChildren<MeshRenderer>();
+        text.enabled = false;
         battleCam = GetComponent<Camera>();
         active = false;
         gameObject.SetActive(false);
         delay = 0.5f;
+        flash = 0.6f;
     }
 
     private void Update()
     {
+        float r = bg.color.r;
+        if (r != 0)
+        {
+            r -= 0.1f;
+            if (r < 0)
+            {
+                r = 0;
+            }
+            bg.color = new Color(r, 0, 0, 0.4f);
+        }
+
         if (zoomIn && delayTimer < Time.time)
         {
+            battleCam.enabled = true;
             if (battleCam.orthographicSize > 6)
             {
                 battleCam.orthographicSize = battleCam.orthographicSize * 0.7f;
@@ -33,8 +51,14 @@ public class BattleController : MonoBehaviour {
             if (battleCam.orthographicSize <= 6)
             {
                 battleCam.orthographicSize = 6;
+                if (flashTimer < Time.time)
+                {
+                    flashTimer = flash + Time.time;
+                    text.enabled = !text.enabled;
+                }
                 if (Input.anyKeyDown)
                 {
+                    text.enabled = false;
                     active = true;
                     zoomIn = false;
                     PlayerManager.player.UnpauseTimer();
@@ -66,6 +90,11 @@ public class BattleController : MonoBehaviour {
         battlefield.transform.localScale = new Vector3(width, height, 1);
     }
 
+    public void HitEffect()
+    {
+        bg.color = new Color(1, 0, 0, 0.4f);
+    }
+
     public void SetColor(Color c)
     {
         battlefield.color = c;
@@ -82,8 +111,9 @@ public class BattleController : MonoBehaviour {
         // Transition into battle
         battleCam.orthographicSize = 1000;
         zoomIn = true;
-        delayTimer = delay + Time.time;
         gameObject.SetActive(true);
+        battleCam.enabled = false;
+        delayTimer = delay + Time.time;
     }
 
     public void EndBattle()

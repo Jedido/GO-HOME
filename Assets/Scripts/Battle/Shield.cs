@@ -21,23 +21,26 @@ public class Shield : MonoBehaviour {
     {
         if (collision.tag.Equals("Projectile"))
         {
-            Projectile old = collision.gameObject.GetComponent<Projectile>();
-            Vector2 original = old.Velocity;
-            float magnitude = original.magnitude;
-            Projectile proj = collision.gameObject.AddComponent<PlayerProjectile>();
-            proj.SetAttributes(old);
-            Destroy(old);
+            EnemyProjectile old = collision.gameObject.GetComponent<EnemyProjectile>();
+            if (old.Reflect)
+            {
+                Vector2 original = old.Velocity;
+                float magnitude = original.magnitude;
+                Projectile proj = collision.gameObject.AddComponent<PlayerProjectile>();
+                proj.SetAttributes(old);
+                Destroy(old);
 
-            // Version 1 (opposite direction)
-            // proj.InitialVelocity = -original;
+                // Version 1 (opposite direction)
+                // proj.InitialVelocity = -original;
 
-            // Version 2 (shield direction)
-            // proj.Velocity = dir * magnitude;
+                // Version 2 (shield direction)
+                // proj.Velocity = dir * magnitude;
 
-            // Version 3 (physics reflection)
-            proj.InitialVelocity = (Vector3)original + 2 * Vector3.Project(original, dir).magnitude * dir.normalized
-                + Vector3.Project(PlayerManager.player.battleAlien.GetComponent<PlayerBattleController>().Velocity, dir);
+                // Version 3 (physics reflection)
+                proj.InitialVelocity = (Vector3)original + 2 * Vector3.Project(original, dir).magnitude * dir.normalized
+                    + Vector3.Project(PlayerManager.player.battleAlien.GetComponent<PlayerBattleController>().Velocity, dir);
 
+            }
         }
     }
 }

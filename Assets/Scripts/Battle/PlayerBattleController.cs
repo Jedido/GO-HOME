@@ -7,8 +7,14 @@ public class PlayerBattleController : MonoBehaviour {
     private Rigidbody2D rb2d;
     public float projTimer, projCooldown, projSpeed;
     public float hitTimer, hitCooldown;  // move this out
+
+    // Weapon 1 (default)
     private GameObject projectile;
     private Shield shield;
+
+    // Weapon 2 (shovel?)
+
+
     private Animator animator;
 
     public Vector3 Velocity
@@ -73,7 +79,13 @@ public class PlayerBattleController : MonoBehaviour {
                 animator.SetBool("Invincible", false);
             }
 
-            rb2d.velocity = new Vector2(horizontal * ms, vertical * ms);
+            if (!shield.gameObject.activeSelf)
+            {
+                rb2d.velocity = new Vector2(horizontal * ms, vertical * ms);
+            } else
+            {
+                rb2d.velocity = new Vector2(horizontal * ms, vertical * ms) * 0.5f;
+            }
         }
     }
 
@@ -87,8 +99,9 @@ public class PlayerBattleController : MonoBehaviour {
             PlayerManager.player.SetHealth(PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.HP)
                 - damage);
 
-            // Invincibility Animation
+            // Hit Animation
             animator.SetBool("Invincible", true);
+            PlayerManager.player.battle.GetComponent<BattleController>().HitEffect();
         }
     }
 }
