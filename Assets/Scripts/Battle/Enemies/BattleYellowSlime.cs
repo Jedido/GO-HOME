@@ -23,8 +23,7 @@ public class BattleYellowSlime : BattleCPU {
         if (shotTimer < Time.time)
         {
             shotTimer = Time.time + shotCooldown;
-            GameObject shot = Instantiate(SNRProj, transform.position, Quaternion.identity);
-            shot.transform.parent = transform;
+            GameObject shot = Spawn(SNRProj);
         }
 
         // Movement

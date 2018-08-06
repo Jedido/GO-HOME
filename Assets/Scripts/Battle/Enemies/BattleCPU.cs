@@ -48,7 +48,7 @@ public abstract class BattleCPU : MonoBehaviour {
         SPProj = SpriteLibrary.library.SPProjectile;
         SNRProj = SpriteLibrary.library.SNRProjectile;
         SPNRProj = SpriteLibrary.library.SPNRProjectile;
-        sprite = GetComponent<SpriteRenderer>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
         invulnerable = false;
     }
 
@@ -94,6 +94,11 @@ public abstract class BattleCPU : MonoBehaviour {
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 0.7f);
         return hit.collider == null || !hit.collider.tag.Equals("Wall");
+    }
+
+    protected GameObject Spawn(GameObject obj)
+    {
+        return Instantiate(obj, transform.position, Quaternion.identity, transform);
     }
 
     public void SetEnemy(Enemy enemy)

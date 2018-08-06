@@ -19,6 +19,7 @@ public class BattleWhiteSlime : BattleCPU {
         new Vector2(-3, 3) };
     public Sprite angry;
 
+    private Transform child;
     private int phase;
     private Vector2 dir;
     private float moveTimer, shotTimer;
@@ -34,7 +35,7 @@ public class BattleWhiteSlime : BattleCPU {
             spin = value;
             if (!spin)
             {
-                transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
+                child.rotation = Quaternion.AngleAxis(0, Vector3.forward);
             }
         }
     }
@@ -46,6 +47,7 @@ public class BattleWhiteSlime : BattleCPU {
         moveTimer = 0;
         curPos = 0;
         orientation = 0;
+        child = transform.GetChild(0);
     }
 
     protected override int GetHealth()
@@ -58,7 +60,7 @@ public class BattleWhiteSlime : BattleCPU {
     {
         if (spin)
         {
-            transform.rotation = Quaternion.AngleAxis(orientation, Vector3.forward);
+            child.rotation = Quaternion.AngleAxis(orientation, Vector3.forward);
             orientation += 6;
         }
 
@@ -74,7 +76,7 @@ public class BattleWhiteSlime : BattleCPU {
             else if (phase == 2)
             {
                 Spin = true;
-                GetComponent<SpriteRenderer>().sprite = angry;
+                GetComponentInChildren<SpriteRenderer>().sprite = angry;
             }
         }
         Vector2 playerPos = PlayerManager.player.battleAlien.transform.localPosition;
@@ -91,7 +93,7 @@ public class BattleWhiteSlime : BattleCPU {
                         angle += 10;
                         float rad = angle * Mathf.PI / 180;
                         Vector2 shotDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-                        EnemyProjectile shot = Instantiate(SProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
+                        EnemyProjectile shot = Spawn(SProj).GetComponent<EnemyProjectile>();
                         shot.InitialVelocity = shotDir * 3f;
                     }
 
@@ -111,7 +113,7 @@ public class BattleWhiteSlime : BattleCPU {
 
                             angle -= 45f;
                             angleEnd = angle + 90f;
-                            moveTimer = Time.time + moveCooldown;
+                            moveTimer = Time.time + 1.0f;
                         }
                         if (angle >= angleEnd)
                         {
@@ -148,8 +150,8 @@ public class BattleWhiteSlime : BattleCPU {
                         Velocity = Vector2.zero;
                         float rad = angle * Mathf.PI / 180;
                         Vector2 shotDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-                        EnemyProjectile shot = Instantiate(SPNRProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
-                        EnemyProjectile shot2 = Instantiate(SPNRProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
+                        EnemyProjectile shot = Spawn(SPNRProj).GetComponent<EnemyProjectile>();
+                        EnemyProjectile shot2 = Spawn(SPNRProj).GetComponent<EnemyProjectile>();
                         shot.InitialVelocity = shotDir * 3f;
                         shot2.InitialVelocity = -shotDir * 3f;
 
@@ -166,9 +168,9 @@ public class BattleWhiteSlime : BattleCPU {
                     if (shotTimer < Time.time)
                     {
                         shotTimer = Time.time + shotCooldown;
-                        EnemyProjectile forward = Instantiate(SProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
-                        EnemyProjectile left = Instantiate(SProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
-                        EnemyProjectile right = Instantiate(SProj, transform.position, Quaternion.identity).GetComponent<EnemyProjectile>();
+                        EnemyProjectile forward = Spawn(SProj).GetComponent<EnemyProjectile>();
+                        EnemyProjectile left = Spawn(SProj).GetComponent<EnemyProjectile>();
+                        EnemyProjectile right = Spawn(SProj).GetComponent<EnemyProjectile>();
                         forward.InitialVelocity = direction * 5;
                         left.InitialVelocity = Vector2.Perpendicular(direction) * 5;
                         right.InitialVelocity = -Vector2.Perpendicular(direction) * 5;
