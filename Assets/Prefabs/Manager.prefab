@@ -69,6 +69,7 @@ MonoBehaviour:
   battle: {fileID: 0}
   alien: {fileID: 0}
   battleAlien: {fileID: 0}
+  template: {fileID: 1448497124134980, guid: a2f15743c0875be4b8b0c6f067a0d3eb, type: 2}
 --- !u!114 &114855764950306976
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -87,6 +87,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49fcd326ef05114ea42533c8edb3409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: fd4e6b46e6730864ea3d92c973404023, type: 3}
+  - {fileID: 21300002, guid: fd4e6b46e6730864ea3d92c973404023, type: 3}
   arrow: {fileID: 1092209576068402, guid: 4245d5650511438438e6cd5ef9e4e3c9, type: 2}
   direction: 0
 --- !u!212 &212051338487186996

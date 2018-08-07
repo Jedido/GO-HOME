@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Reward {
+public class Reward : MonoBehaviour {
     // ALL POSSIBLE REWARDS:
     public enum Type { Gold, Part, KeyItem, SideItem, Item, PlayerStat, Map, BossMap };
-    private int type, aux;
+    public int type, aux;
 
     // Shorthand macro
     private PlayerManager p
@@ -23,7 +23,7 @@ public class Reward {
     {
         switch (type)
         {
-            case (int)Type.Gold: p.AddGameStat((int)PlayerManager.GameStats.Gold, aux); break;
+            case (int)Type.Gold: p.AddGameStat((int)PlayerManager.GameStats.Gold, aux); PlayerManager.player.Alert("+" + aux + "g", Color.yellow);  break;
             case (int)Type.Part: p.AddGameStat((int)PlayerManager.GameStats.Parts, 1); break;
             case (int)Type.KeyItem: p.EnableKeyItem(aux); break;
             case (int)Type.SideItem: break;  // TODO

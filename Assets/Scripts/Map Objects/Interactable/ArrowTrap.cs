@@ -2,20 +2,22 @@
 using UnityEngine;
 
 public class ArrowTrap : MonoBehaviour, Interactable {
-    private Animator animator;
+    public Sprite[] sprites;
     public GameObject arrow;
     public int direction;
     private Projectile a;
+    private SpriteRenderer sprite;
 
     void Start () {
-        animator = GetComponent<Animator>();
-        gameObject.AddComponent<Tripwire>().SetAngle(direction);
+        sprite = GetComponent<SpriteRenderer>();
         Reload();
     }
 
     private void Reload()
     {
+        sprite.sprite = sprites[0];
         a = Instantiate(arrow, transform.position, Quaternion.identity).GetComponent<Projectile>();
+        a.SetLifespan(5);
         a.Freeze();
         SetDirection(direction);
     }
@@ -25,7 +27,7 @@ public class ArrowTrap : MonoBehaviour, Interactable {
     {
         Quaternion orient = Quaternion.AngleAxis(dir * 90, Vector3.forward);
         transform.rotation = orient;
-        // a.gameObject.transform.rotation = orient;
+        a.gameObject.transform.rotation = orient;
     }
 
     public void Interact()
@@ -41,7 +43,7 @@ public class ArrowTrap : MonoBehaviour, Interactable {
             }
             a.Unfreeze();
             a = null;
-            animator.SetTrigger("Shoot");
+            sprite.sprite = sprites[1];
         }
     }
 
@@ -49,7 +51,6 @@ public class ArrowTrap : MonoBehaviour, Interactable {
     {
         if (a == null)
         {
-            animator.SetTrigger("Reload");
             Reload();
         }
     }

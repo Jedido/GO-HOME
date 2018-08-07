@@ -10,14 +10,27 @@ public class PlayerController : MonoBehaviour {
     private enum Direction { UP, LEFT, DOWN, RIGHT, NONE };
     private bool moving;
 
+    // Hit
+    private bool invincible;
+    private SpriteRenderer sprite;
+    private static readonly float invincibility = 0.5f;
+    private float invincibilityTimer;
+
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         PlayerManager.player.alien = gameObject;
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update () {
+        if (invincible && invincibilityTimer < Time.time)
+        {
+            sprite.color = Color.white;
+            invincible = false;
+        }
+
         // Check if in pause
         if (PlayerManager.player.CanMove())
         {
@@ -80,8 +93,6 @@ public class PlayerController : MonoBehaviour {
         }
         animator.SetBool("Moving", moving);
 
-        // animator.SetBool("Attacking", attacking);
-
         // TODO: update PlayerManager
         PlayerManager.player.Position = transform.position;
     }
@@ -89,15 +100,22 @@ public class PlayerController : MonoBehaviour {
     // TODO: remove true damage
     public void Hit(int damage, bool trueDamage)
     {
-        if (!trueDamage)
+        if (!invincible)
         {
-            damage -= PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.DEFENSE);
-            damage = damage < 1 ? 1 : damage;
-        }
-        PlayerManager.player.SetHealth(PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.HP)
-            - damage);
+            invincibilityTimer = Time.time + invincibility;
+            invincible = true;
+            if (!trueDamage)
+            {
+                damage -= PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.DEFENSE);
+                damage = damage < 1 ? 1 : damage;
+            }
+            PlayerManager.player.SetHealth(PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.HP)
+                - damage);
 
-        // TODO: set invincibility frames
+            // TODO: set invincibility frames
+            PlayerManager.player.Alert("-1", Color.red);
+            sprite.color = new Color(1, 1, 1, 0.5f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

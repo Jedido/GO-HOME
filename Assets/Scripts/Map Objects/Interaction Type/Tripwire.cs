@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Detects the player in a direction and fires when the player is there
 public class Tripwire : InteractionType {
-    private int dir;
+    public int dir;
     public enum Direction { DOWN, RIGHT, UP, LEFT };
 
     public void SetAngle(int direction)

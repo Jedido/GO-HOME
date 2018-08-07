@@ -58,6 +58,11 @@ public class PlayerManager : MonoBehaviour {
         set { if (level != value) { level = value; currentMap.ChangeFloor(level); } }
     }
 
+    // Text
+    public GameObject template;
+    public static readonly Color textColor = Color.white;
+
+
     // Player stats
     private int[] playerStats;
     public enum PlayerStats { TOOLKIT_SIZE, MAX_HP, HP, MS, DEFENSE, Count };
@@ -117,6 +122,14 @@ public class PlayerManager : MonoBehaviour {
             freeze = false;
             time += Time.time;
         }
+    }
+
+    public void Alert(string message, Color color)
+    {
+        GameObject obj = Instantiate(template, alien.transform.localPosition + new Vector3(0, 0.7f), Quaternion.identity);
+        TextMesh text = obj.GetComponent<TextMesh>();
+        text.text = message;
+        text.color = color;
     }
 
     // Items
