@@ -27,7 +27,7 @@ public class PlayerManager : MonoBehaviour {
     // Maps
     private bool[] maps;
     private bool[] bossEnabled;
-    public enum Maps { Plains, Cave, Desert, Mountain, Catacombs, Forest, Depths, Tundra, Volcano, Count };
+    public enum Maps { Plains, Cave, Desert, Mountain, City, Forest, Depths, Tundra, Volcano, Catacombs, Count };
 
     private bool[] eventMaps;
     public enum EventMaps { Hell, Count };
@@ -124,12 +124,13 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
-    public void Alert(string message, Color color)
+    public void Alert(string message, Color color, float time = 1.5f)
     {
         GameObject obj = Instantiate(template, alien.transform.localPosition + new Vector3(0, 0.7f), Quaternion.identity);
         TextMesh text = obj.GetComponent<TextMesh>();
         text.text = message;
         text.color = color;
+        obj.GetComponent<TextFade>().FadeTime = time;
     }
 
     // Items
@@ -224,6 +225,8 @@ public class PlayerManager : MonoBehaviour {
         playerStats = new int[(int)PlayerStats.Count];
         playerStats[(int)PlayerStats.MAX_HP] = 5;
         playerStats[(int)PlayerStats.HP] = 5;
+
+        bossEnabled = new bool[(int)Maps.Count];
     }
 
     public void StartMap()

@@ -5,14 +5,16 @@ using UnityEngine;
 public class TextFade : MonoBehaviour {
     private TextMesh text;
     private float time;
+    public float FadeTime
+    {
+        set { time = value; }
+    }
     private Color c;
-    private static readonly float FADE_TIME = 1.2f;
 
 	// Use this for initialization
 	void Start () {
         text = GetComponent<TextMesh>();
         c = text.color;
-        time = Time.time + 1.5f;
 	}
 	
 	// Update is called once per frame

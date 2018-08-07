@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 4545396543536596}
   - component: {fileID: 23399411406640082}
   - component: {fileID: 102592776664407392}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BattlePrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1393568188120874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.025, y: -4.5, z: 0}
+  m_LocalPosition: {x: 0.025, y: -4.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4782221118652562}
@@ -221,7 +221,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 6
-  m_Depth: 1
+  m_Depth: 2
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 256
@@ -247,8 +247,8 @@ MeshRenderer:
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bb8be355d445f8d4a9a53d12a68a0385, type: 3}
@@ -649,7 +649,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: faa87f2da126aec4eb84de083e62ddba, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.41960785}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.4}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
