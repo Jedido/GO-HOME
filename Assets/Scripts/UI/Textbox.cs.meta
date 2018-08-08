@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 623344c1fc399c14b868afb7157f1d63
+guid: edf6b725c7049ea428051288c13788da
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - textBox: {fileID: 1430361832604546, guid: ee62a16495afc214b999122485e018bb, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

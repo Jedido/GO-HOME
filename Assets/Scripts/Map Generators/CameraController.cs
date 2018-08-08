@@ -35,6 +35,7 @@ public class CameraController : MonoBehaviour {
     public float maxXBound, maxYBound;
     private float minXBound, minYBound;
     private GameObject center;
+    private bool centering;
     private float damp = 1f;
 
 	// Use this for initialization
@@ -55,15 +56,19 @@ public class CameraController : MonoBehaviour {
             maxYBound -= vertExtent;
             minYBound = vertExtent;
         }
+        center = PlayerManager.player.alien;
+        gameObject.transform.position = new Vector3(center.transform.position.x, center.transform.position.y, -10);
     }
 
     // Update is called once per frame
     void Update () {
-        if (center == null)
+        if (centering && center == null)
         {
             center = PlayerManager.player.alien;
+            centering = false;
             damp = 1;
         }
+
         float px = center.transform.position.x;
         float py = center.transform.position.y;
         if (px < minXBound)
@@ -82,15 +87,19 @@ public class CameraController : MonoBehaviour {
         {
             py = maxYBound;
         }
-        gameObject.transform.position = new Vector3(
-            gameObject.transform.position.x * (1 - damp) + px * damp,
-            gameObject.transform.position.y * (1 - damp) + py * damp,
-            -10);
+        if (centering || !PlayerManager.player.battle.activeSelf)
+        {
+            gameObject.transform.position = new Vector3(
+                gameObject.transform.position.x * (1 - damp) + px * damp,
+                gameObject.transform.position.y * (1 - damp) + py * damp,
+                -10);
+        }
     }
 
     public void CenterOn(GameObject obj)
     {
         center = obj;
+        centering = true;
         damp = 0.5f;
     }
 }

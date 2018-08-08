@@ -72,7 +72,7 @@ public class SpriteLibrary : MonoBehaviour {
     // Enemies
     public GameObject Slime
     {
-        get { return enemies[(int)Enemy.EnemyID.Slime]; }
+        get { return enemies[(int)Enemy.EnemyID.RedSlime]; }
     }
 
     // TODO: take in all the prefabs

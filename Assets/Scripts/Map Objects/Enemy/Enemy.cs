@@ -11,16 +11,26 @@ public abstract class Enemy : MonoBehaviour {
     private GameObject wall, smallProjectile;
     private BattleController battle;
     private GameObject battleForm;
-    protected bool disableInit;
+    protected bool disableInit, temp;  // setTemp will remove the enemy after battle no matter what
     public GameObject[] battleSpawn; // any additional enemies that are introduced into the battlefield
 
+    // Info
+    public GameObject textBox;
+
     public abstract int GetID();
+    public abstract string GetName();
     public abstract void BecomeAggro();
     public abstract void BecomeActive();
     public abstract void BecomeInactive();
     protected abstract void MakeInitial(int number);
-    virtual protected Vector3 InitialPosition()
+    virtual protected Vector3 InitialPosition(int number = 1)
     {
+        switch (number)
+        {
+            case 2: return new Vector2(-3.5f, 0) + Random.insideUnitCircle;
+            case 3: return new Vector2(0, 3f) + Random.insideUnitCircle;
+            case 4: return new Vector2(0, 3f) + Random.insideUnitCircle;
+        }
         return new Vector2(3.5f, 0) + Random.insideUnitCircle;
     }
     protected Vector3 PlayerPosition()
@@ -28,21 +38,33 @@ public abstract class Enemy : MonoBehaviour {
         return new Vector3(0, 0, 10);
     }
     // Be sure to document all IDs here
-    public enum EnemyID { Slime, };
+    public enum EnemyID { RedSlime, BlueSlime, GreenSlime, YellowSlime, WhiteSlime, BlackSlime, Count };
 
     // Since Enemy is never created as a gameobject, this is used instead of Unity's Start()
     protected void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         wall = SpriteLibrary.library.Wall;
         smallProjectile = SpriteLibrary.library.SProjectile;
+        textBox = Instantiate(textBox, transform);
+        textBox.transform.localPosition = Vector2.zero;
+        Textbox box = textBox.GetComponent<Textbox>();
+        box.AddTitle(GetName());
+        foreach (GameObject backup in battleSpawn)
+        {
+            box.AddSub(backup.GetComponent<Enemy>().GetName());
+        }
     }
 
     public void InitBattle(int number = 1, bool disableBlocks = false)
     {
         if (!PlayerManager.player.battle.activeSelf || number != 1)
         {
+            if (number == 1)
+            {
+                Camera.main.GetComponent<CameraController>().CenterOn(gameObject);
+                textBox.SetActive(true);
+            }
             PlayerManager.player.PauseTimer();
-            Camera.main.GetComponent<CameraController>().CenterOn(gameObject);
             GetComponent<SpriteRenderer>().sortingOrder = 9;
             battle = PlayerManager.player.battle.GetComponent<BattleController>();
             battleForm = new GameObject();
@@ -52,7 +74,7 @@ public abstract class Enemy : MonoBehaviour {
             PlayerManager.player.battleAlien.transform.localPosition = PlayerPosition();
 
             GameObject enemy = Instantiate(SpriteLibrary.library.GetEnemy(GetID()), battleForm.transform, false);
-            enemy.transform.localPosition = InitialPosition();
+            enemy.transform.localPosition = InitialPosition(number);
             enemy.GetComponent<BattleCPU>().SetEnemy(this);
             if (!disableBlocks)
             {
@@ -68,11 +90,12 @@ public abstract class Enemy : MonoBehaviour {
                     aux.GetComponent<SpriteRenderer>().enabled = false;
                     Enemy auxE = aux.GetComponent<Enemy>();
                     auxE.Start();
+                    auxE.temp = true;
                     auxE.InitBattle(++number, disableInit);
                 }
             }
 
-            battle.StartBattle();
+            battle.StartBattle(this);
         }
     }
 
@@ -99,7 +122,12 @@ public abstract class Enemy : MonoBehaviour {
     public void Hide()
     {
         Destroy(battleForm);
-        gameObject.SetActive(false);
+        if (temp)
+        {
+            Destroy(gameObject);
+        } else {
+            gameObject.SetActive(false);
+        }
     }
 
     public void Die()
@@ -107,5 +135,15 @@ public abstract class Enemy : MonoBehaviour {
         // TODO: add a respawn timer somewhere and call it
         Destroy(battleForm);
         Destroy(gameObject);
+    }
+
+    private void OnMouseOver()
+    {
+        textBox.SetActive(true);
+    }
+
+    private void OnMouseExit()
+    {
+        textBox.SetActive(false);
     }
 }

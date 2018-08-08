@@ -29,7 +29,7 @@ public abstract class Projectile : MonoBehaviour {
             {
                 angle = -angle;
             }
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            transform.rotation = Quaternion.Euler(0, 0, angle + 180);
             rb2d.velocity = value;
         }
     }

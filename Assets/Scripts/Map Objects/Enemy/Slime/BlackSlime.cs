@@ -4,4 +4,9 @@
     {
         return 4;
     }
+
+    public override string GetName()
+    {
+        return "Black Slime";
+    }
 }

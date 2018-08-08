@@ -4,7 +4,7 @@ public class GreenSlime : Slime
 {
     private Vector2 initial;
 
-    protected override Vector3 InitialPosition()
+    protected override Vector3 InitialPosition(int number = 0)
     {
         while (initial == null || (initial.x == 0 && initial.y == 0))
         {
@@ -18,11 +18,16 @@ public class GreenSlime : Slime
         base.MakeInitial(number);
 
         // Place a block on starting location
-        AddBlock(InitialPosition().x, initial.y, 10, 10);
+        AddBlock(InitialPosition().x, initial.y, 15, 15);
     }
 
     public override int GetID()
     {
         return 2;
+    }
+
+    public override string GetName()
+    {
+        return "Green Slime";
     }
 }

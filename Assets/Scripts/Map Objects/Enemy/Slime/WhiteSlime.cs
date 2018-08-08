@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WhiteSlime : Slime
 {
-    protected override Vector3 InitialPosition()
+    protected override Vector3 InitialPosition(int number = 0)
     {
         return BattleWhiteSlime.corners[0];
     }
@@ -12,6 +12,11 @@ public class WhiteSlime : Slime
     public override int GetID()
     {
         return 4;
+    }
+
+    public override string GetName()
+    {
+        return "White Slime";
     }
 
     protected override void MakeInitial(int number)

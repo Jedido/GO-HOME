@@ -9,6 +9,7 @@ public class BattleController : MonoBehaviour {
     private Camera battleCam;
     private float fade, delay, delayTimer;
     private bool zoomIn, fadeOut, active;
+    private List<Enemy> enemies;
     public bool Active
     {
         get { return active; }
@@ -26,6 +27,7 @@ public class BattleController : MonoBehaviour {
         gameObject.SetActive(false);
         delay = 0.5f;
         flash = 0.6f;
+        enemies = new List<Enemy>();
     }
 
     private void Update()
@@ -68,7 +70,7 @@ public class BattleController : MonoBehaviour {
 
         if (fadeOut)
         {
-            fade -= 0.03f;
+            fade -= 0.05f;
             if (fade < 0)
             {
                 SetAlpha(0);
@@ -106,9 +108,10 @@ public class BattleController : MonoBehaviour {
         battlefield.color = new Color(c.r, c.g, c.b, f);
     }
 
-    public void StartBattle()
+    public void StartBattle(Enemy e)
     {
         // Transition into battle
+        enemies.Add(e);
         battleCam.orthographicSize = 1000;
         zoomIn = true;
         gameObject.SetActive(true);
@@ -120,6 +123,14 @@ public class BattleController : MonoBehaviour {
     {
         fade = 1;
         fadeOut = true;
+        foreach (Enemy e in enemies)
+        {
+            if (e != null)
+            {
+                e.Hide();
+            }
+        }
+        enemies.Clear();
     }
 
     public void StopEnd()

@@ -7,7 +7,7 @@ public class TextFade : MonoBehaviour {
     private float time;
     public float FadeTime
     {
-        set { time = value; }
+        set { time = Time.time + value; }
     }
     private Color c;
 
