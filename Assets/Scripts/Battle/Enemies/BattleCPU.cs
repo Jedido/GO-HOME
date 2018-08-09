@@ -8,7 +8,7 @@ public abstract class BattleCPU : MonoBehaviour {
     private Rigidbody2D rb2d;
     private Enemy e;
     private bool invulnerable;
-    protected GameObject SProj, SNRProj, SPProj, SPNRProj;
+    protected GameObject SProj, SNRProj, SPProj, SPNRProj, WProj;
     protected SpriteRenderer sprite;
 
     protected bool Invincible
@@ -48,6 +48,7 @@ public abstract class BattleCPU : MonoBehaviour {
         SPProj = SpriteLibrary.library.SPProjectile;
         SNRProj = SpriteLibrary.library.SNRProjectile;
         SPNRProj = SpriteLibrary.library.SPNRProjectile;
+        WProj = SpriteLibrary.library.WProjectile;
         sprite = GetComponentInChildren<SpriteRenderer>();
         invulnerable = false;
     }
@@ -98,7 +99,7 @@ public abstract class BattleCPU : MonoBehaviour {
 
     protected GameObject Spawn(GameObject obj)
     {
-        return Instantiate(obj, transform.position, Quaternion.identity, transform);
+        return Instantiate(obj, transform.position, Quaternion.identity, transform.parent);
     }
 
     public void SetEnemy(Enemy enemy)

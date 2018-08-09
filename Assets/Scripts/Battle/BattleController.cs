@@ -95,6 +95,7 @@ public class BattleController : MonoBehaviour {
     public void HitEffect()
     {
         bg.color = new Color(1, 0, 0, 0.4f);
+        // Camera.main.gameObject.GetComponent<CameraController>().shakeDuration = 0.05f;
     }
 
     public void SetColor(Color c)

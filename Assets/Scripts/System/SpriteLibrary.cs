@@ -68,6 +68,10 @@ public class SpriteLibrary : MonoBehaviour {
     {
         get { return prefabs["SPNR Projectile"]; }
     }
+    public GameObject WProjectile
+    {
+        get { return prefabs["W Projectile"]; }
+    }
 
     // Enemies
     public GameObject Slime

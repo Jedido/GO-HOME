@@ -7,6 +7,7 @@ public class PlayerBattleController : MonoBehaviour {
     private Rigidbody2D rb2d;
     public float projTimer, projCooldown, projSpeed;
     public float hitTimer, hitCooldown;  // move this out
+    private Vector3 pushDir;
 
     // Weapon 1 (default)
     private GameObject projectile;
@@ -32,6 +33,7 @@ public class PlayerBattleController : MonoBehaviour {
         shield.gameObject.SetActive(false);
         animator = GetComponent<Animator>();
         hitCooldown = 0.5f;
+        pushDir = Vector3.zero;
 	}
 	
 	// Update is called once per frame
@@ -79,12 +81,20 @@ public class PlayerBattleController : MonoBehaviour {
                 animator.SetBool("Invincible", false);
             }
 
+            Vector3 moveDir;
             if (!shield.gameObject.activeSelf)
             {
-                rb2d.velocity = new Vector2(horizontal * ms, vertical * ms);
+                moveDir = new Vector2(horizontal * ms, vertical * ms);
             } else
             {
-                rb2d.velocity = new Vector2(horizontal * ms, vertical * ms) * 0.5f;
+                moveDir = new Vector2(horizontal * ms, vertical * ms) * 0.5f;
+            }
+            if (pushDir.magnitude != 0)
+            {
+                rb2d.velocity = moveDir - Vector3.Project(moveDir, pushDir) + pushDir;
+            } else
+            {
+                rb2d.velocity = moveDir;
             }
         }
     }
@@ -103,5 +113,10 @@ public class PlayerBattleController : MonoBehaviour {
             animator.SetBool("Invincible", true);
             PlayerManager.player.battle.GetComponent<BattleController>().HitEffect();
         }
+    }
+
+    public void Push(Vector3 dir)
+    {
+        pushDir += dir;
     }
 }

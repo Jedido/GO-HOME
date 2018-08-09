@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1000013230644336}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1000013230644336
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4000012751075140}
   - component: {fileID: 114000013019438890}
@@ -32,7 +32,7 @@ GameObject:
 --- !u!4 &4000012751075140
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013230644336}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -45,7 +45,7 @@ Transform:
 --- !u!114 &114000013019438890
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013230644336}
   m_Enabled: 1
@@ -56,7 +56,7 @@ MonoBehaviour:
 --- !u!114 &114841605326330530
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013230644336}
   m_Enabled: 1
@@ -73,7 +73,7 @@ MonoBehaviour:
 --- !u!114 &114855764950306976
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013230644336}
   m_Enabled: 1
@@ -97,9 +97,11 @@ MonoBehaviour:
   - {fileID: 1852543584806820, guid: 61118b728338a514ca205f97e105276d, type: 2}
   - {fileID: 1257500971821730, guid: 44c56a55cb3bb05428aa5ce0e8bce126, type: 2}
   - {fileID: 1010471987563134, guid: 57e33897a40d0b54d8ab1c54555ab8b7, type: 2}
+  - {fileID: 1386008922475616, guid: b99b9a1ad190b03409f7e7fa4957642f, type: 2}
   enemies:
   - {fileID: 1697629491216538, guid: 9a6c59af6d4fdc14aa046e4673117c8d, type: 2}
   - {fileID: 1604568200716348, guid: f7971ddc8af8d0d4dbb65f5bd815db0d, type: 2}
   - {fileID: 1162886048065532, guid: 3ea0228b24bccdf419514fda72542154, type: 2}
   - {fileID: 1513162545204012, guid: 59946ccba16b8cc479a9cdd5e235b028, type: 2}
   - {fileID: 1366868760734276, guid: 8a6e60193e8e9624295c8ea2d896aed7, type: 2}
+  - {fileID: 1146813239125912, guid: a045e2378351c2c45a1a11dacc21f8c5, type: 2}

@@ -62,7 +62,7 @@ public class CameraController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (centering && center == null)
+        if (center == null)
         {
             center = PlayerManager.player.alien;
             centering = false;
