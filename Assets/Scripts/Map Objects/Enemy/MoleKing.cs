@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class MoleKing : Enemy {
     public GameObject mole;
+    public GameObject gray;
+    public GameObject brown;
 
-    private GameObject[,] spikes;
+    private Spike[,] spikes;
     private static readonly int WIDTH = 15;
     private static readonly int HEIGHT = 15;
 
-    private static readonly float spikeCooldown = 1f;
-    private static readonly float moveCooldown = 0.25f;
+    private Vector2 spikeDest;
+    private static readonly float spikeCooldown = 0.4f;
+    private static readonly float throwCooldown = 1f;
     private static readonly float burrowCooldown = 2f;
-    private float spikeTimer, moveTimer, burrowTimer;
-    private bool burrowed;
+    private float spikeTimer, throwTimer, burrowTimer;
+    private int hitCount, phase;
+    private bool burrowed, arrived, done;
 
     private Animator animator;
 
@@ -30,7 +34,7 @@ public class MoleKing : Enemy {
 
         GameObject spikeHolder = new GameObject();
         GameObject spike = SpriteLibrary.library.SpikeTrap;
-        spikes = new GameObject[WIDTH + 1, HEIGHT];
+        spikes = new Spike[WIDTH + 1, HEIGHT];
         for (int i = 0; i < WIDTH + 1; i++)
         {
             for (int j = 0; j < HEIGHT; j++)
@@ -39,29 +43,125 @@ public class MoleKing : Enemy {
                 {
                     GameObject s = Instantiate(spike, spikeHolder.transform, true);
                     s.transform.localPosition = new Vector2(i, j);
-                    spikes[i, j] = s;
+                    spikes[i, j] = s.GetComponent<Spike>();
                 }
             }
         }
         spikeHolder.transform.parent = transform;
         spikeHolder.transform.position = transform.position - new Vector3(0.525f, 0);
+        arrived = true;
+        burrowed = false;
+        phase = 1;
     }
 
-    private void Update()
+    protected override void UpdateEnemy()
     {
-        if (burrowTimer < Time.time)
+        Vector2 pos = PlayerManager.player.alien.transform.position - transform.position;
+
+        // Burrow/Unburrow transitions
+        if (arrived && burrowTimer < Time.time)
         {
             burrowTimer = Time.time + burrowCooldown;
             if (burrowed)
             {
                 burrowed = false;
+                done = false;
                 animator.SetTrigger("Unburrow");
-                mole.transform.localPosition = corners[Random.Range(0, 4)];
-            } else
+            } else if (done)
             {
-                burrowed = true;
+                arrived = false;
                 animator.SetTrigger("Burrow");
+                animator.ResetTrigger("Unburrow");
+                hitCount = 0;
+                spikeDest = pos;
             }
+        } else if (burrowTimer < Time.time)
+        {
+            burrowed = true;
+        }
+
+        // Above ground attack
+        if (!burrowed && !done)
+        {
+            if (throwTimer < Time.time)
+            {
+                throwTimer = Time.time + throwCooldown / phase;
+                hitCount++;
+                if (hitCount > phase * 10)
+                {
+                    done = true;
+                    hitCount = 0;
+                }
+                else
+                {
+                    GameObject obj;
+                    if (hitCount == phase * 7)
+                    {
+                        obj = Instantiate(brown, mole.transform.position, Quaternion.identity);
+                        obj.GetComponent<SpawnSpecialProjectile>().SetMole(this);
+                    }
+                    else
+                    {
+                        obj = Instantiate(gray, mole.transform.position, Quaternion.identity);
+                    }
+                    Projectile proj = obj.GetComponent<Projectile>();
+                    Vector3 dest = (Vector3)pos - mole.transform.localPosition + (Vector3)Random.insideUnitCircle * 3 / phase;
+                    proj.InitialVelocity = dest / 3 * phase;
+                    proj.SetLifespan(3 / (float)phase);
+                }
+            }
+        }
+
+        // Below ground attack
+        if (burrowed)
+        {
+            if (spikeTimer < Time.time)
+            {
+                spikeTimer = Time.time + spikeCooldown / phase;
+                Vector3 spikeDir = (Vector3)spikeDest - mole.transform.localPosition;
+                if (spikeDir.magnitude > 2)
+                {
+                    spikeDir = spikeDir.normalized * 2;
+                }
+                mole.transform.localPosition += spikeDir;
+                hitCount++;
+                int x = (int)Mathf.Round(mole.transform.localPosition.x);
+                int y = (int)Mathf.Round(mole.transform.localPosition.y + 0.15f) - 1;
+                Spike(x, y);
+                Spike(x + 1, y);
+                Spike(x, y + 1);
+                Spike(x - 1, y);
+                Spike(x, y - 1);
+                Spike(x + 1, y + 1);
+                Spike(x - 1, y + 1);
+                Spike(x + 1, y - 1);
+                Spike(x - 1, y - 1);
+            }
+
+            if (hitCount != 0)
+            {
+                if (hitCount < 10)
+                {
+                    spikeDest = pos;
+                }
+                else if (hitCount == 10)
+                {
+                    spikeDest = corners[Random.Range(0, 4)];
+                }
+                else if ((spikeDest - (Vector2)mole.transform.localPosition).magnitude < 0.05f)
+                {
+                    arrived = true;
+                    hitCount = 0;
+                }
+            }
+        }
+    }
+
+    private void Spike(int x, int y)
+    {
+        if (x >= 0 && x < WIDTH + 1 && y >= 0 && y < HEIGHT && spikes[x, y] != null)
+        {
+            spikes[x, y].Interact();
         }
     }
 
@@ -80,12 +180,24 @@ public class MoleKing : Enemy {
 
     public override int GetID()
     {
-        return 10;
+        return (int)EnemyID.MoleKing + phase - 1;
     }
 
     public override string GetName()
     {
         return "Mole King";
+    }
+
+    public override void InitBattle(int number = 1, bool disableBlocks = false, bool center = true)
+    {
+        if (burrowed && (mole.transform.position - PlayerManager.player.alien.transform.position).magnitude < 5f)
+        {
+            base.InitBattle(number, disableBlocks, false);
+            hitCount = 9;
+        } else
+        {
+            PlayerManager.player.Alert("Nothing found underground!", Color.white, 3);
+        }
     }
 
     protected override void MakeInitial(int number)
@@ -96,5 +208,17 @@ public class MoleKing : Enemy {
     protected override void MakeBorder(int number)
     {
         // No Border
+    }
+
+    public override void Hide()
+    {
+        Destroy(battleForm);
+        if (phase == 3)
+        {
+            Destroy(gameObject);
+        } else
+        {
+            phase++;
+        }
     }
 }

@@ -109,15 +109,21 @@ public class BattleController : MonoBehaviour {
         battlefield.color = new Color(c.r, c.g, c.b, f);
     }
 
-    public void StartBattle(Enemy e)
+    public void StartBattle(Enemy e, bool transition)
     {
-        // Transition into battle
         enemies.Add(e);
         battleCam.orthographicSize = 1000;
         zoomIn = true;
         gameObject.SetActive(true);
         battleCam.enabled = false;
-        delayTimer = delay + Time.time;
+        if (transition)
+        {
+            // Transition into battle
+            delayTimer = delay + Time.time;
+        } else
+        {
+            delayTimer = Time.time;
+        }
     }
 
     public void EndBattle()

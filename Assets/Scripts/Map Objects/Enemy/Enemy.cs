@@ -10,7 +10,7 @@ public abstract class Enemy : MonoBehaviour {
     // Types of objects in the battlefield
     private GameObject wall, smallProjectile;
     private BattleController battle;
-    private GameObject battleForm;
+    protected GameObject battleForm;
     protected bool disableInit, temp;  // setTemp will remove the enemy after battle no matter what
     public GameObject[] battleSpawn; // any additional enemies that are introduced into the battlefield
 
@@ -38,7 +38,8 @@ public abstract class Enemy : MonoBehaviour {
         return new Vector3(0, 0, 10);
     }
     // Be sure to document all IDs here
-    public enum EnemyID { RedSlime, BlueSlime, GreenSlime, YellowSlime, WhiteSlime, BlackSlime, Count };
+    public enum EnemyID { RedSlime, BlueSlime, GreenSlime, YellowSlime, WhiteSlime, BlackSlime,
+        MoleKing, };
 
     // Since Enemy is never created as a gameobject, this is used instead of Unity's Start()
     protected void Start () {
@@ -55,17 +56,33 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
-    public void InitBattle(int number = 1, bool disableBlocks = false)
+    private void Update()
+    {
+        if (PlayerManager.player.CanMove())
+        {
+            UpdateEnemy();
+        }
+    }
+
+    protected virtual void UpdateEnemy()
+    {
+        
+    }
+
+    public virtual void InitBattle(int number = 1, bool disableBlocks = false, bool center = true)
     {
         if (!PlayerManager.player.battle.activeSelf || number != 1)
         {
-            if (number == 1)
+            if (number == 1 && center)
             {
                 Camera.main.GetComponent<CameraController>().CenterOn(gameObject);
                 textBox.SetActive(true);
             }
             PlayerManager.player.PauseTimer();
-            GetComponent<SpriteRenderer>().sortingOrder = 9;
+            if (center)
+            {
+                GetComponent<SpriteRenderer>().sortingOrder = 9;
+            }
             battle = PlayerManager.player.battle.GetComponent<BattleController>();
             battleForm = new GameObject();
 
@@ -95,7 +112,7 @@ public abstract class Enemy : MonoBehaviour {
                 }
             }
 
-            battle.StartBattle(this);
+            battle.StartBattle(this, center);
         }
     }
 
@@ -119,7 +136,7 @@ public abstract class Enemy : MonoBehaviour {
         block.transform.localPosition = new Vector3(x, y);
     }
 
-    public void Hide()
+    public virtual void Hide()
     {
         Destroy(battleForm);
         if (temp)
@@ -130,7 +147,7 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
-    public void Die()
+    public virtual void Die()
     {
         // TODO: add a respawn timer somewhere and call it
         Destroy(battleForm);

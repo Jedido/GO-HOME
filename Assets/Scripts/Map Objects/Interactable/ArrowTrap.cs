@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ArrowTrap : MonoBehaviour, Interactable {
     public Sprite[] sprites;
@@ -10,6 +9,10 @@ public class ArrowTrap : MonoBehaviour, Interactable {
 
     void Start () {
         sprite = GetComponent<SpriteRenderer>();
+        if (direction == -1)
+        {
+            direction = Random.Range(0, 4);
+        }
         Reload();
     }
 

@@ -10,6 +10,10 @@ public abstract class BattleCPU : MonoBehaviour {
     private bool invulnerable;
     protected GameObject SProj, SNRProj, SPProj, SPNRProj, WProj;
     protected SpriteRenderer sprite;
+    protected Sprite Sprite
+    {
+        set { sprite.sprite = value; }
+    }
 
     protected bool Invincible
     {
@@ -107,7 +111,7 @@ public abstract class BattleCPU : MonoBehaviour {
         e = enemy;
     }
 	
-    public void Hit(int damage)
+    public virtual void Hit(int damage)
     {
         if (!invulnerable)
         {
