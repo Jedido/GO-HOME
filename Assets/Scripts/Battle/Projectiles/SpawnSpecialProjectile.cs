@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnSpecialProjectile : Projectile {
-    public GameObject digSpot;
-    private Enemy mole;
+    private MoleKing mole;
 
-    public void SetMole(Enemy o)
+    public void SetMole(MoleKing o)
     {
         mole = o;
     }
 
     private void OnDestroy()
     {
-        Instantiate(digSpot, transform.position, Quaternion.identity).GetComponent<Encounter>().enemy = mole;
+        mole.SetBurrow(transform.localPosition);
     }
 }

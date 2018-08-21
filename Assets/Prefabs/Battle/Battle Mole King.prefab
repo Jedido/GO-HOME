@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 212395807452837096}
   - component: {fileID: 58789416738829654}
   - component: {fileID: 50714616612637972}
+  - component: {fileID: 114626765582276908}
   m_Layer: 8
   m_Name: Claw
   m_TagString: Untagged
@@ -74,6 +75,7 @@ GameObject:
   - component: {fileID: 212225286082091474}
   - component: {fileID: 58775710737492302}
   - component: {fileID: 50145941693711202}
+  - component: {fileID: 114615611263909156}
   m_Layer: 8
   m_Name: Claw
   m_TagString: Untagged
@@ -241,6 +243,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.05}
   serializedVersion: 2
   m_Radius: 0.25
+--- !u!114 &114615611263909156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941114572198742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f78f32f73e7dd204c969eb926f19542f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114626765582276908
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1654844798733466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f78f32f73e7dd204c969eb926f19542f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114947040929753398
 MonoBehaviour:
   m_ObjectHideFlags: 1

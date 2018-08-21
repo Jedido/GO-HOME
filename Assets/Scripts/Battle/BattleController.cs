@@ -76,6 +76,14 @@ public class BattleController : MonoBehaviour {
                 SetAlpha(0);
                 fadeOut = false;
                 active = false;
+                foreach (Enemy e in enemies)
+                {
+                    if (e != null)
+                    {
+                        e.Hide();
+                    }
+                }
+                enemies.Clear();
                 gameObject.SetActive(false);
             }
             else
@@ -130,14 +138,6 @@ public class BattleController : MonoBehaviour {
     {
         fade = 1;
         fadeOut = true;
-        foreach (Enemy e in enemies)
-        {
-            if (e != null)
-            {
-                e.Hide();
-            }
-        }
-        enemies.Clear();
     }
 
     public void StopEnd()
@@ -159,6 +159,9 @@ public class BattleController : MonoBehaviour {
         if (collision.gameObject.tag.Equals("Player"))
         {
             EndBattle();
+        } else if (collision.tag.Equals("Enemy"))
+        {
+            Destroy(collision.transform.parent.gameObject);
         } else
         {
             Destroy(collision.gameObject);

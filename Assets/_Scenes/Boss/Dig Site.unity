@@ -15436,8 +15436,9 @@ MonoBehaviour:
   battleSpawn: []
   textBox: {fileID: 1365956583594206, guid: c2b461f6e285fe142b01444efd59c275, type: 2}
   mole: {fileID: 996724304}
-  gray: {fileID: 1855919378547842, guid: f304384bbae42a040880e454babf6787, type: 2}
   brown: {fileID: 1045218273861012, guid: 72fa8473664b11d4287fcb3e4ebc6646, type: 2}
+  block: {fileID: 1895818468889190, guid: fa9bd59bd19a2354189ac1f80a8d3226, type: 2}
+  burrow: {fileID: 1001130351260306, guid: 1d3cc1a17a3301947aeb409826be06a2, type: 2}
 --- !u!4 &680096762 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4599220557089548, guid: 2dbe45a0662064d44a76e6a0bb3971cb,

@@ -7,7 +7,7 @@ public class SpawnProjectile : EnemyProjectile {
     {
         foreach (GameObject o in spawn)
         {
-            Instantiate(o, new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y)), Quaternion.identity);
+            Instantiate(o, new Vector3(Mathf.Round(transform.position.x - 0.5f), Mathf.Round(transform.position.y - 0.5f)), Quaternion.identity);
         }
     }
 }
