@@ -15433,7 +15433,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58dac7520ed416b4eba35d26b7cc5088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleSpawn: []
+  battleSpawn:
+  - {fileID: 1954167121562930, guid: af8b2f2fb693fa149914e46a12ce3257, type: 2}
+  - {fileID: 1954167121562930, guid: af8b2f2fb693fa149914e46a12ce3257, type: 2}
   textBox: {fileID: 1365956583594206, guid: c2b461f6e285fe142b01444efd59c275, type: 2}
   mole: {fileID: 996724304}
   brown: {fileID: 1045218273861012, guid: 72fa8473664b11d4287fcb3e4ebc6646, type: 2}

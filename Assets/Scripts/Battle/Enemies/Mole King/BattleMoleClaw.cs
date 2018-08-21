@@ -1,28 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BattleMoleClaw : BattleCPU {
-    private Vector3 origin;
-    public Vector3 Origin
-    {
-        set { origin = value; }
-    }
-
-    private static readonly float raiseCooldown = 0.5f;
-    private float raiseTimer;
-    private bool raise;
+    private Vector3 direction;
+    private static readonly float aimCooldown = 0.5f;
+    private static readonly float slashCooldown = 3f;
+    private float slashTimer, aimTimer;
+    private bool aim;
 
     new protected void Start()
     {
         base.Start();
-        transform.localPosition = origin;
-    }
-
-    public void Invert()
-    {
-        raise = false;
     }
 
     protected override int GetHealth()
@@ -30,20 +17,46 @@ public class BattleMoleClaw : BattleCPU {
         return -1;
     }
 
+    public override void Hit(int damage)
+    {
+
+    }
+
     protected override void UpdateCPU()
     {
-        if (raiseCooldown < Time.time)
+        Vector3 dir = PlayerManager.player.battleAlien.transform.position - transform.position;
+        if (aim)
         {
-            raise = !raise;
-            if (raise)
+            float angle = Vector3.Angle(Vector3.down, dir);
+            if (dir.x < 0)
             {
-                Debug.Log(Time.time);
-                Velocity = new Vector2(0, 3);
+                angle = -angle;
             }
-            else
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        if (aim && aimTimer < Time.time)
+        {
+            aim = false;
+            Velocity = dir.normalized * 4f;
+            slashTimer = Time.time + slashCooldown;
+        }
+
+        if (slashTimer > Time.time)
+        {
+            dir = Velocity;
+            float angle = Vector3.Angle(Vector3.down, dir);
+            if (dir.x < 0)
             {
-                Velocity = new Vector2(0, -3);
+                angle = -angle;
             }
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        if (!aim && slashTimer < Time.time)
+        {
+            aim = true;
+            aimTimer = Time.time + aimCooldown + Random.value;
         }
     }
 }

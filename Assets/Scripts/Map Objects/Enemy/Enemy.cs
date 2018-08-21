@@ -39,20 +39,23 @@ public abstract class Enemy : MonoBehaviour {
     }
     // Be sure to document all IDs here
     public enum EnemyID { RedSlime, BlueSlime, GreenSlime, YellowSlime, WhiteSlime, BlackSlime,
-        MoleKing, };
+        MoleClaw, MoleKing, MoleKing2, MoleKing3 };
 
     // Since Enemy is never created as a gameobject, this is used instead of Unity's Start()
     protected void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         wall = SpriteLibrary.library.Wall;
         smallProjectile = SpriteLibrary.library.SProjectile;
-        textBox = Instantiate(textBox, transform);
-        textBox.transform.localPosition = Vector2.zero;
-        Textbox box = textBox.GetComponent<Textbox>();
-        box.AddTitle(GetName());
-        foreach (GameObject backup in battleSpawn)
+        if (textBox != null)
         {
-            box.AddSub(backup.GetComponent<Enemy>().GetName());
+            textBox = Instantiate(textBox, transform);
+            textBox.transform.localPosition = Vector2.zero;
+            Textbox box = textBox.GetComponent<Textbox>();
+            box.AddTitle(GetName());
+            foreach (GameObject backup in battleSpawn)
+            {
+                box.AddSub(backup.GetComponent<Enemy>().GetName());
+            }
         }
     }
 

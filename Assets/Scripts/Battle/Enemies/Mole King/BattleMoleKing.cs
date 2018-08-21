@@ -1,18 +1,7 @@
 ﻿using UnityEngine;
 
 public abstract class BattleMoleKing : BattleCPU {
-    public Sprite[] phases;
     private int phase;
-    protected int Phase
-    {
-        set {
-            phase = value;
-            Sprite = phases[phase];
-        }
-    }
-    public GameObject body, left, right;
-    protected BattleMoleClaw l, r;
-
     private static readonly float projCooldown = 1f;
     private float moveTimer, projTimer;
     private int corner;
@@ -20,39 +9,42 @@ public abstract class BattleMoleKing : BattleCPU {
     private readonly Vector2[] corners = { new Vector2(5f, -3.5f), new Vector2(5f, 3.5f), new Vector2(-5f, 3.5f), new Vector2(-5f, -3.5f) };
 
     protected abstract GameObject GetProjectile();
+    protected abstract int GetPhase();
 
     new protected void Start()
     {
         base.Start();
-        left.transform.localPosition = new Vector2(-0.5f, 0);
-        l = left.GetComponent<BattleMoleClaw>();
-        l.Origin = new Vector2(-0.5f, 0);
-        right.transform.localPosition = new Vector2(0.5f, 0);
-        r = right.GetComponent<BattleMoleClaw>();
-        r.Origin = new Vector2(0.5f, 0);
-        r.Invert();
         corner = 0;
-        transform.localPosition = corners[0];
-        transform.rotation = Quaternion.AngleAxis(corner * 90, Vector3.forward);
+        phase = GetPhase() + 1;
     }
 
     protected override void UpdateCPU()
     {
-        if (projTimer < Time.time)
+        if (!Invincible)
         {
-            projTimer = Time.time + projCooldown;
-            GameObject proj = Spawn(GetProjectile());
-            Vector3 dir = PlayerManager.player.battleAlien.transform.position - transform.position;
-            proj.GetComponent<EnemyProjectile>().InitialVelocity = dir.normalized * 5f;
-        }
+            if (projTimer < Time.time)
+            {
+                projTimer = Time.time + projCooldown / phase;
+                GameObject proj = Spawn(GetProjectile());
+                Vector3 dir = PlayerManager.player.battleAlien.transform.position - transform.position;
+                proj.GetComponent<EnemyProjectile>().InitialVelocity = dir.normalized * 4f;
+            }
 
-        if (moveTimer < Time.time)
-        {
-            transform.rotation = Quaternion.AngleAxis(corner * 90, Vector3.forward);
-            corner = (corner + 1) % 4;
-            Vector3 dist = ((Vector3)corners[corner] - transform.localPosition);
-            moveTimer = Time.time + dist.magnitude / 3;
-            Velocity = dist.normalized * 3;
+            if (moveTimer < Time.time)
+            {
+                if (Velocity.magnitude != 0)
+                {
+                    moveTimer = Time.time + 3f / phase;
+                    Velocity = Vector2.zero;
+                }
+                else
+                {
+                    corner = (corner + 1) % 4;
+                    Vector3 dist = ((Vector3)corners[corner] - transform.localPosition);
+                    moveTimer = Time.time + dist.magnitude / phase / 3f;
+                    Velocity = dist.normalized * phase * 3;
+                }
+            }
         }
     }
 
@@ -67,7 +59,7 @@ public abstract class BattleMoleKing : BattleCPU {
         {
             // TODO: run away
             Invincible = true;
-            Velocity = (transform.localPosition - new Vector3(0, 0)).normalized * 3;
+            Velocity = (transform.localPosition - new Vector3(0, 0)).normalized;
         }
         else
         {

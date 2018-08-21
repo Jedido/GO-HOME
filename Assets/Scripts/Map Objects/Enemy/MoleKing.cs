@@ -208,16 +208,12 @@ public class MoleKing : Enemy {
 
     protected override void MakeInitial(int number)
     {
-        // Randomly add 20-30 blocks on a 9x5 grid
-        float blocks = Random.Range(20, 30);
-        if (phase == 2)
+        // Randomly add 7-10 blocks on a 11x7 grid
+        float blocks = Random.Range(7, 10) / number;
+        int left = 77;
+        for (int i = -5; i < 6; i++)
         {
-            blocks /= 2;
-        }
-        int left = 45;
-        for (int i = -4; i < 5; i++)
-        {
-            for (int j = -2; j < 3; j++)
+            for (int j = -3; j < 4; j++)
             {
                 if (left != 0 && blocks != 0 && Random.value < blocks / left)
                 {
@@ -228,7 +224,7 @@ public class MoleKing : Enemy {
             }
         }
     }
-    
+
     public override void Hide()
     {
         Destroy(battleForm);

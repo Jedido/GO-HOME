@@ -11,4 +11,9 @@ public class BattleMoleKing3 : BattleMoleKing
     {
         base.Hit(damage);
     }
+
+    protected override int GetPhase()
+    {
+        return 2;
+    }
 }
