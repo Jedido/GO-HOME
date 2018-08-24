@@ -127,11 +127,12 @@ public class BattleController : MonoBehaviour {
         if (transition)
         {
             // Transition into battle
-            delayTimer = delay + Time.time;
+            delayTimer = Time.time + delay;
         } else
         {
-            delayTimer = Time.time;
+            delayTimer = 0;
         }
+        PlayerManager.player.PauseTimer();
     }
 
     public void EndBattle()

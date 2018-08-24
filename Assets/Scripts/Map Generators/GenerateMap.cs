@@ -56,6 +56,7 @@ public abstract class GenerateMap : MonoBehaviour
     private int curFloor;
 
     // Load the given floor and move the player to the starting point.
+    public abstract int GetID();
     protected abstract int GetWidth();
     protected abstract int GetHeight();
     protected abstract int GetStartingFloor();
@@ -77,7 +78,7 @@ public abstract class GenerateMap : MonoBehaviour
         PlayerManager.player.currentMap = this;
         PlayerManager.player.StartMap();
         PlayerManager.player.Level = GetStartingFloor();
-        // PlayerManager.player.MoveAlien(GetStartingPosition());
+        PlayerManager.player.MoveAlien(GetStartingPosition());
         Instantiate(UI);
     }
 

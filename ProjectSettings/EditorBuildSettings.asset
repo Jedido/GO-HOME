@@ -7,15 +7,26 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/_Scenes/Main.unity
+    guid: 6478b8d77922582449672fc06675c811
   - enabled: 0
-    path: Assets/_Scenes/Cave.unity
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/_Scenes/Map Select.unity
+    guid: b936a6739afa25e42a62cefc296aea3b
   - enabled: 0
     path: Assets/_Scenes/Mountains.unity
+    guid: 409969f0c16f65e4299c05abc4b7fcc9
   - enabled: 0
     path: Assets/_Scenes/Perlin Test.unity
-  - enabled: 1
+    guid: 22c09eee79614444d9c0beb61c0a1f08
+  - enabled: 0
     path: Assets/_Scenes/Maps/Plains.unity
+    guid: 076f2f838f8170242b0f60b85c96fa22
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/_Scenes/Shops/Plains Shop.unity
+    path: Assets/_Scenes/Normalized/Plains Normal.unity
+    guid: 235665c61cc8f374bb1dfab6a27c5716
+  m_configObjects: {}

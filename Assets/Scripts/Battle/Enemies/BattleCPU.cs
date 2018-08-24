@@ -57,7 +57,7 @@ public abstract class BattleCPU : MonoBehaviour {
         invulnerable = false;
     }
 
-    protected void Update()
+    protected void FixedUpdate()
     {
         if (PlayerManager.player.battle.GetComponent<BattleController>().Active)
         {
@@ -113,7 +113,7 @@ public abstract class BattleCPU : MonoBehaviour {
 	
     public virtual void Hit(int damage)
     {
-        if (!invulnerable)
+        if (!invulnerable && !dying)
         {
             health -= damage;
             if (health <= 0)

@@ -37,6 +37,12 @@ public class GeneratePlains : GenerateMap
         get { return tiles[15]; }
     }
 
+    public override int GetID()
+    {
+        return (int)PlayerManager.Maps.Plains;
+    }
+
+
     protected override int GetWidth()
     {
         return n;

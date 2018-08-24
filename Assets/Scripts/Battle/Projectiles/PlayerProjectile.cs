@@ -9,7 +9,7 @@ public class PlayerProjectile : Projectile {
         base.Start();
     }
 
-    new protected void OnTriggerEnter2D(Collider2D collision)
+    new protected void OnTriggerStay2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
         if (!Hit)

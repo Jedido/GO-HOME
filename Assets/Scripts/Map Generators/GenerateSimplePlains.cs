@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class GenerateSimplePlains : GenerateMap {
 
     public GameObject layout;  // A preset layout of the plains
+
+    public override int GetID()
+    {
+        return (int)PlayerManager.Maps.Plains;
+    }
 
     protected override int GetWidth()
     {

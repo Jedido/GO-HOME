@@ -59,12 +59,9 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (PlayerManager.player.CanMove())
-        {
-            UpdateEnemy();
-        }
+        UpdateEnemy();
     }
 
     protected virtual void UpdateEnemy()

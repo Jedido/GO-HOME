@@ -8,13 +8,8 @@ public class ButtonScript : MonoBehaviour {
         GameManager.game.InitDay();
     }
 
-    public void InitShop(int levelID)
+    public void InitLevel(int levelID)
     {
-        GameManager.game.InitShop(levelID);
-    }
-
-    public void InitLevel()
-    {
-        GameManager.game.InitLevel();
+        GameManager.game.InitLevel(levelID);
     }
 }

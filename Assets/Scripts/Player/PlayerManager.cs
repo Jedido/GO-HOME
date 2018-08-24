@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour {
     public GenerateMap currentMap;
     public GameObject curShop, battle, alien, battleAlien;
 
-    private bool freeze;
+    private bool freeze, inMap;
     private float time;
 
     // Items the player has obtained
@@ -33,12 +33,7 @@ public class PlayerManager : MonoBehaviour {
     public enum EventMaps { Hell, Count };
 
     // Quests
-    private List<Quest> curQuests;
-    // Not sure if these are necessary
-    private bool[] sideQuestItems;
-    public enum SideQuestItems { Count }
-    private bool[] dailyQuestItems;
-    public enum DailyQuestItems { Count }
+    private Dictionary<int, List<Quest>> curQuests;
 
     /*
      * Map Phase
@@ -181,14 +176,18 @@ public class PlayerManager : MonoBehaviour {
     }
 
     // Quests
-    public void AddQuest(Quest q)
+    public void Performed(int action, int num = 1)
     {
-        curQuests.Add(q);
+        foreach (Quest q in curQuests[currentMap.GetID()])
+        {
+            q.Performed(action, num);
+        }
     }
 
-    public void RemoveQuest(Quest q)
+    public List<Quest> GetQuests()
     {
-        curQuests.Remove(q);
+        // These are displayed on the Requests board
+        return curQuests[currentMap.GetID()];
     }
 
     // Stats
@@ -214,13 +213,20 @@ public class PlayerManager : MonoBehaviour {
         gameStats[(int)GameStats.Time] = 100;  // Testing purposes
 
         keyItems = new bool[(int)KeyItems.Count];
-        keyItems[(int)KeyItems.Shovel] = true;  // Testing purposes
+        // keyItems[(int)KeyItems.Shovel] = true;  // Testing purposes
 
         // TODO: find a better way to do this part?
         itemRanks = new int[3][];
         itemRanks[0] = new int[(int)SwordRanks.Count];
 
-        curQuests = new List<Quest>();
+        curQuests = new Dictionary<int, List<Quest>>();
+        // TODO: list all quests here
+        List<Quest> temp = new List<Quest>();
+        temp.Add(new Quest("Cleaning Up", "Slimes have become rampant around the Plains. We are offering a brand new shovel to anyone who slays 5 of them.", (int)Quest.Action.Slay, 5, new Reward((int)Reward.Type.KeyItem, (int)KeyItems.Shovel)));
+        temp.Add(new Quest("Holes", "My lawn was dug up by those pesky moles! Please, find out where they are coming from and I will give you $200.", (int)Quest.Action.Slay, 5, new Reward((int)Reward.Type.Gold, 200)));
+        temp.Add(new Quest("A Disturbance", "Recently, there has been an unusual amount of radiation coming from the forest. Can someone check it out?", (int)Quest.Action.Slay, 5, new Reward((int)Reward.Type.BossMap, (int)Maps.Plains)));
+        temp.Add(new Quest("Mystery Statue", "I get the feeling that the statue in the Plains is watching me...I have no request, but the statue may have one.", (int)Quest.Action.Slay, 5, new Reward((int)Reward.Type.Gold, 100)));
+        curQuests[0] = new List<Quest>();
         
         playerStats = new int[(int)PlayerStats.Count];
         playerStats[(int)PlayerStats.MAX_HP] = 5;
@@ -231,11 +237,28 @@ public class PlayerManager : MonoBehaviour {
 
     public void StartMap()
     {
-        time = gameStats[(int)GameStats.Time];
+        inMap = true;
+        time = Time.time + gameStats[(int)GameStats.Time];
         if (playerStats[(int)PlayerStats.MAX_HP] > playerStats[(int)PlayerStats.HP])
         {
             playerStats[(int)PlayerStats.HP]++;
         }
+        gameStats[(int)GameStats.Day]++;
+    }
+
+    private void Update()
+    {
+        if (inMap && time < Time.time)
+        {
+            EndDay();
+        }
+    }
+
+    private void EndDay()
+    {
+        // TODO: display day summary
+        inMap = false;
+        GameManager.game.InitDay();
     }
 
     public void SaveCharacter(int slot)

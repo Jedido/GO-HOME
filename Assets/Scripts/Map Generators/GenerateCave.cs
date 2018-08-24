@@ -39,6 +39,11 @@ public class GenerateCave : GenerateMap
         get { return tiles[Random.Range(13, 22)]; }
     }
 
+    public override int GetID()
+    {
+        return (int)PlayerManager.Maps.Cave;
+    }
+
     protected override int GetWidth()
     {
         return n;

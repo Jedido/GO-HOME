@@ -10,11 +10,11 @@ public class GameManager : MonoBehaviour
     public const int MENU = 0;
     public const int HOME = 1;
     public const int MAPSELECT = 2;
-    public const int SHOP = 3;
-    public const int LEVEL = 4;
+    public const int LEVEL = 3;
 
     // Level IDs
     public const int PLAINS = 0;
+    public const int CAVE = 1;
 
     public static GameManager game = null;
     private int sceneType;
@@ -50,23 +50,12 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Map Select");
     }
 
-    // Loads the shop given the levelID (look at level ID constants)
-    // DO NOT USE
-    public void InitShop(int levelID)
+    // Loads a map based on the shop
+    public void InitLevel(int levelID)
     {
         if (sceneType != MAPSELECT) return;
-        sceneType = SHOP;
-        nextScene = LevelName(levelID);
-        // Shop scene naming convention = <MAP NAME> + " Shop"
-        SceneManager.LoadScene(nextScene + " Shop");
-    }
-
-    // Loads a map based on the shop
-    public void InitLevel()
-    {
-        if (sceneType != SHOP) return;
         sceneType = LEVEL;
-        SceneManager.LoadScene(nextScene);
+        SceneManager.LoadScene(LevelName(levelID));
     }
 
     private string LevelName(int levelID)
