@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
+// a 5x5 preset that has the shop in the center.
 public class ShopPreset : Preset
 {
     private static readonly bool[,] MAP = {
@@ -11,6 +11,10 @@ public class ShopPreset : Preset
             { false, false, false, false, false },
             { false, false, false, false, false },
         };
+
+    protected override void Init()
+    {
+    }
 
     protected override void GenerateObjects(int x, int y, List<GameObject> objects)
     {

@@ -195,9 +195,9 @@ public class GeneratePlains : GenerateMap
     private void AddPresets(bool[,] blocks, List<GameObject> objects)
     {
         // TODO: add presets and put them in here
-        // Generate4x4Test test = new Generate4x4Test();
-        // test.GeneratePreset(20, 20, blocks, objects);
         new ShopPreset().GeneratePreset(3, 5, blocks, objects);
+        // new PlainsHolesPreset().GeneratePreset(10, 10, blocks, objects);
+        new PlainsSpikePathPreset().GeneratePreset(10, 10, blocks, objects);
     }
 
     // Density

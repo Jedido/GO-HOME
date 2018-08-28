@@ -22,7 +22,7 @@ public class Shield : MonoBehaviour {
         if (collision.tag.Equals("Projectile"))
         {
             EnemyProjectile old = collision.gameObject.GetComponent<EnemyProjectile>();
-            if (old != null && old.Reflect)
+            if (old != null && !old.Hit && old.Reflect)
             {
                 Vector2 original = old.Velocity;
                 float magnitude = original.magnitude;

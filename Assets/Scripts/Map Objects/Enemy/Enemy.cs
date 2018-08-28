@@ -90,7 +90,7 @@ public abstract class Enemy : MonoBehaviour {
             battleForm.transform.position = battle.transform.position + new Vector3(0, 0, 10);
             PlayerManager.player.battleAlien.transform.localPosition = PlayerPosition();
 
-            GameObject enemy = Instantiate(SpriteLibrary.library.GetEnemy(GetID()), battleForm.transform, false);
+            GameObject enemy = Instantiate(SpriteLibrary.library.GetBattleEnemy(GetID()), battleForm.transform, false);
             enemy.transform.localPosition = InitialPosition(number);
             enemy.GetComponent<BattleCPU>().SetEnemy(this);
             if (!disableBlocks)

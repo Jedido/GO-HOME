@@ -210,7 +210,7 @@ public class PlayerManager : MonoBehaviour {
     public void InitCharacter()
     {
         gameStats = new int[(int)GameStats.Count];
-        gameStats[(int)GameStats.Time] = 100;  // Testing purposes
+        gameStats[(int)GameStats.Time] = 300;  // Testing purposes
 
         keyItems = new bool[(int)KeyItems.Count];
         // keyItems[(int)KeyItems.Shovel] = true;  // Testing purposes
@@ -248,10 +248,12 @@ public class PlayerManager : MonoBehaviour {
 
     private void Update()
     {
+        /*
         if (inMap && time < Time.time)
         {
             EndDay();
         }
+        */  
     }
 
     private void EndDay()

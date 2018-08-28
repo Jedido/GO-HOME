@@ -40,14 +40,16 @@ public class Spike : MonoBehaviour, Interactable {
 
     public void Reset()
     {
+        /*
         if (spike)
         {
             spike = false;
             sprite.sprite = sprites[0];
         }
+        */
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (active && collision.tag.Equals("Player"))
         {

@@ -112,7 +112,6 @@ public class PlayerController : MonoBehaviour {
             PlayerManager.player.SetHealth(PlayerManager.player.GetPlayerStat((int)PlayerManager.PlayerStats.HP)
                 - damage);
 
-            // TODO: set invincibility frames
             PlayerManager.player.Alert("-1", Color.red);
             sprite.color = new Color(1, 1, 1, 0.5f);
         }

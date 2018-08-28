@@ -97,7 +97,7 @@ public abstract class BattleCPU : MonoBehaviour {
 
     protected bool CanMove(Vector2 dir)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 0.7f);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 0.3f);
         return hit.collider == null || !hit.collider.tag.Equals("Wall");
     }
 

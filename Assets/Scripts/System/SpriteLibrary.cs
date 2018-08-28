@@ -38,6 +38,14 @@ public class SpriteLibrary : MonoBehaviour {
     {
         get { return prefabs["Shop"]; }
     }
+    public GameObject PortalPair
+    {
+        get { return prefabs["PortalPair"]; }
+    }
+    public GameObject PlainsBossUnlock
+    {
+        get { return prefabs["Plains Boss Unlock"]; }
+    }
 
     // Battle Objects
     public GameObject BattlePlayer
@@ -84,6 +92,7 @@ public class SpriteLibrary : MonoBehaviour {
     private Dictionary<string, GameObject> prefabs;
 
     public GameObject[] enemies;
+    public GameObject[] battleEnemies;
 
     void Awake()
     {
@@ -112,7 +121,12 @@ public class SpriteLibrary : MonoBehaviour {
         return enemies[id];
     }
 
-    public static GameObject Instantiate(GameObject o, int x, int y)
+    public GameObject GetBattleEnemy(int id)
+    {
+        return battleEnemies[id];
+    }
+
+    public static GameObject Instantiate(GameObject o, float x, float y)
     {
         return Instantiate(o, new Vector3(x, y), Quaternion.identity);
     }
