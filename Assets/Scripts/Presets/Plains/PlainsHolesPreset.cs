@@ -53,6 +53,8 @@ public class PlainsHolesPreset : Preset {
     private GameObject bossUnlock;
     private GameObject portalPair;
 
+    public PlainsHolesPreset(int x, int y, List<GameObject> objects) : base(x, y, objects) { }
+
     protected override void Init()
     {
         if (portalPair == null)
@@ -79,38 +81,36 @@ public class PlainsHolesPreset : Preset {
         }
     }
 
-    protected override void GenerateObjects(int x, int y, List<GameObject> objects)
+    protected override void GenerateObjects()
     {
-        Vector2 offset = new Vector2(x, y);
         for (int i = 0; i < ENEMY_COUNT; i++)
         {
             Vector2 loc = ENEMY_LOCATION[i];
-            objects.Add(MakeEnemy(x + loc.x, y + loc.y, SpriteLibrary.library.GetEnemy(ENEMY_ID[i])));
+            MakeEnemy(loc.x, loc.y, SpriteLibrary.library.GetEnemy(ENEMY_ID[i]));
         }
 
         for (int i = 0; i < HOLE_COUNT; i++)
         {
             GameObject pair = Object.Instantiate(portalPair);
             PortalPair pp = pair.GetComponent<PortalPair>();
-            pp.StartPosition = offset + HOLE_START[i];
-            pp.EndPosition = offset + HOLE_END[order[i]];
-            objects.Add(pair);
+            pp.StartPosition = HOLE_START[i];
+            pp.EndPosition = HOLE_END[order[i]];
+            PutObject(0, 0, pair);
         }
 
-        GameObject unlock = Object.Instantiate(bossUnlock, DIGSPOT + offset, Quaternion.identity);
-        objects.Add(unlock);
+        PutObject((int)DIGSPOT.x, (int)DIGSPOT.y, Object.Instantiate(bossUnlock));
     }
 
-    private GameObject MakeEnemy(float x, float y, GameObject prefab)
+    private void MakeEnemy(float x, float y, GameObject prefab)
     {
-        GameObject enemy = SpriteLibrary.Instantiate(prefab, x + 0.5f, y + 0.5f);
+        GameObject enemy = Object.Instantiate(prefab);
         Enemy e = enemy.GetComponent<Enemy>();
         e.battleSpawn = new GameObject[] { prefab, prefab };
         EnemyDetection detect = enemy.GetComponent<EnemyDetection>();
         detect.MaxRadius = 1;
         detect.DetectionRadius = 1;
         detect.EncounterRadius = 1;
-        return enemy;
+        PutObject(x + 0.5f, y + 0.5f, enemy);
     }
 
     protected override bool[,] GetMap()

@@ -339,8 +339,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UI: {fileID: 1172322861864090, guid: 24364d1d25c2c9f4b8c5d3ed614ad3df, type: 2}
-  n: 100
-  threshold: 0.7
+  n: 60
+  threshold: 0.65
   scaleY: 0.2
   scaleX: 0.2
   hole: {fileID: 1149395873612984, guid: f074700227c22a842ba955ffd378ce62, type: 2}

@@ -19,7 +19,11 @@ public class PlainsSpikePathPreset : Preset {
         { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
     };
 
+    private static readonly Vector2 CHEST = new Vector2(15, 4);
+
     private GameObject spike;
+
+    public PlainsSpikePathPreset(int x, int y, List<GameObject> objects) : base(x, y, objects) { }
 
     protected override void Init()
     {
@@ -37,7 +41,7 @@ public class PlainsSpikePathPreset : Preset {
         }
     }
 
-    protected override void GenerateObjects(int x, int y, List<GameObject> objects)
+    protected override void GenerateObjects()
     {
         for (int i = 1; i < WIDTH - 5; i++)
         {
@@ -45,17 +49,23 @@ public class PlainsSpikePathPreset : Preset {
             {
                 if (!map[j, i])
                 {
-                    objects.Add(MakeSpike(x + i, y + HEIGHT - j - 1));
+                    MakeSpike(i, HEIGHT - j - 1);
                 }
             }
         }
+
+        GameObject chest = Object.Instantiate(SpriteLibrary.library.SmallChest);
+        Reward reward = chest.GetComponent<Reward>();
+        reward.type = (int)Reward.Type.Gold;
+        reward.aux = Random.Range(25, 40);
+        PutObject(CHEST.x, CHEST.y, chest);
     }
 
-    private GameObject MakeSpike(int x, int y)
+    private void MakeSpike(int x, int y)
     {
-        GameObject s = Object.Instantiate(spike, new Vector2(x, y), Quaternion.identity);
+        GameObject s = Object.Instantiate(spike);
         s.AddComponent<PressurePlate>();
-        return s;
+        PutObject(x, y, s);
     }
 
     protected override bool[,] GetMap()

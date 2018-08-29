@@ -20,8 +20,8 @@ public class PortalPair : MonoBehaviour {
         if (start != end)
         {
             Transform digSpot = transform.GetChild(2);
-            portal2.position = digSpot.position = start;
-            portal1.position = end;
+            portal2.localPosition = digSpot.localPosition = start;
+            portal1.localPosition = end;
         }
         Portal child1 = portal1.GetComponent<Portal>();
         Portal child2 = portal2.GetComponent<Portal>();

@@ -38,6 +38,14 @@ public class SpriteLibrary : MonoBehaviour {
     {
         get { return prefabs["Shop"]; }
     }
+    public GameObject Home
+    {
+        get { return prefabs["Home"]; }
+    }
+    public GameObject SmallChest
+    {
+        get { return prefabs["Small Chest"]; }
+    }
     public GameObject PortalPair
     {
         get { return prefabs["PortalPair"]; }
@@ -124,10 +132,5 @@ public class SpriteLibrary : MonoBehaviour {
     public GameObject GetBattleEnemy(int id)
     {
         return battleEnemies[id];
-    }
-
-    public static GameObject Instantiate(GameObject o, float x, float y)
-    {
-        return Instantiate(o, new Vector3(x, y), Quaternion.identity);
     }
 }

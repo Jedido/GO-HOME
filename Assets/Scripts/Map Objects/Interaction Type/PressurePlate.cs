@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class PressurePlate : InteractionType {
-    protected void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag.Equals("Player"))
         {

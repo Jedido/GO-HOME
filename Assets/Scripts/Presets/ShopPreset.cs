@@ -12,13 +12,16 @@ public class ShopPreset : Preset
             { false, false, false, false, false },
         };
 
+    public ShopPreset(int x, int y, List<GameObject> objects) : base(x, y, objects) { }
+
     protected override void Init()
     {
+        Rotation = 0;
     }
 
-    protected override void GenerateObjects(int x, int y, List<GameObject> objects)
+    protected override void GenerateObjects()
     {
-        objects.Add(SpriteLibrary.Instantiate(SpriteLibrary.library.Shop, x + 1, y + 1));
+        PutObject(1, 1, Object.Instantiate(SpriteLibrary.library.Shop));
     }
 
     protected override bool[,] GetMap()

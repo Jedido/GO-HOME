@@ -6,6 +6,12 @@ using UnityEngine.Tilemaps;
 public class GeneratePlains : GenerateMap
 {
     // TODO: remove all public lowercase fields and add constants
+    private static readonly Vector2Int[] CORNER = {
+        new Vector2Int(3, 5),
+        new Vector2Int(3, 55),
+        new Vector2Int(55, 55),
+        new Vector2Int(55, 5)
+    };
 
     // width and height of map 
     public int n;
@@ -191,13 +197,44 @@ public class GeneratePlains : GenerateMap
         }
     }
 
-    // Puzzles
+    // Presets
     private void AddPresets(bool[,] blocks, List<GameObject> objects)
     {
         // TODO: add presets and put them in here
-        new ShopPreset().GeneratePreset(3, 5, blocks, objects);
-        // new PlainsHolesPreset().GeneratePreset(10, 10, blocks, objects);
-        new PlainsSpikePathPreset().GeneratePreset(10, 10, blocks, objects);
+        int[] order = new int[3];  // putting things into the other corners
+        List<int> aux = new List<int>();
+        aux.Add(1);
+        aux.Add(2);
+        aux.Add(3);
+        for (int i = 0; i < 3; i++)
+        {
+            int index = Random.Range(0, aux.Count);
+            order[i] = aux[index];
+            aux.RemoveAt(index);
+        }
+
+        // Corner 1: shop
+        new ShopPreset(3, 5, objects).GeneratePreset(blocks);
+
+        // Corner 2: home
+        Vector2Int home = CORNER[order[0]];
+        new HomePreset(home.x, home.y, objects).GeneratePreset(blocks);
+
+        // Corner 3: spike path
+        Vector2Int pathPos = CORNER[order[1]];
+        Preset path = new PlainsSpikePathPreset(pathPos.x, pathPos.y, objects);
+        path.Rotation = (order[1] + 1 + Random.Range(0, 2)) % 4;
+        path.GeneratePreset(blocks);
+
+        // Corner 4: Miniboss
+        Vector2Int miniPos = CORNER[order[2]];
+        Preset boss = new PlainsMinibossPreset(miniPos.x, miniPos.y, objects);
+        boss.Rotation = (order[2] + 2 + Random.Range(0, 2)) % 4;
+        boss.GeneratePreset(blocks);
+
+        // Center
+        Preset holes = new PlainsHolesPreset(20 + Random.Range(0, 5), 23 + Random.Range(0, 5), objects);
+        holes.GeneratePreset(blocks);
     }
 
     // Density
@@ -345,7 +382,7 @@ public class GeneratePlains : GenerateMap
         // Place trees
         for (int x = 2; x < n - 3; x++)
         {
-            for (int y = n - 3; y >= 2; y--)
+            for (int y = n - 3; y > 2; y--)
             {
                 if (blocks[x, y] && blocks[x + 1, y] && blocks[x, y - 1] && blocks[x + 1, y - 1])
                 {
