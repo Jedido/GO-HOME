@@ -110,7 +110,7 @@ public class PlainsHolesPreset : Preset {
         detect.MaxRadius = 1;
         detect.DetectionRadius = 1;
         detect.EncounterRadius = 1;
-        PutObject(x + 0.5f, y + 0.5f, enemy);
+        PutObject(x, y, enemy);
     }
 
     protected override bool[,] GetMap()

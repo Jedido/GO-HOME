@@ -43,6 +43,11 @@ public class GeneratePlains : GenerateMap
         get { return tiles[15]; }
     }
 
+    private GameObject chest;
+    private GameObject arrowTrap;
+    private GameObject[] enemies;
+    private int enemyCount;
+
     public override int GetID()
     {
         return (int)PlayerManager.Maps.Plains;
@@ -83,6 +88,7 @@ public class GeneratePlains : GenerateMap
         obstacles.transform.parent = grid.transform;
         CreateMapLayout(blocks, density, objects);
         AddPresets(blocks, objects);
+        AddObstacles(blocks, objects);
         CalculateDensity(blocks, density);
         SetTileWalls(blocks, obstacles);
         SetTileBackground(density, background);
@@ -94,6 +100,14 @@ public class GeneratePlains : GenerateMap
     new protected void Start()
     {
         base.Start();
+        chest = SpriteLibrary.library.SmallChest;
+        arrowTrap = SpriteLibrary.library.ArrowTrap;
+        enemies = new GameObject[]{
+            SpriteLibrary.library.GetEnemy((int)Enemy.EnemyID.RedSlime),
+            SpriteLibrary.library.GetEnemy((int)Enemy.EnemyID.BlueSlime),
+            SpriteLibrary.library.GetEnemy((int)Enemy.EnemyID.YellowSlime),
+            SpriteLibrary.library.GetEnemy((int)Enemy.EnemyID.GreenSlime),
+                };
         AddFloor(0, LoadNewFloor(0));
     }
 
@@ -217,8 +231,9 @@ public class GeneratePlains : GenerateMap
         new ShopPreset(3, 5, objects).GeneratePreset(blocks);
 
         // Corner 2: home
-        Vector2Int home = CORNER[order[0]];
-        new HomePreset(home.x, home.y, objects).GeneratePreset(blocks);
+        Vector2Int holePos = CORNER[order[0]];
+        Preset holes = new PlainsHolesPreset(holePos.x, holePos.y, objects);
+        holes.GeneratePreset(blocks);
 
         // Corner 3: spike path
         Vector2Int pathPos = CORNER[order[1]];
@@ -233,8 +248,108 @@ public class GeneratePlains : GenerateMap
         boss.GeneratePreset(blocks);
 
         // Center
-        Preset holes = new PlainsHolesPreset(20 + Random.Range(0, 5), 23 + Random.Range(0, 5), objects);
-        holes.GeneratePreset(blocks);
+        new HomePreset(25 + Random.Range(0, 5), 25 + Random.Range(0, 5), objects).GeneratePreset(blocks);
+    }
+
+    // Enemies and traps
+    private void AddObstacles(bool[,] blocks, List<GameObject> objects)
+    {
+        // Place 1 obstacle per ~70 squares
+        // Designated areas: 
+        // (9, 4) 27x11 (297) ~4 obstacles
+        // (4, 15) 21x22 (462) ~6 obstacles
+        // (35, 15) 21x22 (462) ~6 obstacles
+        // (22, 37) 15x20 (300) ~4 obstacles
+        AddObstacleInArea(blocks, objects, 9, 4, 27, 11, 4);
+        AddObstacleInArea(blocks, objects, 4, 15, 21, 22, 6);
+        AddObstacleInArea(blocks, objects, 35, 15, 21, 22, 6);
+        AddObstacleInArea(blocks, objects, 22, 37, 15, 20, 4);
+    }
+
+    // Add count number of obstacles in the area with the given width and height,
+    // and the bottom left corner (x, y)
+    private void AddObstacleInArea(bool[,] blocks, List<GameObject> objects, int x, int y, int width, int height, int count)
+    {
+        List<Vector2> locs = new List<Vector2>();
+        for (int k = 0; k < count; k++)
+        {
+            int i = 0, j = 0;
+            Vector2 nextLoc;
+            do
+            {
+                i = Random.Range(0, width) + x;
+                j = Random.Range(0, height) + y;
+                nextLoc = new Vector2(i, j);
+            } while (blocks[i, j] || locs.Contains(nextLoc));
+            locs.Add(nextLoc);
+
+            // Make obstacle at (i, j)
+            if (Random.value < Mathf.Sqrt(enemyCount) / 50f)
+            {
+                // treasure chest!
+                GameObject chest = Instantiate(this.chest, nextLoc, Quaternion.identity);
+                Reward reward = chest.GetComponent<Reward>();
+                reward.type = (int)Reward.Type.Gold;
+                reward.aux = Random.Range(10, 20);
+                objects.Add(chest);
+            } else
+            {
+                // enemy or trap
+                int sides = 0;
+                int facing = -1;
+                if (blocks[i, j + 1])
+                {
+                    sides++;
+                    facing = 0;
+                }
+                if (blocks[i + 1, j])
+                {
+                    sides++;
+                    facing = 3;
+                }
+                if (blocks[i, j - 1])
+                {
+                    sides++;
+                    facing = 2;
+                }
+                if (blocks[i - 1, j])
+                {
+                    sides++;
+                    facing = 1;
+                }
+                if (sides == 1)
+                {
+                    // Arrow trap
+                    GameObject trap = Instantiate(arrowTrap, new Vector2(i + 0.5f, j + 0.5f), Quaternion.identity);
+                    trap.AddComponent<Tripwire>();
+                    trap.GetComponent<Tripwire>().dir = facing;
+                    trap.GetComponent<ArrowTrap>().direction = facing;
+                    objects.Add(trap);
+                    k--;
+                } else
+                {
+                    // Enemy
+                    objects.Add(MakeEnemy(nextLoc));
+                }
+            }
+        }
+    }
+
+    private GameObject MakeEnemy(Vector2 pos)
+    {
+        GameObject slime = Instantiate(enemies[enemyCount % 4], pos, Quaternion.identity);
+        int aux = (int) Mathf.Sqrt(enemyCount) / 2;
+        Enemy enemy = slime.GetComponent<Enemy>();
+        if (aux > 0)
+        {
+            enemy.battleSpawn = new GameObject[aux];
+            for (int i = 0; i < aux; i++)
+            {
+                enemy.battleSpawn[i] = enemies[Random.Range(0, 4)];
+            }
+        }
+        enemyCount++;
+        return slime;
     }
 
     // Density
@@ -257,10 +372,10 @@ public class GeneratePlains : GenerateMap
                             }
                         }
                     }
-                    density[x - 2, y]++;
-                    density[x, y - 2]++;
-                    density[x + 2, y]++;
-                    density[x, y + 2]++;
+                    // density[x - 2, y]++;
+                    // density[x, y - 2]++;
+                    // density[x + 2, y]++;
+                    // density[x, y + 2]++;
                 }
             }
         }

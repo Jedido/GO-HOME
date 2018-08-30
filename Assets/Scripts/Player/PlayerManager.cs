@@ -83,7 +83,8 @@ public class PlayerManager : MonoBehaviour {
 
     public bool CanMove()
     {
-        return (curShop == null || !curShop.activeSelf) 
+        return !freeze
+            && (curShop == null || !curShop.activeSelf) 
             && (battle == null || !battle.activeSelf);
     }
 
@@ -210,7 +211,7 @@ public class PlayerManager : MonoBehaviour {
     public void InitCharacter()
     {
         gameStats = new int[(int)GameStats.Count];
-        gameStats[(int)GameStats.Time] = 300;  // Testing purposes
+        gameStats[(int)GameStats.Time] = 180;  // Testing purposes
 
         keyItems = new bool[(int)KeyItems.Count];
         // keyItems[(int)KeyItems.Shovel] = true;  // Testing purposes

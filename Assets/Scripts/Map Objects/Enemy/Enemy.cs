@@ -8,8 +8,9 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour {
     private Rigidbody2D rb2d;
     // Types of objects in the battlefield
-    private GameObject wall, smallProjectile;
+    private GameObject wall;
     private BattleController battle;
+    private EnemyDetection detect;
     protected GameObject battleForm;
     protected bool disableInit, temp;  // setTemp will remove the enemy after battle no matter what
     public GameObject[] battleSpawn; // any additional enemies that are introduced into the battlefield
@@ -44,8 +45,8 @@ public abstract class Enemy : MonoBehaviour {
     // Since Enemy is never created as a gameobject, this is used instead of Unity's Start()
     protected void Start () {
         rb2d = GetComponent<Rigidbody2D>();
+        detect = GetComponent<EnemyDetection>();
         wall = SpriteLibrary.library.Wall;
-        smallProjectile = SpriteLibrary.library.SProjectile;
         if (textBox != null)
         {
             textBox = Instantiate(textBox, transform);
@@ -143,13 +144,21 @@ public abstract class Enemy : MonoBehaviour {
         {
             Destroy(gameObject);
         } else {
-            gameObject.SetActive(false);
+            // TODO: set faded and become active a bit later
+            detect.DisableDetection(3f);
+            textBox.SetActive(false);
+            Camera.main.GetComponent<CameraController>().CenterOn(PlayerManager.player.alien);
+            // gameObject.SetActive(false);
         }
+    }
+
+    protected void AddLoot(int type, int num)
+    {
+        battle.AddLoot(type, num);
     }
 
     public virtual void Die()
     {
-        // TODO: add a respawn timer somewhere and call it
         Destroy(battleForm);
         Destroy(gameObject);
     }

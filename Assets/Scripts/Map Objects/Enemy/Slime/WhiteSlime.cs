@@ -35,4 +35,14 @@ public class WhiteSlime : Slime
         AddBlock(-5.25f, 0, 30, 180);
         AddBlock(5.25f, 0, 30, 180);
     }
+
+    public override void Die()
+    {
+        base.Die();
+        AddLoot((int)Item.Type.Gold, Random.Range(10, 21));
+        AddLoot((int)Item.Type.Yellow, Random.Range(3, 6));
+        AddLoot((int)Item.Type.Blue, Random.Range(3, 6));
+        AddLoot((int)Item.Type.Green, Random.Range(3, 6));
+        AddLoot((int)Item.Type.Red, Random.Range(3, 6));
+    }
 }

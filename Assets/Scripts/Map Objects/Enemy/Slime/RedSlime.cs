@@ -11,4 +11,10 @@ public class RedSlime : Slime
     {
         return "Red Slime";
     }
+
+    public override void Die()
+    {
+        base.Die();
+        AddLoot((int)Item.Type.Red, 1);
+    }
 }

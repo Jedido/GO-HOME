@@ -6,7 +6,7 @@ TextureImporter:
     21300002: white slime_1
     21300004: white slime_2
   externalObjects: {}
-  serializedVersion: 5
+  serializedVersion: 7
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -24,6 +24,8 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -34,7 +36,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 0
     aniso: -1
-    mipBias: -1
+    mipBias: -100
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -88,18 +90,18 @@ TextureImporter:
       name: white slime_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 42
-        width: 18
-        height: 16
-      alignment: 0
+        x: 0
+        y: 40
+        width: 20
+        height: 20
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6992386da36a114291a0f295dbc5cea
+      spriteID: 4063198cf557c8d418e319ffd7853f56
       vertices: []
       indices: 
       edges: []
@@ -108,18 +110,18 @@ TextureImporter:
       name: white slime_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 22
-        width: 18
-        height: 16
-      alignment: 0
+        x: 0
+        y: 20
+        width: 20
+        height: 20
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf1b40402f05a4c4dbc395af89b3e464
+      spriteID: 886324e0ef509c348995b96454a4e4f8
       vertices: []
       indices: 
       edges: []
@@ -128,18 +130,18 @@ TextureImporter:
       name: white slime_2
       rect:
         serializedVersion: 2
-        x: 1
-        y: 2
-        width: 18
-        height: 16
-      alignment: 0
+        x: 0
+        y: 0
+        width: 20
+        height: 20
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3347e57bfb68b6848a70cca090202a12
+      spriteID: 3c327db0b3b924642a213cd6a9d789e0
       vertices: []
       indices: 
       edges: []
@@ -153,6 +155,8 @@ TextureImporter:
     edges: []
     weights: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

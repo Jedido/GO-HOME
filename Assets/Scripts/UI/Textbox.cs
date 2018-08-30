@@ -8,7 +8,7 @@ public class Textbox : MonoBehaviour {
 
     // Use this for initialization
     public void Start() {
-        transform.position += new Vector3(0.05f, -1f);
+        transform.position += new Vector3(0.55f, -0.5f);
         gameObject.SetActive(false);
     }
 

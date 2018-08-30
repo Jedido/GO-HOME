@@ -30,4 +30,10 @@ public class GreenSlime : Slime
     {
         return "Green Slime";
     }
+
+    public override void Die()
+    {
+        base.Die();
+        AddLoot((int)Item.Type.Green, 1);
+    }
 }

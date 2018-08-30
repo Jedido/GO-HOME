@@ -9,4 +9,10 @@
     {
         return "Blue Slime";
     }
+
+    public override void Die()
+    {
+        base.Die();
+        AddLoot((int)Item.Type.Blue, 1);
+    }
 }

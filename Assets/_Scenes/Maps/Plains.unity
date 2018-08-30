@@ -152,6 +152,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1643148919645384, guid: 95a71db41fbda5e47beea21f8ee2264d, type: 2}
+      propertyPath: m_TagString
+      value: No Destroy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95a71db41fbda5e47beea21f8ee2264d, type: 2}
   m_IsPrefabAsset: 0

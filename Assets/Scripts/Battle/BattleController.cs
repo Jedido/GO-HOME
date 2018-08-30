@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleController : MonoBehaviour {
+
+    // Battlefield
     private SpriteRenderer battlefield, bg;
     private MeshRenderer text;
-    private float flash, flashTimer;
-    private Camera battleCam;
-    private float fade, delay, delayTimer;
-    private bool zoomIn, fadeOut, active;
-    private List<Enemy> enemies;
     public bool Active
     {
         get { return active; }
     }
+
+    // Camera effects
+    private float flash, flashTimer;
+    private Camera battleCam;
+    private float fade, delay, delayTimer;
+    private bool zoomIn, fadeOut, active;
+
+    // Enemies
+    private List<Enemy> enemies;
+
+    // Loot
+    private int[] loot;
 
     // Use this for initialization
     void Start() {
@@ -28,6 +37,7 @@ public class BattleController : MonoBehaviour {
         delay = 0.5f;
         flash = 0.6f;
         enemies = new List<Enemy>();
+        loot = new int[(int)Item.Type.Count];
     }
 
     private void Update()
@@ -76,15 +86,25 @@ public class BattleController : MonoBehaviour {
                 SetAlpha(0);
                 fadeOut = false;
                 active = false;
+                bool victory = true;
                 foreach (Enemy e in enemies)
                 {
                     if (e != null)
                     {
                         e.Hide();
+                        victory = false;
                     }
                 }
                 enemies.Clear();
+                if (victory)
+                {
+                    GameManager.game.notification.Title = "Victory";
+                } else
+                {
+                    GameManager.game.notification.Title = "Escaped";
+                }
                 gameObject.SetActive(false);
+                ClaimLoot();
             }
             else
             {
@@ -135,6 +155,35 @@ public class BattleController : MonoBehaviour {
         PlayerManager.player.PauseTimer();
     }
 
+    public void AddLoot(int type, int num)
+    {
+        loot[type] += num;
+    }
+
+    private void ClaimLoot()
+    {
+        int amount = loot[0];
+        string message = "";
+        if (amount != 0)
+        {
+            message += "$" + amount;
+        }
+        PlayerManager.player.AddGameStat((int)PlayerManager.GameStats.Gold, loot[0]);
+        GameManager.game.notification.Message = message;
+        loot[0] = 0;
+
+        for (int i = 1; i < loot.Length; i++)
+        {
+            amount = loot[i];
+            if (amount != 0)
+            {
+                // PlayerManager.player.AddGameStat((int)PlayerManager.GameStats.Gold, loot[0]);
+                GameManager.game.notification.AddLine("+" + amount + " " + Item.GetNameFromType(i));
+            }
+            loot[i] = 0;
+        }
+    }
+
     public void EndBattle()
     {
         fade = 1;
@@ -163,7 +212,7 @@ public class BattleController : MonoBehaviour {
         } else if (collision.tag.Equals("Enemy"))
         {
             Destroy(collision.transform.parent.gameObject);
-        } else
+        } else if (!collision.tag.Equals("No Destroy"))
         {
             Destroy(collision.gameObject);
         }

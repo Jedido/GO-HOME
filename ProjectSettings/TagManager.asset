@@ -9,6 +9,7 @@ TagManager:
   - Pressure Plate
   - Wall
   - Projectile
+  - No Destroy
   layers:
   - Default
   - TransparentFX

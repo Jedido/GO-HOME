@@ -22,7 +22,7 @@ public class PlainsMinibossPreset : Preset {
 
     protected override void GenerateObjects()
     {
-        PutObject(BOSS.x + 0.5f, BOSS.y + 0.5f, Object.Instantiate(enemy));
+        PutObject(BOSS.x, BOSS.y, Object.Instantiate(enemy));
         GameObject chest = Object.Instantiate(SpriteLibrary.library.SmallChest);
         Reward reward = chest.GetComponent<Reward>();
         reward.type = (int)Reward.Type.Gold;

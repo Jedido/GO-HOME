@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public const int CAVE = 1;
 
     public static GameManager game = null;
+    public Notification notification;
     private int sceneType;
     private string nextScene;  // name of next scene
     private int day; // current day

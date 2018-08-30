@@ -63,4 +63,10 @@ public abstract class Slime : Enemy
             }
         }
     }
+
+    public override void Die()
+    {
+        base.Die();
+        AddLoot((int)Item.Type.Gold, Random.Range(3, 6));
+    }
 }
