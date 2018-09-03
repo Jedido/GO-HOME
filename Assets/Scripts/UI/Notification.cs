@@ -29,7 +29,7 @@ public class Notification : MonoBehaviour {
 
     public void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("escape"))
         {
             gameObject.SetActive(false);
             PlayerManager.player.UnpauseTimer();
@@ -45,9 +45,8 @@ public class Notification : MonoBehaviour {
 
     public void Notify(string name, Color titleColor, string message)
     {
-        gameObject.SetActive(true);
         title.text = name;
         title.color = titleColor;
-        content.text = message;
+        Message = message;
     }
 }

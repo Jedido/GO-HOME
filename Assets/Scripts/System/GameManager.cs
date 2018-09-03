@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager game = null;
     public Notification notification;
+    public EndDayUI endDay;
     private int sceneType;
     private string nextScene;  // name of next scene
     private int day; // current day

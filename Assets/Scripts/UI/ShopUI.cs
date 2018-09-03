@@ -35,6 +35,18 @@ public class ShopUI : MonoBehaviour {
         }
 	}
 
+    public void SetShop(bool active)
+    {
+        if (active)
+        {
+            PlayerManager.player.PauseTimer();
+        } else
+        {
+            PlayerManager.player.UnpauseTimer();
+        }
+        gameObject.SetActive(false);
+    }
+
     public void SwitchTab(int tab)
     {
         if (tab != curTab)

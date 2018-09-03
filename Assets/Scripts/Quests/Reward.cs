@@ -11,12 +11,6 @@ public class Reward : MonoBehaviour {
         get { return PlayerManager.player; }
     }
 
-    public Reward(int type, int aux = 0)
-    {
-        this.type = type;
-        this.aux = aux;
-    }
-
     public void GrantReward()
     {
         switch (type)

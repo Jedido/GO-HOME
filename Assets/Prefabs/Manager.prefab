@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114000013019438890}
   - component: {fileID: 114841605326330530}
   - component: {fileID: 114855764950306976}
+  - component: {fileID: 114219783739338476}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -53,6 +54,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ddef3535db467b428410f2997f69d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notification: {fileID: 0}
+  endDay: {fileID: 0}
+--- !u!114 &114219783739338476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013230644336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0626907a902c40e4faf6f432ba63cc1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questTemplate: {fileID: 1291141215181932, guid: 2b215fc475a9fdc4f83c4394caf82ae1,
+    type: 2}
 --- !u!114 &114841605326330530
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -68,5 +68,6 @@ public abstract class Slime : Enemy
     {
         base.Die();
         AddLoot((int)Item.Type.Gold, Random.Range(3, 6));
+        PlayerManager.player.Performed((int)Quest.Action.Slay);
     }
 }

@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour {
     public GenerateMap currentMap;
     public GameObject curShop, battle, alien, battleAlien;
 
-    private bool freeze, inMap;
+    private bool freeze, inMap, endMap;
     private float time;
 
     // Items the player has obtained
@@ -33,7 +33,7 @@ public class PlayerManager : MonoBehaviour {
     public enum EventMaps { Hell, Count };
 
     // Quests
-    private Dictionary<int, List<Quest>> curQuests;
+    private Dictionary<int, List<GameObject>> allQuests;
 
     /*
      * Map Phase
@@ -78,6 +78,7 @@ public class PlayerManager : MonoBehaviour {
     // In Map functions (mainly for interactables)
     public void OpenShop()
     {
+        PauseTimer();
         curShop.SetActive(true);
     }
 
@@ -179,16 +180,16 @@ public class PlayerManager : MonoBehaviour {
     // Quests
     public void Performed(int action, int num = 1)
     {
-        foreach (Quest q in curQuests[currentMap.GetID()])
+        foreach (GameObject q in allQuests[currentMap.GetID()])
         {
-            q.Performed(action, num);
+            q.GetComponent<Quest>().Performed(action, num);
         }
     }
 
-    public List<Quest> GetQuests()
+    public List<GameObject> GetQuests()
     {
         // These are displayed on the Requests board
-        return curQuests[currentMap.GetID()];
+        return allQuests[currentMap.GetID()];
     }
 
     // Stats
@@ -220,15 +221,9 @@ public class PlayerManager : MonoBehaviour {
         itemRanks = new int[3][];
         itemRanks[0] = new int[(int)SwordRanks.Count];
 
-        curQuests = new Dictionary<int, List<Quest>>();
+        allQuests = GetComponent<QuestLoader>().GetAllQuests();
         // TODO: list all quests here
-        List<Quest> temp = new List<Quest>();
-        temp.Add(new Quest("Cleaning Up", "Slimes have become rampant around the Plains. We are offering a brand new shovel to anyone who slays 5 of them.", (int)Quest.Action.Slay, 5, new Reward((int)Reward.Type.KeyItem, (int)KeyItems.Shovel)));
-        temp.Add(new Quest("Holes", "My lawn was dug up by those pesky moles! Please, find out where they are coming from and I will give you $200.", (int)Quest.Action.Slay, 5, new Reward((int)Reward.Type.Gold, 200)));
-        temp.Add(new Quest("A Disturbance", "Recently, there has been an unusual amount of radiation coming from the forest. Can someone check it out?", (int)Quest.Action.Slay, 5, new Reward((int)Reward.Type.BossMap, (int)Maps.Plains)));
-        temp.Add(new Quest("Mystery Statue", "I get the feeling that the statue in the Plains is watching me...I have no request, but the statue may have one.", (int)Quest.Action.Slay, 5, new Reward((int)Reward.Type.Gold, 100)));
-        curQuests[0] = new List<Quest>();
-        
+
         playerStats = new int[(int)PlayerStats.Count];
         playerStats[(int)PlayerStats.MAX_HP] = 5;
         playerStats[(int)PlayerStats.HP] = 5;
@@ -239,6 +234,7 @@ public class PlayerManager : MonoBehaviour {
     public void StartMap()
     {
         inMap = true;
+        endMap = false;
         time = Time.time + gameStats[(int)GameStats.Time];
         if (playerStats[(int)PlayerStats.MAX_HP] > playerStats[(int)PlayerStats.HP])
         {
@@ -249,20 +245,24 @@ public class PlayerManager : MonoBehaviour {
 
     private void Update()
     {
-        /*
-        if (inMap && time < Time.time)
+        if (!freeze && inMap && !endMap && time < Time.time)
         {
             EndDay();
         }
-        */  
+        if (inMap && endMap && !freeze)
+        {
+            inMap = false;
+            GameManager.game.InitDay();
+        }
     }
 
-    private void EndDay()
+    public void EndDay()
     {
         // TODO: display day summary
-        inMap = false;
-        GameManager.game.InitDay();
-    }
+        // TOOD: penalty for not reaching home in time - no healing, 10% fee
+        endMap = true;
+        GameManager.game.notification.Notify("NIGHT " + gameStats[(int)GameStats.Day] + " BEGINS", new Color(0.56f, 0.82f, 0.82f), "Click to continue");
+   }
 
     public void SaveCharacter(int slot)
     {
