@@ -16,10 +16,14 @@ public class PlayerController : MonoBehaviour {
     private static readonly float invincibility = 0.5f;
     private float invincibilityTimer;
 
+    private void Awake()
+    {
+        PlayerManager.player.alien = gameObject;
+    }
+
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        PlayerManager.player.alien = gameObject;
         sprite = GetComponent<SpriteRenderer>();
     }
 

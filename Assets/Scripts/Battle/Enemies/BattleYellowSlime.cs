@@ -8,7 +8,7 @@ public class BattleYellowSlime : BattleCPU {
     private static readonly float speed = 3.5f;
     private static readonly float walkCooldown = 0.3f;
     private static readonly float shotCooldown = 0.8f;
-    private static readonly float shotSpeed = 0f;
+    // private static readonly float shotSpeed = 0f;
     private float walkTimer, shotTimer;
     private Vector2 direction;
 
@@ -23,7 +23,7 @@ public class BattleYellowSlime : BattleCPU {
         if (shotTimer < Time.time)
         {
             shotTimer = Time.time + shotCooldown;
-            GameObject shot = Spawn(SNRProj);
+            Spawn(SNRProj);
         }
 
         // Movement

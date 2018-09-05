@@ -14,7 +14,6 @@ public class BattleBlackSlime : BattleCPU
 {
     public Sprite angry;
 
-    private Transform child;
     private int phase;
     private GameObject[] wall;
     private readonly float moveCooldown1 = 2f;
@@ -30,7 +29,6 @@ public class BattleBlackSlime : BattleCPU
     {
         base.Start();
         phase = 0;
-        child = transform.GetChild(0);
         Invincible = true;
         wall = new GameObject[20];
         ProjWall();

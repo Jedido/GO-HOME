@@ -11,13 +11,11 @@ public class MoleKing : Enemy {
     private static readonly int HEIGHT = 15;
 
     private Vector2Int curPos;
-    private Rigidbody2D rb2dMole;
     private static readonly float spikeCooldown = 10f;
     private static readonly float moveCooldown = 0.5f;
-    private static readonly float throwCooldown = 1f;
     private static readonly float burrowCooldown = 2f;
     private float spikeTimer, moveTimer, throwTimer, burrowTimer;
-    private int hitCount, phase, corner;
+    private int phase, corner;
     private bool burrowed, arrived, done;
 
     private Animator animator;
@@ -49,7 +47,6 @@ public class MoleKing : Enemy {
         }
         blockHolder.transform.parent = transform;
         blockHolder.transform.position = transform.position - new Vector3(0.525f, 0);
-        rb2dMole = mole.GetComponent<Rigidbody2D>();
         arrived = true;
         burrowed = false;
         phase = 1;
@@ -73,7 +70,6 @@ public class MoleKing : Enemy {
                 arrived = false;
                 animator.SetTrigger("Burrow");
                 animator.ResetTrigger("Unburrow");
-                hitCount = 0;
                 spikeTimer = Time.time + spikeCooldown;
                 corner = Random.Range(0, 4);
             }

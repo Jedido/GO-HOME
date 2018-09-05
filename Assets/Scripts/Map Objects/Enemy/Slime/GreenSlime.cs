@@ -6,10 +6,14 @@ public class GreenSlime : Slime
 
     protected override Vector3 InitialPosition(int number = 0)
     {
-        while (initial == null || (initial.x == 0 && initial.y == 0))
+        if (initial.x != 0 && initial.y != 0)
         {
-            initial = new Vector2(Random.Range(-5, 6), Random.Range(-3, 4));
+            return initial;
         }
+
+        do {
+            initial = new Vector2(Random.Range(-5, 6), Random.Range(-3, 4));
+        } while (initial.x == 0 && initial.y == 0);
         return initial;
     }
 

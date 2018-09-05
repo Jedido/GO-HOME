@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour {
     public static PlayerManager player = null;
     public GenerateMap currentMap;
     public GameObject curShop, battle, alien, battleAlien;
+    private QuestLoader questLoader;
 
     private bool freeze, inMap, endMap;
     private float time;
@@ -33,7 +34,9 @@ public class PlayerManager : MonoBehaviour {
     public enum EventMaps { Hell, Count };
 
     // Quests
-    private Dictionary<int, List<GameObject>> allQuests;
+    private Dictionary<int, bool[]> questCompletion;
+    public static readonly int[] questCount = { 4 };
+    private List<GameObject> curQuests;
 
     /*
      * Map Phase
@@ -80,6 +83,12 @@ public class PlayerManager : MonoBehaviour {
     {
         PauseTimer();
         curShop.SetActive(true);
+    }
+
+    public void CloseShop()
+    {
+        UnpauseTimer();
+        curShop.SetActive(false);
     }
 
     public bool CanMove()
@@ -180,16 +189,24 @@ public class PlayerManager : MonoBehaviour {
     // Quests
     public void Performed(int action, int num = 1)
     {
-        foreach (GameObject q in allQuests[currentMap.GetID()])
+        for (int i = 0; i < curQuests.Count; i++)
         {
-            q.GetComponent<Quest>().Performed(action, num);
+            GameObject q = curQuests[i];
+            if (q == null)
+            {
+                curQuests.RemoveAt(i);
+                i--;
+            } else
+            {
+                q.GetComponent<Quest>().Performed(action, num);
+            }
         }
     }
 
     public List<GameObject> GetQuests()
     {
         // These are displayed on the Requests board
-        return allQuests[currentMap.GetID()];
+        return curQuests;
     }
 
     // Stats
@@ -221,14 +238,18 @@ public class PlayerManager : MonoBehaviour {
         itemRanks = new int[3][];
         itemRanks[0] = new int[(int)SwordRanks.Count];
 
-        allQuests = GetComponent<QuestLoader>().GetAllQuests();
+        questLoader = GetComponent<QuestLoader>();
+        questLoader.Init();
         // TODO: list all quests here
 
         playerStats = new int[(int)PlayerStats.Count];
         playerStats[(int)PlayerStats.MAX_HP] = 5;
         playerStats[(int)PlayerStats.HP] = 5;
 
+        maps = new bool[(int)Maps.Count];
         bossEnabled = new bool[(int)Maps.Count];
+
+
     }
 
     public void StartMap()
@@ -241,6 +262,9 @@ public class PlayerManager : MonoBehaviour {
             playerStats[(int)PlayerStats.HP]++;
         }
         gameStats[(int)GameStats.Day]++;
+
+        // Make Quests
+        curQuests = questLoader.GetQuests(currentMap.GetID());
     }
 
     private void Update()

@@ -16,7 +16,7 @@ public class Notification : MonoBehaviour {
             content.text = value;
             gameObject.SetActive(true);
             background.localPosition = new Vector2(0, 45);
-            background.sizeDelta = new Vector2(300, 100);
+            background.sizeDelta = new Vector2(350, 100);
             PlayerManager.player.PauseTimer();
         }
     }

@@ -6,7 +6,6 @@ using UnityEngine;
 // Attack: Phases through walls. Also hides inside blocks
 public class BattleGreenSlime : BattleCPU
 {
-    private static readonly float speed = 0f;
     private static readonly float shotCooldown = 1f;
     private static readonly float shotSpeed = 3f;
     private float walkTimer, shotTimer;

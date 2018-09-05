@@ -15,9 +15,9 @@ public class EnemyProjectile : Projectile {
         base.Start();
     }
 
-    new protected void OnTriggerEnter2D(Collider2D collision)
+    new protected void OnTriggerStay2D(Collider2D collision)
     {
-        base.OnTriggerEnter2D(collision);
+        base.OnTriggerStay2D(collision);
         if (!Hit)
         {
             if (collision.tag.Equals("Player"))

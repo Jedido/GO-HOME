@@ -8,7 +8,7 @@ public class Quest : MonoBehaviour {
     public Text title, description;
     public Image background;
     public Sprite accept;
-    private int action, num;
+    private int action, num, n;
     private Reward reward;
 
     public enum Action { Slay, Retrieve, Reach };
@@ -18,7 +18,7 @@ public class Quest : MonoBehaviour {
 
     private void Awake()
     {
-        Reward reward = GetComponent<Reward>();
+        reward = GetComponent<Reward>();
     }
 
     // Must perform the given "action" for "num" times
@@ -27,7 +27,7 @@ public class Quest : MonoBehaviour {
         this.title.text = title;
         this.description.text = description;
         this.action = action;
-        this.num = num;
+        this.num = n = num;
     }
 
     public void SetReward(int type, int aux)
@@ -50,10 +50,9 @@ public class Quest : MonoBehaviour {
                 PlayerManager.player.Alert("Completed \"" + title + "\"", Color.white, 3);
                 // TODO: Make a noise?
 
-                // TODO: can accept reward on Request board
+                // Can accept reward on Request board
                 background.sprite = accept;
                 background.color = Color.white;
-                background.GetComponent<Button>().enabled = true;
                 description.text = "";
             }
         }
@@ -68,8 +67,12 @@ public class Quest : MonoBehaviour {
     {
         if (IsComplete() && reward != null)
         {
-            reward.GrantReward();
+            reward.GrantReward(true);
             Destroy(gameObject);
+        } else if (!IsComplete())
+        {
+            GameManager.game.notification.Title = title.text;
+            GameManager.game.notification.Message = "Progress: " + (n - num) + "/" + n;
         }
     }
 }

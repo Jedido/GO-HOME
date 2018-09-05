@@ -11,18 +11,29 @@ public class Reward : MonoBehaviour {
         get { return PlayerManager.player; }
     }
 
-    public void GrantReward()
+    public void GrantReward(bool notif = false)
     {
+        string res = "";
+        Color c = Color.white;
         switch (type)
         {
-            case (int)Type.Gold: p.AddGameStat((int)PlayerManager.GameStats.Gold, aux); PlayerManager.player.Alert("+" + aux + "g", Color.yellow);  break;
-            case (int)Type.Part: p.AddGameStat((int)PlayerManager.GameStats.Parts, 1); break;
-            case (int)Type.KeyItem: p.EnableKeyItem(aux); break;
+            case (int)Type.Gold: p.AddGameStat((int)PlayerManager.GameStats.Gold, aux); res = "+" + aux + "g"; c = Color.yellow; break;
+            case (int)Type.Part: p.AddGameStat((int)PlayerManager.GameStats.Parts, 1); res = "Obtained spaceship part!"; c = Color.green; break;
+            case (int)Type.KeyItem: p.EnableKeyItem(aux); break;  // TODO
             case (int)Type.SideItem: break;  // TODO
             case (int)Type.Item: break;  // TODO
             case (int)Type.PlayerStat: p.UpgradeStat(aux); break;
             case (int)Type.Map: p.EnableMap(aux); break;
-            case (int)Type.BossMap: p.SetBossMap(aux, true); PlayerManager.player.Alert("Boss Map found!", new Color(0.4f, 1, 0.6f)); break;
+            case (int)Type.BossMap: p.SetBossMap(aux, true); res = "Unlocked the Boss Map!"; c = new Color(0.4f, 1, 0.6f); break;
+        }
+        if (notif)
+        {
+            GameManager.game.notification.Title = "Quest Complete!";
+            GameManager.game.notification.Message = res;
+        }
+        else
+        {
+            PlayerManager.player.Alert(res, c);
         }
     }
 }

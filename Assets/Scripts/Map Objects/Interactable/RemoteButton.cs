@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Interacts with a different object once and only once
-public class Button : Remote {
+public class RemoteButton : Remote {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("Player"))

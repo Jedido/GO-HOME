@@ -6,7 +6,14 @@ using UnityEngine;
 // TODO: add movement outside of battle?
 // Default battlefield is 12x9 units, origin in the middle (6, 4.5f)
 public abstract class Enemy : MonoBehaviour {
+    // For movement
     private Rigidbody2D rb2d;
+    public Vector3 Velocity
+    {
+        get { return rb2d.velocity; }
+        set { rb2d.velocity = value; }
+    }
+
     // Types of objects in the battlefield
     private GameObject wall;
     private BattleController battle;
@@ -122,7 +129,7 @@ public abstract class Enemy : MonoBehaviour {
         // TODO: each higher number reduces the number of things spawned
         // Default border
         // battle.SetSize(240, 180);
-        int rand = Random.Range(0, 4);
+        // int rand = Random.Range(0, 4);
 
         AddBlock(-118f / 20, 0, 5, 180);
         AddBlock(118f / 20, 0, 5, 180);

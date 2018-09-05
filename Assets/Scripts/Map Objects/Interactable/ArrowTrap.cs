@@ -35,7 +35,7 @@ public class ArrowTrap : MonoBehaviour, Interactable {
 
     public void Interact()
     {
-        if (a != null)
+        if (a != null && PlayerManager.player.CanMove())
         {
             switch (direction)
             {
