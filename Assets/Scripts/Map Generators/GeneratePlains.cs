@@ -80,6 +80,7 @@ public class GeneratePlains : GenerateMap
     {
         // Create the floor
         bool[,] blocks = new bool[n, n];
+        bool[,] presetMap = new bool[n, n];
         int[,] density = new int[n + 1, n + 1]; // keeps track of how many obstacles within 2 spaces
         List<GameObject> objects = new List<GameObject>();
         Tilemap background = Instantiate(tMap);
@@ -87,8 +88,8 @@ public class GeneratePlains : GenerateMap
         Tilemap obstacles = Instantiate(tMapCollide);
         obstacles.transform.parent = grid.transform;
         CreateMapLayout(blocks, density, objects);
-        AddPresets(blocks, objects);
-        AddObstacles(blocks, objects);
+        AddPresets(blocks, presetMap, objects);
+        AddObstacles(blocks, presetMap, objects);
         CalculateDensity(blocks, density);
         SetTileWalls(blocks, obstacles);
         SetTileBackground(density, background);
@@ -212,7 +213,7 @@ public class GeneratePlains : GenerateMap
     }
 
     // Presets
-    private void AddPresets(bool[,] blocks, List<GameObject> objects)
+    private void AddPresets(bool[,] blocks, bool[,] covered, List<GameObject> objects)
     {
         // TODO: add presets and put them in here
         int[] order = new int[3];  // putting things into the other corners
@@ -228,114 +229,142 @@ public class GeneratePlains : GenerateMap
         }
 
         // Corner 1: shop
-        new ShopPreset(3, 5, objects).GeneratePreset(blocks);
+        new ShopPreset(3, 5, objects).GeneratePreset(blocks, covered);
 
         // Corner 2: home
         Vector2Int holePos = CORNER[order[0]];
         Preset holes = new PlainsHolesPreset(holePos.x, holePos.y, objects);
-        holes.GeneratePreset(blocks);
+        holes.GeneratePreset(blocks, covered);
 
         // Corner 3: spike path
         Vector2Int pathPos = CORNER[order[1]];
         Preset path = new PlainsSpikePathPreset(pathPos.x, pathPos.y, objects);
         path.Rotation = (order[1] + 1 + Random.Range(0, 2)) % 4;
-        path.GeneratePreset(blocks);
+        path.GeneratePreset(blocks, covered);
 
         // Corner 4: Miniboss
         Vector2Int miniPos = CORNER[order[2]];
         Preset boss = new PlainsMinibossPreset(miniPos.x, miniPos.y, objects);
         boss.Rotation = (order[2] + 2 + Random.Range(0, 2)) % 4;
-        boss.GeneratePreset(blocks);
+        boss.GeneratePreset(blocks, covered);
 
         // Center
-        new HomePreset(25 + Random.Range(0, 5), 25 + Random.Range(0, 5), objects).GeneratePreset(blocks);
+        new HomePreset(25 + Random.Range(0, 5), 25 + Random.Range(0, 5), objects).GeneratePreset(blocks, covered);
     }
 
     // Enemies and traps
-    private void AddObstacles(bool[,] blocks, List<GameObject> objects)
+    private void AddObstacles(bool[,] blocks, bool[,] presetMap, List<GameObject> objects)
     {
-        // Place 1 obstacle per ~70 squares
-        // Designated areas: 
-        // (9, 4) 27x11 (297) ~4 obstacles
-        // (4, 15) 21x22 (462) ~6 obstacles
-        // (35, 15) 21x22 (462) ~6 obstacles
-        // (22, 37) 15x20 (300) ~4 obstacles
-        AddObstacleInArea(blocks, objects, 9, 4, 27, 11, 4);
-        AddObstacleInArea(blocks, objects, 4, 15, 21, 22, 6);
-        AddObstacleInArea(blocks, objects, 35, 15, 21, 22, 6);
-        AddObstacleInArea(blocks, objects, 22, 37, 15, 20, 4);
-    }
-
-    // Add count number of obstacles in the area with the given width and height,
-    // and the bottom left corner (x, y)
-    private void AddObstacleInArea(bool[,] blocks, List<GameObject> objects, int x, int y, int width, int height, int count)
-    {
-        List<Vector2> locs = new List<Vector2>();
-        for (int k = 0; k < count; k++)
+        // All possible spawn locations
+        List<Vector2Int> locs = new List<Vector2Int>();
+        for (int i = 2; i < blocks.GetLength(0) - 2; i++)
         {
-            int i = 0, j = 0;
-            Vector2 nextLoc;
-            do
+            for (int j = 2; j < i; j++)
             {
-                i = Random.Range(0, width) + x;
-                j = Random.Range(0, height) + y;
-                nextLoc = new Vector2(i, j);
-            } while (blocks[i, j] || locs.Contains(nextLoc));
-            locs.Add(nextLoc);
+                if (!blocks[i, j] && !presetMap[i, j])
+                {
+                    locs.Add(new Vector2Int(i, j));
+                }
+                if (!blocks[j, i] && !presetMap[j, i])
+                {
+                    locs.Add(new Vector2Int(j, i));
+                }
+            }
+            if (!blocks[i, i] && !presetMap[i, i])
+            {
+                locs.Add(new Vector2Int(i, i));
+            }
+        }
 
-            // Make obstacle at (i, j)
-            if (Random.value < Mathf.Sqrt(enemyCount) / 50f)
+        foreach (Vector2Int nextLoc in locs)
+        {
+            // 1.7% chance to spawn
+            if (Random.value < 0.017)
             {
-                // treasure chest!
-                GameObject chest = Instantiate(this.chest, nextLoc, Quaternion.identity);
-                Reward reward = chest.GetComponent<Reward>();
-                reward.type = (int)Reward.Type.Gold;
-                reward.aux = Random.Range(10, 20);
-                objects.Add(chest);
-            } else
+                SpawnObstacle(nextLoc, blocks, objects);
+            }
+        }
+    }
+    
+    private void SpawnObstacle(Vector2Int nextLoc, bool[,] blocks, List<GameObject> objects)
+    {
+        int i = nextLoc.x;
+        int j = nextLoc.y;
+        // Chance for a chest
+        if (Random.value < Mathf.Sqrt(enemyCount) / 50f)
+        {
+            // treasure chest!
+            GameObject chest = Instantiate(this.chest, (Vector2)nextLoc, Quaternion.identity);
+            Reward reward = chest.GetComponent<Reward>();
+            reward.type = (int)Reward.Type.Gold;
+            reward.aux = Random.Range(10, 20);
+            objects.Add(chest);
+        }
+        else
+        {
+            if (!SpawnArrow(nextLoc, blocks, objects))
             {
-                // enemy or trap
-                int sides = 0;
-                int facing = -1;
-                if (blocks[i, j + 1])
-                {
-                    sides++;
-                    facing = 0;
-                }
-                if (blocks[i + 1, j])
-                {
-                    sides++;
-                    facing = 3;
-                }
-                if (blocks[i, j - 1])
-                {
-                    sides++;
-                    facing = 2;
-                }
-                if (blocks[i - 1, j])
-                {
-                    sides++;
-                    facing = 1;
-                }
-                if (sides == 1)
-                {
-                    // Arrow trap
-                    GameObject trap = Instantiate(arrowTrap, new Vector2(i + 0.5f, j + 0.5f), Quaternion.identity);
-                    trap.AddComponent<Tripwire>();
-                    trap.GetComponent<Tripwire>().dir = facing;
-                    trap.GetComponent<ArrowTrap>().direction = facing;
-                    objects.Add(trap);
-                    k--;
-                } else
-                {
-                    // Enemy
-                    objects.Add(MakeEnemy(nextLoc));
-                }
+                // Enemy
+                objects.Add(SpawnEnemy(nextLoc));
             }
         }
     }
 
-    private GameObject MakeEnemy(Vector2 pos)
+    private bool SpawnArrow(Vector2Int nextLoc, bool[,] blocks, List<GameObject> objects)
+    {
+        int i = nextLoc.x;
+        int j = nextLoc.y;
+        int facing = ArrowLocation(nextLoc, blocks);
+        if (facing != -1)
+        {
+            // Arrow trap
+            GameObject trap = Instantiate(arrowTrap, new Vector2(i + 0.5f, j + 0.5f), Quaternion.identity);
+            trap.AddComponent<Tripwire>();
+            trap.GetComponent<Tripwire>().dir = facing;
+            trap.GetComponent<ArrowTrap>().direction = facing;
+            objects.Add(trap);
+            return true;
+        }
+        return false;
+    }
+
+    // -1 if not possible, number representing direction facing if possible
+    private int ArrowLocation(Vector2Int nextLoc, bool[,] blocks, int maxSides = 1)
+    {
+        int i = nextLoc.x;
+        int j = nextLoc.y;
+
+        // Check if arrow trap is possible
+        int sides = 0;
+        int facing = -1;
+        if (blocks[i, j + 1])
+        {
+            sides++;
+            facing = 0;
+        }
+        if (blocks[i + 1, j])
+        {
+            sides++;
+            facing = 3;
+        }
+        if (blocks[i, j - 1])
+        {
+            sides++;
+            facing = 2;
+        }
+        if (blocks[i - 1, j])
+        {
+            sides++;
+            facing = 1;
+        }
+        if (sides > maxSides)
+        {
+            return -1;
+        }
+        return facing;
+    }
+
+    private GameObject SpawnEnemy(Vector2 pos)
     {
         GameObject slime = Instantiate(enemies[enemyCount % 4], pos, Quaternion.identity);
         int aux = (int) Mathf.Sqrt(enemyCount) / 2;

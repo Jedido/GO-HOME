@@ -107,9 +107,9 @@ public class PlainsHolesPreset : Preset {
         Enemy e = enemy.GetComponent<Enemy>();
         e.battleSpawn = new GameObject[] { prefab, prefab };
         EnemyDetection detect = enemy.GetComponent<EnemyDetection>();
-        detect.MaxRadius = 1;
-        detect.DetectionRadius = 1;
-        detect.EncounterRadius = 1;
+        detect.MaxRadius = 1.4f;
+        detect.DetectionRadius = 1.4f;
+        detect.EncounterRadius = 1.4f;
         PutObject(x, y, enemy);
     }
 

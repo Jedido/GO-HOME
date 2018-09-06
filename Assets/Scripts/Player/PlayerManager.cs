@@ -34,7 +34,7 @@ public class PlayerManager : MonoBehaviour {
     public enum EventMaps { Hell, Count };
 
     // Quests
-    private Dictionary<int, bool[]> questCompletion;
+    private bool[][] questCompletion;
     public static readonly int[] questCount = { 4 };
     private List<GameObject> curQuests;
 
@@ -176,6 +176,11 @@ public class PlayerManager : MonoBehaviour {
         return maps[map];
     }
 
+    public bool BossMapAccessible(int map)
+    {
+        return bossEnabled[map];
+    }
+
     public void EnableMap(int map)
     {
         maps[map] = true;
@@ -201,6 +206,12 @@ public class PlayerManager : MonoBehaviour {
                 q.GetComponent<Quest>().Performed(action, num);
             }
         }
+    }
+
+    // Quest with given id has been completed
+    public void RecordQuestCompletion(int id)
+    {
+        questCompletion[currentMap.GetID()][id] = true;
     }
 
     public List<GameObject> GetQuests()
@@ -240,13 +251,18 @@ public class PlayerManager : MonoBehaviour {
 
         questLoader = GetComponent<QuestLoader>();
         questLoader.Init();
-        // TODO: list all quests here
+        questCompletion = new bool[questCount.Length][];
+        for (int i = 0; i < questCount.Length; i++)
+        {
+            questCompletion[i] = new bool[questCount[i]];
+        }
 
         playerStats = new int[(int)PlayerStats.Count];
         playerStats[(int)PlayerStats.MAX_HP] = 5;
         playerStats[(int)PlayerStats.HP] = 5;
 
         maps = new bool[(int)Maps.Count];
+        maps[(int)Maps.Plains] = true;
         bossEnabled = new bool[(int)Maps.Count];
 
 
@@ -264,7 +280,8 @@ public class PlayerManager : MonoBehaviour {
         gameStats[(int)GameStats.Day]++;
 
         // Make Quests
-        curQuests = questLoader.GetQuests(currentMap.GetID());
+        int map = currentMap.GetID();
+        curQuests = questLoader.GetQuests(map, questCompletion[map]);
     }
 
     private void Update()

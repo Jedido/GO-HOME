@@ -2,7 +2,7 @@
 
 public class Reward : MonoBehaviour {
     // ALL POSSIBLE REWARDS:
-    public enum Type { Gold, Part, KeyItem, SideItem, Item, PlayerStat, Map, BossMap };
+    public enum Type { Gold, Part, KeyItem, SideItem, Item, PlayerStat, Map, BossMap, Quest };
     public int type, aux;
 
     // Shorthand macro
@@ -25,6 +25,7 @@ public class Reward : MonoBehaviour {
             case (int)Type.PlayerStat: p.UpgradeStat(aux); break;
             case (int)Type.Map: p.EnableMap(aux); break;
             case (int)Type.BossMap: p.SetBossMap(aux, true); res = "Unlocked the Boss Map!"; c = new Color(0.4f, 1, 0.6f); break;
+            case (int)Type.Quest: p.Performed(aux);  break;
         }
         if (notif)
         {

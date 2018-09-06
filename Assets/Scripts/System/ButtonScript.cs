@@ -12,4 +12,9 @@ public class ButtonScript : MonoBehaviour {
     {
         GameManager.game.InitLevel(levelID);
     }
+
+    public void InitLevel(string scene)
+    {
+        GameManager.game.InitLevel(scene);
+    }
 }

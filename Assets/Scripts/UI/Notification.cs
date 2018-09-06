@@ -31,8 +31,8 @@ public class Notification : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("escape"))
         {
-            gameObject.SetActive(false);
             PlayerManager.player.UnpauseTimer();
+            gameObject.SetActive(false);
         }
     }
 

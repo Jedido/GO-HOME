@@ -8,10 +8,10 @@ public class Quest : MonoBehaviour {
     public Text title, description;
     public Image background;
     public Sprite accept;
-    private int action, num, n;
+    private int action, num, n, id;  // id corresponds to index
     private Reward reward;
 
-    public enum Action { Slay, Retrieve, Reach };
+    public enum Action { SlaySlime, HolesEnd, SlayPlainsBoss };
     // Slay list is in Enemy
     // Retrieve list is in Item (TODO)
     // Reach list is below (TODO)
@@ -22,8 +22,9 @@ public class Quest : MonoBehaviour {
     }
 
     // Must perform the given "action" for "num" times
-    public void SetQuest(string title, string description, int action, int num)
+    public void SetQuest(int id, string title, string description, int action, int num)
     {
+        this.id = id;
         this.title.text = title;
         this.description.text = description;
         this.action = action;
@@ -47,7 +48,7 @@ public class Quest : MonoBehaviour {
             num -= times;
             if (num <= 0)
             {
-                PlayerManager.player.Alert("Completed \"" + title + "\"", Color.white, 3);
+                PlayerManager.player.Alert("Completed \"" + title.text + "\"", Color.white, 3);
                 // TODO: Make a noise?
 
                 // Can accept reward on Request board
@@ -68,6 +69,7 @@ public class Quest : MonoBehaviour {
         if (IsComplete() && reward != null)
         {
             reward.GrantReward(true);
+            PlayerManager.player.RecordQuestCompletion(id);
             Destroy(gameObject);
         } else if (!IsComplete())
         {

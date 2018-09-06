@@ -60,6 +60,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(LevelName(levelID));
     }
 
+    public void InitLevel(string scene)
+    {
+        if (sceneType != MAPSELECT) return;
+        sceneType = LEVEL;
+        SceneManager.LoadScene(scene);
+    }
+
     private string LevelName(int levelID)
     {
         switch (levelID)

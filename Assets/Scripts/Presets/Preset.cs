@@ -57,7 +57,8 @@ public abstract class Preset
     }
 
     // Sets the map with the bottom left corner being (x, y)
-    public void GeneratePreset(bool[,] blocks)
+    // covered keeps track of which blocks belong to a preset
+    public void GeneratePreset(bool[,] blocks, bool[,] covered)
     {
         Refit(blocks.GetLength(1), blocks.GetLength(0));
         int size = height - 1;
@@ -68,6 +69,7 @@ public abstract class Preset
                 Vector2 pos = TranslatePosition(i, j);
                 // Map is read this way for easier programming
                 blocks[(int)pos.x, (int)pos.y] = map[size - j, i];
+                covered[(int)pos.x, (int)pos.y] = true;
             }
         }
         GenerateObjects();

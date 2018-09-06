@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Scenes/Normalized/Plains.unity
     guid: 235665c61cc8f374bb1dfab6a27c5716
+  - enabled: 1
+    path: Assets/_Scenes/Maps/Cave.unity
+    guid: dfce4b152dd784149a3ab3f813e2b0d2
+  - enabled: 1
+    path: Assets/_Scenes/Boss/Dig Site.unity
+    guid: 75a892a8a4f5b4742b32ca58188da1a1
   m_configObjects: {}
